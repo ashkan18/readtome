@@ -59,4 +59,6 @@ config :readtome, Readtome.Repo,
   password: "postgres",
   database: "readtome_dev",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 10,
+  extensions: [{Geo.PostGIS.Extension, library: Geo}],
+  types: Readtome.PostgresTypes

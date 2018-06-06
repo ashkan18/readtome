@@ -23,5 +23,6 @@ defmodule ReadtomeWeb.Router do
     pipe_through :api
 
     resources "/books", BookController, except: [:new, :edit]
+    resources "/book_instances", BookInstanceController
   end
 end

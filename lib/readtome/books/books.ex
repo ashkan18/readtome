@@ -18,7 +18,7 @@ defmodule Readtome.Books do
 
   """
   def list_books do
-    Repo.all(Book)
+    Repo.all(Book) |> Repo.preload([instances: :user])
   end
 
   @doc """
@@ -100,5 +100,101 @@ defmodule Readtome.Books do
   """
   def change_book(%Book{} = book) do
     Book.changeset(book, %{})
+  end
+
+  alias Readtome.Books.BookInstance
+
+  @doc """
+  Returns the list of book_instance.
+
+  ## Examples
+
+      iex> list_book_instance()
+      [%BookInstance{}, ...]
+
+  """
+  def list_book_instance do
+    Repo.all(BookInstance)
+  end
+
+  @doc """
+  Gets a single book_instance.
+
+  Raises `Ecto.NoResultsError` if the Book instance does not exist.
+
+  ## Examples
+
+      iex> get_book_instance!(123)
+      %BookInstance{}
+
+      iex> get_book_instance!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_book_instance!(id), do: Repo.get!(BookInstance, id)
+
+  @doc """
+  Creates a book_instance.
+
+  ## Examples
+
+      iex> create_book_instance(%{field: value})
+      {:ok, %BookInstance{}}
+
+      iex> create_book_instance(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_book_instance(attrs \\ %{}) do
+    %BookInstance{}
+    |> BookInstance.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a book_instance.
+
+  ## Examples
+
+      iex> update_book_instance(book_instance, %{field: new_value})
+      {:ok, %BookInstance{}}
+
+      iex> update_book_instance(book_instance, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_book_instance(%BookInstance{} = book_instance, attrs) do
+    book_instance
+    |> BookInstance.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a BookInstance.
+
+  ## Examples
+
+      iex> delete_book_instance(book_instance)
+      {:ok, %BookInstance{}}
+
+      iex> delete_book_instance(book_instance)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_book_instance(%BookInstance{} = book_instance) do
+    Repo.delete(book_instance)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking book_instance changes.
+
+  ## Examples
+
+      iex> change_book_instance(book_instance)
+      %Ecto.Changeset{source: %BookInstance{}}
+
+  """
+  def change_book_instance(%BookInstance{} = book_instance) do
+    BookInstance.changeset(book_instance, %{})
   end
 end

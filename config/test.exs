@@ -16,4 +16,5 @@ config :readtome, Readtome.Repo,
   password: "postgres",
   database: "readtome_test",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  extensions: [{Geo.PostGIS.Extension, library: Geo}]

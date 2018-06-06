@@ -8,7 +8,6 @@ defmodule Readtome.Repo.Migrations.CreateBooks do
       add :small_cover_url, :string
       add :medium_cover_url, :string
       add :large_cover_url, :string
-      add :condition, :string
 
       timestamps()
     end

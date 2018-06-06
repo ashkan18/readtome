@@ -72,4 +72,68 @@ defmodule Readtome.BooksTest do
       assert %Ecto.Changeset{} = Books.change_book(book)
     end
   end
+
+  describe "book_instance" do
+    alias Readtome.Books.BookInstance
+
+    @valid_attrs %{condition: "some condition", medium: "some medium", offerings: "some offerings"}
+    @update_attrs %{condition: "some updated condition", medium: "some updated medium", offerings: "some updated offerings"}
+    @invalid_attrs %{condition: nil, medium: nil, offerings: nil}
+
+    def book_instance_fixture(attrs \\ %{}) do
+      {:ok, book_instance} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Books.create_book_instance()
+
+      book_instance
+    end
+
+    test "list_book_instance/0 returns all book_instance" do
+      book_instance = book_instance_fixture()
+      assert Books.list_book_instance() == [book_instance]
+    end
+
+    test "get_book_instance!/1 returns the book_instance with given id" do
+      book_instance = book_instance_fixture()
+      assert Books.get_book_instance!(book_instance.id) == book_instance
+    end
+
+    test "create_book_instance/1 with valid data creates a book_instance" do
+      assert {:ok, %BookInstance{} = book_instance} = Books.create_book_instance(@valid_attrs)
+      assert book_instance.condition == "some condition"
+      assert book_instance.medium == "some medium"
+      assert book_instance.offerings == "some offerings"
+    end
+
+    test "create_book_instance/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Books.create_book_instance(@invalid_attrs)
+    end
+
+    test "update_book_instance/2 with valid data updates the book_instance" do
+      book_instance = book_instance_fixture()
+      assert {:ok, book_instance} = Books.update_book_instance(book_instance, @update_attrs)
+      assert %BookInstance{} = book_instance
+      assert book_instance.condition == "some updated condition"
+      assert book_instance.medium == "some updated medium"
+      assert book_instance.offerings == "some updated offerings"
+    end
+
+    test "update_book_instance/2 with invalid data returns error changeset" do
+      book_instance = book_instance_fixture()
+      assert {:error, %Ecto.Changeset{}} = Books.update_book_instance(book_instance, @invalid_attrs)
+      assert book_instance == Books.get_book_instance!(book_instance.id)
+    end
+
+    test "delete_book_instance/1 deletes the book_instance" do
+      book_instance = book_instance_fixture()
+      assert {:ok, %BookInstance{}} = Books.delete_book_instance(book_instance)
+      assert_raise Ecto.NoResultsError, fn -> Books.get_book_instance!(book_instance.id) end
+    end
+
+    test "change_book_instance/1 returns a book_instance changeset" do
+      book_instance = book_instance_fixture()
+      assert %Ecto.Changeset{} = Books.change_book_instance(book_instance)
+    end
+  end
 end
