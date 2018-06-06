@@ -21,6 +21,7 @@ defmodule Readtome.Books do
     Repo.all(Book) |> Repo.preload([instances: :user])
   end
 
+
   @doc """
   Gets a single book.
 
@@ -113,8 +114,30 @@ defmodule Readtome.Books do
       [%BookInstance{}, ...]
 
   """
-  def list_book_instance do
-    Repo.all(BookInstance)
+  def list_book_instance(term \\ nil, point \\ nil) do
+    BookInstance
+      |> by_term(term)
+      |> near(point)
+      |> preload(:user)
+      |> preload(:book)
+      |> Repo.all
+
+  end
+
+  def near(query, nil), do: query
+  def near(query, point) do
+    {lng, lat} = point.coordinates
+    from book_instance in query,
+      order_by: fragment("? <-> ST_SetSRID(ST_MakePoint(?,?), ?)", book_instance.point, ^lng, ^lat, ^point.srid)
+  end
+
+  def by_term(query, nil), do: query
+  def by_term(query, term) do
+    from book_instance in query,
+      join: user in assoc(book_instance, :user),
+      join: book in assoc(book_instance, :book),
+      where: fragment("LOWER(?) % LOWER(?) OR LOWER(?) = LOWER(?)", book.name, ^term, ^term, user.name),
+      order_by: fragment("similarity(LOWER(?), LOWER(?)) DESC", book.name, ^term)
   end
 
   @doc """
