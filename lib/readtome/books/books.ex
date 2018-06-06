@@ -114,7 +114,7 @@ defmodule Readtome.Books do
       [%BookInstance{}, ...]
 
   """
-  def list_book_instance(term \\ nil, point \\ nil) do
+  def list_book_instance(%{term: term, point: point}) do
     BookInstance
       |> by_term(term)
       |> near(point)
@@ -128,7 +128,7 @@ defmodule Readtome.Books do
   def near(query, point) do
     {lng, lat} = point.coordinates
     from book_instance in query,
-      order_by: fragment("? <-> ST_SetSRID(ST_MakePoint(?,?), ?)", book_instance.point, ^lng, ^lat, ^point.srid)
+      order_by: fragment("? <-> ST_SetSRID(ST_MakePoint(?,?), ?)", book_instance.location, ^lng, ^lat, ^point.srid)
   end
 
   def by_term(query, nil), do: query

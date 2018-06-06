@@ -1,9 +1,12 @@
 import * as React from "react"
 
-export default class Search extends React.Component<{}, {}>{
+interface Props {
+  searchMethod: (term) => void
+}
+export default class Search extends React.Component<Props, {}>{
   public render(){
     return(
-      <input type="text" placeholder="Search"/>
+      <input type="text" placeholder="Search" onChange={this.props.searchMethod}/>
     )
   }
 }

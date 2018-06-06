@@ -1,5 +1,7 @@
 import * as React from "react"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+
+import Search from "./search"
 import Coordinate from "../models/coordinate"
 import Book from "../models/book"
 
@@ -15,6 +17,7 @@ interface Props{
 
 interface State {
   books: Array<any>
+  searchTerm: string
   isLoaded: boolean
   error?: any
 }
@@ -31,20 +34,11 @@ const MyMapComponent = withScriptjs(withGoogleMap((props: Props) =>
 export default class Map extends React.Component<Props, State>{
   public constructor(props, context) {
     super(props, context)
-    this.state = { books: [], isLoaded: false, error: null }
+    this.state = { books: [], isLoaded: false, error: null, searchTerm: null}
+    this.search = this.search.bind(this)
   }
   public componentDidMount() {
-    fetch(`http://localhost:4000/api/books?lat=${this.props.initialCoordinate.lat}&lng=${this.props.initialCoordinate.lng}`)
-      .then( res => res.json() )
-      .then( 
-        (result) => {
-          console.table(result)
-          this.setState({isLoaded: true, books: result.data})
-        },
-        (error) => {
-          this.setState({ isLoaded: true, error})
-        }
-      )
+    this.fetchResults(null, 40.6904832, -73.9753984)
   }
   public render(){
     const { error, isLoaded, books } = this.state
@@ -54,16 +48,37 @@ export default class Map extends React.Component<Props, State>{
       return( <div> Loading .... </div>)
     } else {
       return(
-        <MyMapComponent
-            initialCoordinate={{ lat: 40.6904832, lng: -73.9753984}}
-            books={this.state.books}
-            isMarkerShown
-            googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-            loadingElement={<div style={{ height: `100%` }} />}
-            containerElement={<div style={{ height: `400px` }} />}
-            mapElement={<div style={{ height: `100%` }} />}
-          />
+        <div>
+          <Search searchMethod={this.search}/>
+          <MyMapComponent
+              initialCoordinate={{ lat: 40.6904832, lng: -73.9753984}}
+              books={this.state.books}
+              isMarkerShown
+              googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
+              loadingElement={<div style={{ height: `100%` }} />}
+              containerElement={<div style={{ height: `400px` }} />}
+              mapElement={<div style={{ height: `100%` }} />}
+            />
+          </div>
       )
     }
+  }
+
+  private search(term) {
+    this.fetchResults(term, 40.6904832, -73.9753984)
+  }
+
+  private fetchResults(term: string, lat: number, lng: number){
+    fetch(`http://localhost:4000/api/book_instances?lat=${lat}&lng=${lng}&term=${term}`)
+      .then( res => res.json() )
+      .then(
+        (result) => {
+          console.table(result)
+          this.setState({isLoaded: true, books: result.data})
+        },
+        (error) => {
+          this.setState({ isLoaded: true, error})
+        }
+      )
   }
 }
