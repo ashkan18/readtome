@@ -6,5 +6,4 @@ export default interface Book {
   authors: Array<Author>
   instances: Array<BookInstance>
   genres: Array<string>
-  location: any
 }
