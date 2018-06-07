@@ -8,7 +8,7 @@ defmodule ReadtomeWeb.BookInstanceController do
 
   def index(conn, params) do
     %{"lat" => lat, "lng" => lng, "term" => term} = params
-    point = %Geo.Point{coordinates: {String.to_float(lat), String.to_float(lng)}, srid: 3426}
+    point = %Geo.Point{coordinates: {String.to_float(lat), String.to_float(lng)}, srid: 4326}
     book_instance = Books.list_book_instance(%{point: point, term: term})
     render(conn, "index.json", book_instance: book_instance)
   end

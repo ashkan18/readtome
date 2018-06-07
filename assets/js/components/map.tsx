@@ -27,7 +27,9 @@ const MyMapComponent = withScriptjs(withGoogleMap((props: Props) =>
     defaultZoom={15}
     defaultCenter={{ lat: props.initialCoordinate.lat, lng: props.initialCoordinate.lng }}
   >
-    {props.isMarkerShown && <Marker position={{ lat: 40.6904832, lng: -73.9753984 }} />}
+    {props.books.map( (book) =>
+      <Marker position={{ lat: book.location.coordinates[0] , lng: book.location.coordinates[1] }} />)
+    }
   </GoogleMap>
 ))
 
@@ -64,8 +66,8 @@ export default class Map extends React.Component<Props, State>{
     }
   }
 
-  private search(term) {
-    this.fetchResults(term, 40.6904832, -73.9753984)
+  private search(searchEvent) {
+    this.fetchResults(searchEvent.target.value, 40.6904832, -73.9753984)
   }
 
   private fetchResults(term: string, lat: number, lng: number){
