@@ -1,5 +1,6 @@
 import * as React from "react"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { compose, withProps, withStateHandlers } from "recompose"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 import styled from 'styled-components'
 
 import Search from "./search"
@@ -14,6 +15,8 @@ interface Props{
   loadingElement?: any
   containerElement?: any
   mapElement?: any
+  onToggleOpen?: any
+  isOpen?: boolean
 }
 
 interface State {
@@ -25,20 +28,40 @@ interface State {
 
 
 const MapComponent = styled.div`
-    border-radius: 3px
-    border: 2px solid palevioletred
+    border-radius: 3px;
+    border: 2px solid palevioletred;
   `
 
-const MyMapComponent = withScriptjs(withGoogleMap((props: Props) =>
-  <GoogleMap
-    defaultZoom={15}
-    defaultCenter={{ lat: props.initialCoordinate.lat, lng: props.initialCoordinate.lng }}
-  >
-    { props.book_instances.map( book =>
-      <Marker position= {{ lat: book.location.coordinates[0], lng: book.location.coordinates[1]}}/>)
-    }
-  </GoogleMap>
-))
+const MyMapComponent = compose(
+    withStateHandlers(() => ({
+      isOpen: false,
+    }), {
+      onToggleOpen: ({ isOpen }) => () => ({
+        isOpen: !isOpen,
+      })
+    }),
+    withScriptjs,
+    withGoogleMap
+  )((props: Props) =>
+    <GoogleMap
+      defaultZoom={13}
+      defaultCenter={{ lat: props.initialCoordinate.lat, lng: props.initialCoordinate.lng }}
+    >
+      { props.book_instances.map( bi =>
+        <Marker
+          position={{ lat: bi.location.coordinates[0], lng: bi.location.coordinates[1]}}
+              onClick={props.onToggleOpen}
+          >
+            {props.isOpen && <InfoWindow onCloseClick={props.onToggleOpen}>
+              <div>
+                {bi.condition}
+              </div>
+            </InfoWindow>}
+          </Marker>
+        )
+      }
+    </GoogleMap>
+  )
 
 export default class Map extends React.Component<Props, State>{
   public constructor(props, context) {

@@ -2,7 +2,7 @@
 defmodule Readtome.Books.BookInstance do
   use Ecto.Schema
   import Ecto.Changeset
-  
+
   schema "book_instances" do
     field :condition, :string
     field :medium, :string
