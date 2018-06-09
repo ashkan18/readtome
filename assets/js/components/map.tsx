@@ -1,15 +1,16 @@
 import * as React from "react"
-import { compose, withProps, withStateHandlers } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
+import { compose } from "recompose"
+import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
 import styled from 'styled-components'
 
 import Search from "./search"
 import Coordinate from "../models/coordinate"
-import BookInstace from "../models/book_instance"
+import BookInstance from "../models/book_instance"
+import BookMapMarker from "./book_map_marker";
 
 interface Props{
   initialCoordinate: Coordinate
-  book_instances: Array<BookInstace>
+  book_instances: Array<BookInstance>
   isMarkerShown: boolean
   googleMapURL: string
   loadingElement?: any
@@ -33,33 +34,13 @@ const MapComponent = styled.div`
   `
 
 const MyMapComponent = compose(
-    withStateHandlers(() => ({
-      isOpen: false,
-    }), {
-      onToggleOpen: ({ isOpen }) => () => ({
-        isOpen: !isOpen,
-      })
-    }),
     withScriptjs,
     withGoogleMap
   )((props: Props) =>
     <GoogleMap
       defaultZoom={13}
-      defaultCenter={{ lat: props.initialCoordinate.lat, lng: props.initialCoordinate.lng }}
-    >
-      { props.book_instances.map( bi =>
-        <Marker
-          position={{ lat: bi.location.coordinates[0], lng: bi.location.coordinates[1]}}
-              onClick={props.onToggleOpen}
-          >
-            {props.isOpen && <InfoWindow onCloseClick={props.onToggleOpen}>
-              <div>
-                {bi.condition}
-              </div>
-            </InfoWindow>}
-          </Marker>
-        )
-      }
+      defaultCenter={{ lat: props.initialCoordinate.lat, lng: props.initialCoordinate.lng }}>
+      { props.book_instances.map( bi => <BookMapMarker bookInstance={bi} />) }
     </GoogleMap>
   )
 
