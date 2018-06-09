@@ -1,5 +1,6 @@
 import * as React from "react"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import styled from 'styled-components'
 
 import Search from "./search"
 import Coordinate from "../models/coordinate"
@@ -21,6 +22,12 @@ interface State {
   isLoaded: boolean
   error?: any
 }
+
+
+const MapComponent = styled.div`
+    border-radius: 3px
+    border: 2px solid palevioletred
+  `
 
 const MyMapComponent = withScriptjs(withGoogleMap((props: Props) =>
   <GoogleMap
@@ -50,7 +57,7 @@ export default class Map extends React.Component<Props, State>{
       return( <div> Loading .... </div>)
     } else {
       return(
-        <div>
+        <MapComponent>
           <Search searchMethod={this.search}/>
           <MyMapComponent
               initialCoordinate={{ lat: 40.6904832, lng: -73.9753984}}
@@ -61,17 +68,17 @@ export default class Map extends React.Component<Props, State>{
               containerElement={<div style={{ height: `400px` }} />}
               mapElement={<div style={{ height: `100%` }} />}
             />
-          </div>
+        </MapComponent>
       )
     }
   }
 
-  private search(searchEvent) {
-    this.fetchResults(searchEvent.target.value, 40.6904832, -73.9753984)
+  private search(term) {
+    this.fetchResults(term, 40.6904832, -73.9753984)
   }
 
   private fetchResults(term: string, lat: number, lng: number){
-    fetch(`http://localhost:4000/api/book_instances?lat=${lat}&lng=${lng}&term=${term}`)
+    fetch(`/api/book_instances?lat=${lat}&lng=${lng}&term=${term}`)
       .then( res => res.json() )
       .then(
         (result) => {
