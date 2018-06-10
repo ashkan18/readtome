@@ -14,14 +14,16 @@ export default class BookMapMarker extends React.Component<Props, State>{
   public constructor(props, context) {
     super(props, context)
     this.state = { isOpen: false }
+    // this.openOverlay = this.openOverlay.bind(this)
+    // this.closeOverlay = this.closeOverlay.bind(this)
   }
   public render() {
     return(
       <Marker
         position={{ lat: this.props.bookInstance.location.coordinates[0], lng: this.props.bookInstance.location.coordinates[1]}}
-            onClick={this.onToggleOpen}
+            onClick={this.openOverlay}
         >
-          {this.state.isOpen && <InfoWindow onCloseClick={this.onToggleOpen}>
+          {this.state.isOpen && <InfoWindow onCloseClick={this.closeOverlay}>
             <div>
               {this.props.bookInstance.condition}
             </div>
@@ -30,7 +32,9 @@ export default class BookMapMarker extends React.Component<Props, State>{
     )
   }
 
-  private onToggleOpen(){
-    this.setState({ isOpen: !this.state.isOpen })
-  }
+  public openOverlay = () =>
+    this.setState({ isOpen: true })
+
+  public closeOverlay = () =>
+    this.setState({ isOpen: false })
 }

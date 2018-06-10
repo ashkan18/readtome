@@ -11,9 +11,11 @@ const CopyWebpackPlugin = require("copy-webpack-plugin")
 var env = process.env.MIX_ENV || "dev"
 const isDev = env === "dev"
 const devtool = isDev ? "eval" : "source-map"
+const mode = isDev ? 'development' : 'production'
 
 const config = {
   devtool: devtool,
+  mode: mode,
 
   context: __dirname,
 
@@ -25,8 +27,8 @@ const config = {
   },
 
   output: {
-    path: path.resolve(__dirname, "../priv/static"),
-    filename: "js/[name].js",
+    path: path.resolve(__dirname, "../priv/static/js"),
+    filename: "[name].js",
     publicPath: 'http://localhost:8080/'
   },
 
@@ -48,12 +50,12 @@ const config = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: ["babel-loader", "ts-loader"]
-      }, 
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: "babel-loader"
-      }, 
+      },
       {
         test: /\.s?[ac]ss$/,
         use: [
@@ -61,7 +63,7 @@ const config = {
           'css-loader',
           'sass-loader',
         ],
-      }, 
+      },
       {
         test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         // put fonts in assets/static/fonts/

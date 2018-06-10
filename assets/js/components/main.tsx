@@ -1,78 +1,54 @@
 import * as React from "react"
-import { compose } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
 import styled from 'styled-components'
 
 import Search from "./search"
-import Coordinate from "../models/coordinate"
-import BookInstance from "../models/book_instance"
-import BookMapMarker from "./book_map_marker";
+import MapComponent from "./map_component";
+import Coordinate from "../models/coordinate";
 
-interface Props{
-  initialCoordinate: Coordinate
-  book_instances: Array<BookInstance>
-  isMarkerShown: boolean
-  googleMapURL: string
-  loadingElement?: any
-  containerElement?: any
-  mapElement?: any
-  onToggleOpen?: any
-  isOpen?: boolean
-}
-
+const MainComponent = styled.div`
+  border-radius: 3px;
+  border: 2px solid palevioletred;
+`
 interface State {
-  book_instances: Array<any>
+  bookInstances: Array<any>
   searchTerm: string
   isLoaded: boolean
   error?: any
 }
 
-
-const MapComponent = styled.div`
-    border-radius: 3px;
-    border: 2px solid palevioletred;
-  `
-
-const MyMapComponent = compose(
-    withScriptjs,
-    withGoogleMap
-  )((props: Props) =>
-    <GoogleMap
-      defaultZoom={13}
-      defaultCenter={{ lat: props.initialCoordinate.lat, lng: props.initialCoordinate.lng }}>
-      { props.book_instances.map( bi => <BookMapMarker bookInstance={bi} />) }
-    </GoogleMap>
-  )
+interface Props{
+  initialCoordinate: Coordinate
+}
 
 export default class Map extends React.Component<Props, State>{
   public constructor(props, context) {
     super(props, context)
-    this.state = { book_instances: [], isLoaded: false, error: null, searchTerm: null}
+    this.state = { bookInstances: [], isLoaded: false, error: null, searchTerm: null}
     this.search = this.search.bind(this)
   }
   public componentDidMount() {
     this.fetchResults(null, 40.6904832, -73.9753984)
   }
   public render(){
-    const { error, isLoaded, book_instances } = this.state
+    const { error, isLoaded, bookInstances } = this.state
     if (error) {
       return( <div> Error {error.message} </div>)
     } else if (!isLoaded) {
       return( <div> Loading .... </div>)
     } else {
       return(
-        <MapComponent>
+        <MainComponent>
           <Search searchMethod={this.search}/>
-          <MyMapComponent
-              initialCoordinate={{ lat: 40.6904832, lng: -73.9753984}}
-              book_instances={book_instances}
+          <MapComponent
+              initialCoordinate={this.props.initialCoordinate}
+              bookInstances={bookInstances}
               isMarkerShown
               googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
               loadingElement={<div style={{ height: `100%` }} />}
               containerElement={<div style={{ height: `400px` }} />}
               mapElement={<div style={{ height: `100%` }} />}
             />
-        </MapComponent>
+        </MainComponent>
       )
     }
   }
@@ -86,7 +62,7 @@ export default class Map extends React.Component<Props, State>{
       .then( res => res.json() )
       .then(
         (result) => {
-          this.setState({isLoaded: true, book_instances: result.data})
+          this.setState({isLoaded: true, bookInstances: result.data})
         },
         (error) => {
           this.setState({ isLoaded: true, error})

@@ -1,15 +1,13 @@
 import * as React from "react"
 import { render } from "react-dom"
 import Header from "./components/header"
-import Map from "./components/map"
-import Coordinate from "./models/coordinate"
-//import Main from "./main"
+import Main from "./components/main"
 
-let coordinate = {lat: 123, lng: 321}
+let coordinate = {lat: 40.6904832, lng: -73.9753984}
 render(
   <div>
     <Header/>
-    <Map initialCoordinate={coordinate} />
+    <Main initialCoordinate={coordinate} />
   </div>,
   document.getElementById("container")
 )
