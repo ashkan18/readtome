@@ -1,4 +1,3 @@
-
 defmodule Readtome.Books.BookInstance do
   use Ecto.Schema
   import Ecto.Changeset

@@ -10,6 +10,7 @@ defmodule Readtome.Books.Book do
     field :name, :string
     field :small_cover_url, :string
 
+    many_to_many :authors, Readtome.Authors.Author, join_through: Readtome.Books.BookAuthor
     has_many :instances, Readtome.Books.BookInstance
 
     timestamps()

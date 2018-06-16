@@ -24,5 +24,6 @@ defmodule ReadtomeWeb.Router do
 
     resources "/books", BookController, except: [:new, :edit]
     resources "/book_instances", BookInstanceController
+    resources "/authors", AuthorController
   end
 end
