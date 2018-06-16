@@ -22,6 +22,10 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:user_id]
 
+config :readtome, ReadtomeWeb.Auth.Guardian,
+  issuer: "readtome", # Name of your app/company/product
+  secret_key: "uGV84HYOnL45wwxgNUUsEj9V82RNxp8xCzUWLuA+KO/eiLbNw+Tfs4EVFcy8JJjv"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

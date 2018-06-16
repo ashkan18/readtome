@@ -39,6 +39,9 @@ defmodule Readtome.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:guardian, "~> 1.0"},
+      {:comeonin, "~> 4.0"},
+      {:bcrypt_elixir, "~> 0.12"},
       {:gettext, "~> 0.11"},
       {:geo, "~> 1.1"},
       {:cowboy, "~> 1.0"}

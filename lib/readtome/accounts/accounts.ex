@@ -5,6 +5,7 @@ defmodule Readtome.Accounts do
 
   import Ecto.Query, warn: false
   alias Readtome.Repo
+  alias Comeonin.Bcrypt
 
   alias Readtome.Accounts.User
 
@@ -100,5 +101,18 @@ defmodule Readtome.Accounts do
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})
+  end
+
+  def authenticate_user(username, plain_text_pass) do
+    Repo.get_by(User, username: username)
+      |> check_password(plain_text_pass)
+  end
+
+  defp check_password(nil, _), do: {:error, "Incorrect username or password"}
+  defp check_password(user, plain_text_password) do
+    case Bcrypt.checkpw(plain_text_password, user.password) do
+      true -> {:ok, user}
+      false -> {:error, "Incorrect username or password"}
+    end
   end
 end

@@ -14,8 +14,6 @@ export default class BookMapMarker extends React.Component<Props, State>{
   public constructor(props, context) {
     super(props, context)
     this.state = { isOpen: false }
-    // this.openOverlay = this.openOverlay.bind(this)
-    // this.closeOverlay = this.closeOverlay.bind(this)
   }
   public render() {
     return(
