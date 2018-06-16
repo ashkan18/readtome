@@ -35,7 +35,7 @@ defmodule Readtome.BooksTest do
       assert book.isbn == "some isbn"
       assert book.large_cover_url == "some large_cover_url"
       assert book.medium_cover_url == "some medium_cover_url"
-      assert book.name == "some name"
+      assert book.title == "some name"
       assert book.small_cover_url == "some small_cover_url"
     end
 
@@ -51,7 +51,7 @@ defmodule Readtome.BooksTest do
       assert book.isbn == "some updated isbn"
       assert book.large_cover_url == "some updated large_cover_url"
       assert book.medium_cover_url == "some updated medium_cover_url"
-      assert book.name == "some updated name"
+      assert book.title == "some updated name"
       assert book.small_cover_url == "some updated small_cover_url"
     end
 

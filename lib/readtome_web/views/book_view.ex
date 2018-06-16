@@ -12,7 +12,7 @@ defmodule ReadtomeWeb.BookView do
 
   def render("book.json", %{book: book}) do
     %{id: book.id,
-      name: book.name,
+      title: book.title,
       isbn: book.isbn,
       small_cover_url: book.small_cover_url,
       medium_cover_url: book.medium_cover_url,

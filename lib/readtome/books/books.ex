@@ -139,8 +139,8 @@ defmodule Readtome.Books do
     from book_instance in query,
       join: user in assoc(book_instance, :user),
       join: book in assoc(book_instance, :book),
-      where: fragment("LOWER(?) % LOWER(?) OR LOWER(?) = LOWER(?)", book.name, ^term, ^term, user.name),
-      order_by: fragment("similarity(LOWER(?), LOWER(?)) DESC", book.name, ^term)
+      where: fragment("LOWER(?) % LOWER(?) OR LOWER(?) = LOWER(?)", book.title, ^term, ^term, user.name),
+      order_by: fragment("similarity(LOWER(?), LOWER(?)) DESC", book.title, ^term)
   end
 
   @doc """

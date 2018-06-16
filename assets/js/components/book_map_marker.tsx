@@ -25,6 +25,7 @@ export default class BookMapMarker extends React.Component<Props, State>{
         >
           {this.state.isOpen && <InfoWindow onCloseClick={this.closeOverlay}>
             <div>
+              <div>{this.props.bookInstance.book.title}</div>
               <ul>
                 <li> {this.props.bookInstance.condition} </li>
                 {this.props.bookInstance.book.authors.map( author => <li> {author.name} </li>)}
