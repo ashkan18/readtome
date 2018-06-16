@@ -4,10 +4,10 @@ import {DebounceInput} from 'react-debounce-input'
 import styled from 'styled-components'
 
 const StyledInput = styled.div`
-  width: 100%
-  padding: 5px
+  width: 100%;
+  padding: 5px;
   input {
-    width: 100%
+    width: 100%;
   }
 `
 

@@ -16,6 +16,7 @@ defmodule ReadtomeWeb.BookInstanceView do
       medium: book_instance.medium,
       offerings: book_instance.offerings,
       location: Geo.JSON.encode(book_instance.location),
+      book: render_one(book_instance.book, ReadtomeWeb.BookView, "book.json"),
       user: render_one(book_instance.user, ReadtomeWeb.UserView, "user.json")}
   end
 end

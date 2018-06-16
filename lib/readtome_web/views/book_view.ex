@@ -17,6 +17,6 @@ defmodule ReadtomeWeb.BookView do
       small_cover_url: book.small_cover_url,
       medium_cover_url: book.medium_cover_url,
       large_cover_url: book.large_cover_url,
-      instances: render_many(book.instances, ReadtomeWeb.BookInstanceView, "book_instance.json")}
+      authors: render_many(book.authors, ReadtomeWeb.AuthorView, "author.json")}
   end
 end

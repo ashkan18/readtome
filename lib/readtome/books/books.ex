@@ -19,7 +19,9 @@ defmodule Readtome.Books do
 
   """
   def list_books do
-    Repo.all(Book) |> Repo.preload([instances: :user])
+    Repo.all(Book)
+        |> Repo.preload([instances: :user])
+        |> Repo.preload(:authors)
   end
 
 
@@ -120,7 +122,7 @@ defmodule Readtome.Books do
       |> by_term(term)
       |> near(point)
       |> preload(:user)
-      |> preload(:book)
+      |> preload([book: :authors])
       |> Repo.all
 
   end
