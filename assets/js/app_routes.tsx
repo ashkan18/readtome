@@ -32,12 +32,12 @@ export default class AppRoutes extends React.Component<{}, State> {
     </div>)
   }
 
-  public authenticate(user){
+  public authenticate(token){
     this.setState({
-			user: user
+      user: token,
+      isLoggedIn: true
 		});
-
 		// updating user's details
-		localStorage.setItem(config.localStorageKey, JSON.stringify(user));
+		//localStorage.setItem(config.localStorageKey, JSON.stringify(user));
   }
 }
