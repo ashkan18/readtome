@@ -13,12 +13,17 @@ defmodule ReadtomeWeb.AccountController do
   end
 
   defp login_reply({:error, error}, conn) do
-    render(conn, "error.json", error: error)
+    conn
+    |> put_status(401)
+    |> render("error.json", error: error)
   end
   defp login_reply({:ok, user}, conn) do
     case ReadtomeWeb.Auth.Guardian.encode_and_sign(user) do
     {:ok, token, _claims} -> render(conn, "loggedin.json", token: token)
-    _ -> render(conn, "error.json", error: "Cannot create token")
+    _ -> 
+      conn 
+        |> put_status(401)
+        |> render("error.json", error: "Cannot create token")
     end
   end
 end
