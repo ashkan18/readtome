@@ -1,31 +1,29 @@
 import * as React from "react"
-import {DebounceInput} from 'react-debounce-input'
-
-import styled from 'styled-components'
-
-const StyledInput = styled.div`
-  width: 100%;
-  padding: 5px;
-  input {
-    width: 100%;
-  }
-`
+import {Input} from "semantic-ui-react"
 
 interface Props {
   searchMethod: (term) => void
 }
 
+function debounce(a,b,c) {var d,e;return function(){function h(){d=null,c||(e=a.apply(f,g))}var f=this,g=arguments;return clearTimeout(d),d=setTimeout(h,b),c&&!d&&(e=a.apply(f,g)),e}}
+
 
 export default class Search extends React.Component<Props, {}>{
+  
+  componentWillMount() {
+    this.search = debounce(this.search, 500, false)
+  }
   public render(){
     return(
-      <StyledInput>
-        <DebounceInput minLength={3}
-                      debounceTimeout={300}
-                      placeholder="Search"
-                      className="search-input"
-                      onChange={ event => this.props.searchMethod(event.target.value) }/>
-      </StyledInput>
+      <Input fluid 
+        icon='search'
+        onChange={ (_event, {value}) => this.search(value) }/>
     )
+  }
+
+  private search(value){
+    if (value.length > 3){
+      this.props.searchMethod(value)
+    }
   }
 }
