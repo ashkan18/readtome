@@ -15,6 +15,6 @@ defmodule ReadtomeWeb.UserView do
       name: user.name,
       email: user.email,
       sex: user.sex,
-      age: user.age}
+      birthdate: user.birthdate}
   end
 end

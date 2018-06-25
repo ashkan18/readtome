@@ -4,12 +4,12 @@ defmodule Readtome.Accounts.User do
   alias Comeonin.Bcrypt
 
   schema "users" do
-    field :age, :integer
     field :email, :string
     field :name, :string
     field :sex, :string
     field :username, :string
     field :password, :string
+    field :birthdate, :date
 
     has_many :book_instances, Readtome.Books.BookInstance
 
@@ -19,7 +19,7 @@ defmodule Readtome.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :sex, :age, :username, :password])
+    |> cast(attrs, [:name, :email, :sex, :birthdate, :username, :password])
     |> validate_required([:name, :email, :username, :password])
     |> put_pass_hash()
   end
