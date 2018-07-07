@@ -20,8 +20,8 @@ interface State{
 export default class Login extends React.Component<Props, State> {
   public constructor(props, context) {
     super(props, context)
-    
-    
+
+
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)

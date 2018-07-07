@@ -22,7 +22,7 @@ interface State{
 export default class Signup extends React.Component<Props, State> {
   public constructor(props, context) {
     super(props, context)
-    
+
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -37,7 +37,7 @@ export default class Signup extends React.Component<Props, State> {
       this.props.authenticate(response.data.token)
       this.setState({isLoggedIn: true, loading: false})
     }).catch( error => {
-      this.setState( {error: "Username and Password don't match, please rety.", loading: false} )
+      this.setState( {error: "Username and Password don't match, please retry.", loading: false} )
     })
   }
 
