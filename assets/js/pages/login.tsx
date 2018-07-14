@@ -35,7 +35,7 @@ export default class Login extends React.Component<Props, State> {
     .then( response => {
       this.props.authenticate(response.data.token)
       this.setState({isLoggedIn: true, loading: false})
-    }).catch( error => {
+    }).catch( _error => {
       this.setState( {error: "Username and Password don't match, please rety.", loading: false} )
     })
   }
