@@ -32,6 +32,7 @@ defmodule ReadtomeWeb.Router do
     post "/signup", AccountController, :signup
     post "/login", AccountController, :login
     resources "/books", BookController, except: [:new, :edit]
+    resources "/find_in_the_wild", BookController, :find_in_the_wild
     resources "/book_instances", BookInstanceController
     resources "/authors", AuthorController
   end

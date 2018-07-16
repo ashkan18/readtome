@@ -20,6 +20,22 @@ defmodule ReadtomeWeb.BookController do
     end
   end
 
+  def find_in_the_wild(conn, %{"isbn" => isbn}) do
+    case Books.by_isbn(isbn) do
+      nil ->
+        with {:found, founded_book} <- BookFinder.by_isbn(isbn) do
+          render(conn, "found.json", book: book)
+        else
+          _ ->
+            conn
+            |> put_status(:not_found)
+            |> render(ReadtomeWeb.ErrorView, :"404")
+        end
+      book ->
+        render(conn, "found.json", book: book)
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     book = Books.get_book!(id)
     render(conn, "show.json", book: book)

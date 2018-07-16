@@ -143,6 +143,10 @@ defmodule Readtome.Books do
       order_by: fragment("similarity(LOWER(?), LOWER(?)) DESC", book.title, ^term)
   end
 
+  def by_isbn(isbn) do
+    Repo.get_by(Book, isbn: isbn)
+  end
+
   @doc """
   Gets a single book_instance.
 
