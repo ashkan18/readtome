@@ -1,5 +1,4 @@
 defmodule Readtome.Books do
-  alias Readtome.Books.BookAuthor
   @moduledoc """
   The Books context.
   """
