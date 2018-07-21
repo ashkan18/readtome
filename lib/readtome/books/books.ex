@@ -1,5 +1,4 @@
 defmodule Readtome.Books do
-  alias Readtome.Books.BookAuthor
   @moduledoc """
   The Books context.
   """
@@ -141,6 +140,10 @@ defmodule Readtome.Books do
       join: book in assoc(book_instance, :book),
       where: fragment("LOWER(?) % LOWER(?) OR LOWER(?) = LOWER(?)", book.title, ^term, ^term, user.name),
       order_by: fragment("similarity(LOWER(?), LOWER(?)) DESC", book.title, ^term)
+  end
+
+  def by_isbn(isbn) do
+    Repo.get_by(Book, isbn: isbn)
   end
 
   @doc """
