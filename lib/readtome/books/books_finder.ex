@@ -17,6 +17,7 @@ defmodule Readtome.BooksFinder do
       %HTTPotion.Response{status_code: 200, body: body} ->
         first_guess = List.first(body["items"])
         {:found, %{
+          isbn: isbn,
           title: first_guess["volumeInfo"]["title"],
           authors: first_guess["volumeInfo"]["authors"],
           genres: first_guess["volumeInfo"]["categories"],

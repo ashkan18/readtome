@@ -1,7 +1,7 @@
 defmodule ReadtomeWeb.BookController do
   use ReadtomeWeb, :controller
 
-  alias Readtome.{Books, Books.Book, BookFetcher}
+  alias Readtome.{Books, Books.Book, BooksFinder}
 
   action_fallback ReadtomeWeb.FallbackController
 
@@ -23,7 +23,7 @@ defmodule ReadtomeWeb.BookController do
   def find_in_the_wild(conn, %{"isbn" => isbn}) do
     case Books.by_isbn(isbn) do
       nil ->
-        with {:found, founded_book} <- BookFinder.by_isbn(isbn) do
+        with {:found, founded_book} <- BooksFinder.by_isbn(isbn) do
           render(conn, "found.json", book: founded_book)
         else
           _ ->

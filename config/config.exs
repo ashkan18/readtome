@@ -9,8 +9,8 @@ use Mix.Config
 config :readtome,
   ecto_repos: [Readtome.Repo],
   googlebooks_api: %{
-    url: "https://www.googleapis.com/",
-    key: {:system, "GOOGLE_BOOKS_API_KEY"}
+    url: System.get_env("GOOGLE_BOOKS_API_URL"),
+    key: System.get_env("GOOGLE_BOOKS_API_KEY")
   }
 
 # Configures the endpoint
