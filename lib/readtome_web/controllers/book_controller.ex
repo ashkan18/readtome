@@ -24,6 +24,7 @@ defmodule ReadtomeWeb.BookController do
     case Books.by_isbn(isbn) do
       nil ->
         with {:found, founded_book} <- BooksFinder.by_isbn(isbn) do
+          Task.async(fn -> Books.store_external_book(founded_book) end)
           render(conn, "found.json", book: founded_book)
         else
           _ ->

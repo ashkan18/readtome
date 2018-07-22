@@ -58,6 +58,15 @@ defmodule Readtome.Books do
     |> Repo.insert()
   end
 
+  def store_external_book(%{isbn: isbn, title: title, authors: authors, genres: genres, image_url: image_url, description: description}) do
+    book = create_book(%{isbn: isbn, title: title})
+    author_models = Enum.map(authors, fn(au) -> Readtome.Authors.add(%{name: au}))
+    with {:ok, file} <- Readtome.BookCover.store(image_url) do
+      file
+    end
+    
+  end
+
   @doc """
   Updates a book.
 
