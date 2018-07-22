@@ -70,7 +70,7 @@ defmodule Readtome.Books do
     |> Enum.map(fn(au) -> Readtome.Authors.add_by_name(au) end)
     |> Enum.map(fn(au) -> set_book_author(au, book) end)
 
-    with {:ok, file} <- Readtome.BookCover.store(image_url) do
+    with {:ok, file} <- Readtome.BookCover.store({image_url, book}) do
       file
     end
   end

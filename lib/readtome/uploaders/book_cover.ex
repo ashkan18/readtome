@@ -4,10 +4,8 @@ defmodule Readtome.BookCover do
   # Include ecto support (requires package arc_ecto installed):
   # use Arc.Ecto.Definition
 
-  @versions [:original]
-
   # To add a thumbnail version:
-  @versions [:original, :thumb]
+  @versions [:original, :thumb, :small]
 
   # Override the bucket on a per definition basis:
   # def bucket do
@@ -21,13 +19,18 @@ defmodule Readtome.BookCover do
 
   # Define a thumbnail transformation:
   def transform(:thumb, _) do
-    {:convert, "-strip -thumbnail 250x250^ -gravity center -extent 250x250 -format png", :png}
+    {:convert, "-strip -thumbnail 250x250^ -gravity center -extent 250x250 -format jpeg", :jpeg}
+  end
+
+  # Define a thumbnail transformation:
+  def transform(:small, _) do
+    {:convert, "-strip -thumbnail 50x50^ -gravity center -extent 50x50 -format jpeg", :jpeg}
   end
 
   # Override the persisted filenames:
-  # def filename(version, _) do
-  #   version
-  # end
+  def filename(version, _) do
+    version
+  end
 
   # Override the storage directory:
   def storage_dir(version, {file, scope}) do
@@ -47,4 +50,8 @@ defmodule Readtome.BookCover do
   def s3_object_headers(version, {file, scope}) do
     [content_type: MIME.from_path(file.file_name)]
   end
+
+  def acl(:thumb, _), do: :public_read
+  def acl(:small, _), do: :public_read
+  def acl(:original, _), do: :private
 end

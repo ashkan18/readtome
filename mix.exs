@@ -46,7 +46,7 @@ defmodule Readtome.Mixfile do
       {:geo, "~> 1.1"},
       {:cowboy, "~> 1.0"},
       {:arc, "~> 0.10.0"},
-      {:ex_aws, "~> 2.0"},
+      {:ex_aws, "~> 2.1.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.6"},
       {:httpoison, "~> 0.13"},
