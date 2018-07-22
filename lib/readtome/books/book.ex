@@ -20,6 +20,6 @@ defmodule Readtome.Books.Book do
   def changeset(book, attrs) do
     book
     |> cast(attrs, [:title, :isbn, :small_cover_url, :medium_cover_url, :large_cover_url])
-    |> validate_required([:title, :isbn, :small_cover_url, :medium_cover_url, :large_cover_url])
+    |> validate_required([:title, :isbn])
   end
 end

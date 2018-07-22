@@ -55,6 +55,13 @@ defmodule Readtome.Authors do
     |> Repo.insert()
   end
 
+  def add_by_name(name) do
+    case Repo.get_by(Author, name: name) do
+      nil -> with {:ok, author} <- create_author(%{name: name}), do: author
+      author -> author
+    end
+  end
+
   @doc """
   Updates a author.
 

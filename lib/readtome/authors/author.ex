@@ -15,6 +15,6 @@ defmodule Readtome.Authors.Author do
   def changeset(author, attrs) do
     author
     |> cast(attrs, [:name, :bio])
-    |> validate_required([:name, :bio])
+    |> validate_required([:name])
   end
 end

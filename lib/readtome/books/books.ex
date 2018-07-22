@@ -6,7 +6,7 @@ defmodule Readtome.Books do
   import Ecto.Query, warn: false
   alias Readtome.Repo
 
-  alias Readtome.Books.Book
+  alias Readtome.Books.{Book, BookAuthor}
 
   @doc """
   Returns the list of books.
@@ -58,13 +58,28 @@ defmodule Readtome.Books do
     |> Repo.insert()
   end
 
+  def upsert_book(attrs \\ %{}) do
+    %Book{}
+    |> Book.changeset(attrs)
+    |> Repo.insert_or_update()
+  end
+
   def store_external_book(%{isbn: isbn, title: title, authors: authors, genres: genres, image_url: image_url, description: description}) do
     book = create_book(%{isbn: isbn, title: title})
-    author_models = Enum.map(authors, fn(au) -> Readtome.Authors.add(%{name: au}))
+    authors
+    |> Enum.map(fn(au) -> Readtome.Authors.add_by_name(au) end)
+    |> Enum.map(fn(au) -> set_book_author(au, book) end)
+
     with {:ok, file} <- Readtome.BookCover.store(image_url) do
       file
     end
-    
+  end
+
+
+  def set_book_author(author, book) do
+    %BookAuthor{}
+    |> BookAuthor.changeset(%{author_id: author.id, book_id: book.id})
+    |> Repo.insert()
   end
 
   @doc """
