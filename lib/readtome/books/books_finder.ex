@@ -20,7 +20,7 @@ defmodule Readtome.BooksFinder do
           isbn: isbn,
           title: first_guess["volumeInfo"]["title"],
           authors: first_guess["volumeInfo"]["authors"],
-          genres: first_guess["volumeInfo"]["categories"],
+          tags: first_guess["volumeInfo"]["categories"],
           image_url: first_guess["volumeInfo"]["imageLinks"]["large"] || first_guess["volumeInfo"]["imageLinks"]["thumbnail"],
           description: first_guess["volumeInfo"]["description"]
         }}

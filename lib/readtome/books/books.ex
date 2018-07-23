@@ -64,8 +64,8 @@ defmodule Readtome.Books do
     |> Repo.insert_or_update()
   end
 
-  def store_external_book(%{isbn: isbn, title: title, authors: authors, genres: genres, image_url: image_url, description: description}) do
-    {:ok, book} = create_book(%{isbn: isbn, title: title})
+  def store_external_book(%{isbn: isbn, title: title, authors: authors, tags: tags, image_url: image_url, description: description}) do
+    {:ok, book} = create_book(%{isbn: isbn, title: title, tags: tags})
     authors
     |> Enum.map(fn(au) -> Readtome.Authors.add_by_name(au) end)
     |> Enum.map(fn(au) -> set_book_author(au, book) end)
@@ -76,7 +76,7 @@ defmodule Readtome.Books do
           medium_cover_url: Readtome.BookCover.url({file, book}, :medium),
           small_cover_url: Readtome.BookCover.url({file, book}, :small),
           large_cover_url: Readtome.BookCover.url({file, book}, :large)
-          })
+        })
     end
   end
 
