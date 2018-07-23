@@ -65,13 +65,18 @@ defmodule Readtome.Books do
   end
 
   def store_external_book(%{isbn: isbn, title: title, authors: authors, genres: genres, image_url: image_url, description: description}) do
-    book = create_book(%{isbn: isbn, title: title})
+    {:ok, book} = create_book(%{isbn: isbn, title: title})
     authors
     |> Enum.map(fn(au) -> Readtome.Authors.add_by_name(au) end)
     |> Enum.map(fn(au) -> set_book_author(au, book) end)
 
     with {:ok, file} <- Readtome.BookCover.store({image_url, book}) do
-      file
+      book
+      |> update_book(%{
+          medium_cover_url: Readtome.BookCover.url({file, book}, :medium),
+          small_cover_url: Readtome.BookCover.url({file, book}, :small),
+          large_cover_url: Readtome.BookCover.url({file, book}, :large)
+          })
     end
   end
 

@@ -13,7 +13,6 @@ defmodule ReadtomeWeb.BookController do
   def create(conn, %{"book" => book_params}) do
     with {:ok, %Book{} = book} <- Books.create_book(book_params) do
       conn
-      |> BookFetcher.call()
       |> put_status(:created)
       |> put_resp_header("location", book_path(conn, :show, book))
       |> render("show.json", book: book)
