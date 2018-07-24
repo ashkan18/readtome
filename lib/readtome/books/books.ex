@@ -64,19 +64,23 @@ defmodule Readtome.Books do
     |> Repo.insert_or_update()
   end
 
-  def store_external_book(%{isbn: isbn, title: title, authors: authors, tags: tags, image_url: image_url, description: description}) do
+  def store_external_book(%{isbn: isbn, title: title, authors: authors, tags: tags, cover_url: cover_url, description: description}) do
     {:ok, book} = create_book(%{isbn: isbn, title: title, tags: tags})
     authors
     |> Enum.map(fn(au) -> Readtome.Authors.add_by_name(au) end)
     |> Enum.map(fn(au) -> set_book_author(au, book) end)
 
-    with {:ok, file} <- Readtome.BookCover.store({image_url, book}) do
+    with {:ok, file} <- Readtome.BookCover.store({cover_url, book}) do
+      IO.inspect(file)
+      IO.inspect(Readtome.BookCover.url({file, book}, :medium))
       book
       |> update_book(%{
           medium_cover_url: Readtome.BookCover.url({file, book}, :medium),
           small_cover_url: Readtome.BookCover.url({file, book}, :small),
           large_cover_url: Readtome.BookCover.url({file, book}, :large)
         })
+    else
+      error -> IO.inspect(error)
     end
   end
 
@@ -172,7 +176,10 @@ defmodule Readtome.Books do
   end
 
   def by_isbn(isbn) do
-    Repo.get_by(Book, isbn: isbn)
+    Book
+    |> Repo.get_by(isbn: isbn)
+    |> Repo.preload([instances: :user])
+    |> Repo.preload(:authors)
   end
 
   @doc """

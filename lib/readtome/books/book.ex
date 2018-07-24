@@ -22,5 +22,6 @@ defmodule Readtome.Books.Book do
     book
     |> cast(attrs, [:title, :isbn, :tags, :small_cover_url, :medium_cover_url, :large_cover_url])
     |> validate_required([:title, :isbn])
+    |> unique_constraint(:isbn)
   end
 end

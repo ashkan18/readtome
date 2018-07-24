@@ -24,7 +24,7 @@ defmodule ReadtomeWeb.BookController do
       nil ->
         with {:found, founded_book} <- BooksFinder.by_isbn(isbn) do
           Task.async(fn -> Books.store_external_book(founded_book) end)
-          render(conn, "found.json", book: founded_book)
+          render(conn, "found.json", book: founded_book, external: true)
         else
           _ ->
             conn
@@ -32,7 +32,7 @@ defmodule ReadtomeWeb.BookController do
             |> render(ReadtomeWeb.ErrorView, :"404")
         end
       book ->
-        render(conn, "found.json", book: book)
+        render(conn, "found.json", book: book, external: false)
     end
   end
 
