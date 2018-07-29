@@ -10,6 +10,7 @@ defmodule ReadtomeWeb.BookView do
     %{data: render_one(book, BookView, "book.json")}
   end
 
+
   def render("book.json", %{book: book}) do
     %{id: book.id,
       title: book.title,
@@ -17,17 +18,18 @@ defmodule ReadtomeWeb.BookView do
       small_cover_url: book.small_cover_url,
       medium_cover_url: book.medium_cover_url,
       large_cover_url: book.large_cover_url,
-      authors: render_many(book.authors, ReadtomeWeb.AuthorView, "author.json")}
+      authors: (if Ecto.assoc_loaded?(book.authors), do: render_many(book.authors, ReadtomeWeb.AuthorView, "author.json"), else: [])
+    }
   end
 
   def render("found.json", %{book: book, external: external}) do
     %{
-      book: render("book.json", book: founded_book),
+      book: render("book.json", book: book),
       external: external_book(external)
     }
   end
 
-  defp external_book(nil), do nil
+  defp external_book(nil), do: nil
   defp external_book(external) do
     %{
       title: external.title,
