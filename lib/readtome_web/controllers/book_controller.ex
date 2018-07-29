@@ -13,7 +13,6 @@ defmodule ReadtomeWeb.BookController do
   def create(conn, %{"book" => book_params}) do
     with {:ok, %Book{} = book} <- Books.create_book(book_params) do
       conn
-      |> BookFetcher.call()
       |> put_status(:created)
       |> put_resp_header("location", book_path(conn, :show, book))
       |> render("show.json", book: book)
@@ -24,7 +23,8 @@ defmodule ReadtomeWeb.BookController do
     case Books.by_isbn(isbn) do
       nil ->
         with {:found, founded_book} <- BooksFinder.by_isbn(isbn) do
-          render(conn, "found.json", book: founded_book)
+          Task.async(fn -> Books.store_external_book(founded_book) end)
+          render(conn, "found.json", book: founded_book, external: true)
         else
           _ ->
             conn
@@ -32,7 +32,7 @@ defmodule ReadtomeWeb.BookController do
             |> render(ReadtomeWeb.ErrorView, :"404")
         end
       book ->
-        render(conn, "found.json", book: book)
+        render(conn, "found.json", book: book, external: false)
     end
   end
 

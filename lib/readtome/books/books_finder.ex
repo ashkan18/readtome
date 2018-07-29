@@ -13,15 +13,15 @@ defmodule Readtome.BooksFinder do
   end
 
   defp google_books(isbn) do
-    case Readtome.GoogleBook.get("books/v1/volumes", query: %{q: "#{isbn}+isbn", key: Application.fetch_env!(:readtome, :googlebooks_api).key }) do
+    case Readtome.GoogleBook.get("/v1/volumes", query: %{q: "#{isbn}+isbn", key: Application.fetch_env!(:readtome, :googlebooks_api).key }) do
       %HTTPotion.Response{status_code: 200, body: body} ->
         first_guess = List.first(body["items"])
         {:found, %{
           isbn: isbn,
           title: first_guess["volumeInfo"]["title"],
           authors: first_guess["volumeInfo"]["authors"],
-          genres: first_guess["volumeInfo"]["categories"],
-          image_url: first_guess["volumeInfo"]["imageLinks"]["thumbnail"],
+          tags: first_guess["volumeInfo"]["categories"],
+          cover_url: first_guess["volumeInfo"]["imageLinks"]["large"] || first_guess["volumeInfo"]["imageLinks"]["thumbnail"],
           description: first_guess["volumeInfo"]["description"]
         }}
       _ ->

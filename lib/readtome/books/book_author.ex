@@ -16,5 +16,9 @@ defmodule Readtome.Books.BookAuthor do
     book_author
     |> cast(attrs, [:book_id, :author_id])
     |> validate_required([:book_id, :author_id])
+    |> foreign_key_constraint(:book_id)
+    |> foreign_key_constraint(:author_id)
+    |> assoc_constraint(:book)
+    |> assoc_constraint(:author)
   end
 end

@@ -4,10 +4,8 @@ defmodule Readtome.BookCover do
   # Include ecto support (requires package arc_ecto installed):
   # use Arc.Ecto.Definition
 
-  @versions [:original]
-
   # To add a thumbnail version:
-  @versions [:original, :thumb]
+  @versions [:original, :medium, :small, :large]
 
   # Override the bucket on a per definition basis:
   # def bucket do
@@ -15,19 +13,29 @@ defmodule Readtome.BookCover do
   # end
 
   # Whitelist file extensions:
-  def validate({file, _}) do
-    ~w(.jpg .jpeg .gif .png) |> Enum.member?(Path.extname(file.file_name))
+  # def validate({file, _}) do
+  #   ~w(.jpg .jpeg .gif .png) |> Enum.member?(Path.extname(file.file_name))
+  # end
+
+  # Define a thumbnail transformation:
+  def transform(:large, _) do
+    {:convert, "-strip -thumbnail 800x800^ -gravity center -extent 800x800 -format jpeg", :jpeg}
   end
 
   # Define a thumbnail transformation:
-  def transform(:thumb, _) do
-    {:convert, "-strip -thumbnail 250x250^ -gravity center -extent 250x250 -format png", :png}
+  def transform(:medium, _) do
+    {:convert, "-strip -thumbnail 250x250^ -gravity center -extent 250x250 -format jpeg", :jpeg}
+  end
+
+  # Define a thumbnail transformation:
+  def transform(:small, _) do
+    {:convert, "-strip -thumbnail 50x50^ -gravity center -extent 50x50 -format jpeg", :jpeg}
   end
 
   # Override the persisted filenames:
-  # def filename(version, _) do
-  #   version
-  # end
+  def filename(version, _) do
+    version
+  end
 
   # Override the storage directory:
   def storage_dir(version, {file, scope}) do
@@ -47,4 +55,9 @@ defmodule Readtome.BookCover do
   def s3_object_headers(version, {file, scope}) do
     [content_type: MIME.from_path(file.file_name)]
   end
+
+  def acl(:medium, _), do: :public_read
+  def acl(:small, _), do: :public_read
+  def acl(:large, _), do: :public_read
+  def acl(:original, _), do: :private
 end
