@@ -22,9 +22,10 @@ defmodule ReadtomeWeb.BookController do
   def find_in_the_wild(conn, %{"isbn" => isbn}) do
     case Books.by_isbn(isbn) do
       nil ->
-        with {:found, founded_book} <- BooksFinder.by_isbn(isbn) do
-          Task.async(fn -> Books.store_external_book(founded_book) end)
-          render(conn, "found.json", book: founded_book, external: true)
+        with {:found, founded_book} <- BooksFinder.by_isbn(isbn),
+             {:ok, stored_book} <- Books.copy_external(founded_book) do
+          Task.async(fn -> Books.populate_with_external(stored_book, founded_book) end)
+          render(conn, "found.json", book: stored_book, external: founded_book)
         else
           _ ->
             conn
@@ -32,7 +33,7 @@ defmodule ReadtomeWeb.BookController do
             |> render(ReadtomeWeb.ErrorView, :"404")
         end
       book ->
-        render(conn, "found.json", book: book, external: false)
+        render(conn, "found.json", book: book, external: nil)
     end
   end
 

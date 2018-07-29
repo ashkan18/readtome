@@ -20,24 +20,22 @@ defmodule ReadtomeWeb.BookView do
       authors: render_many(book.authors, ReadtomeWeb.AuthorView, "author.json")}
   end
 
-  def render("found.json", %{book: founded_book, external: external}) do
-    if external === true do
-      %{
-        external: true,
-        data: %{
-          title: founded_book.title,
-          isbn: founded_book.isbn,
-          authors: founded_book.authors,
-          tags: founded_book.tags,
-          cover_url: founded_book.cover_url,
-          description: founded_book.description
-        }
-      }
-    else
-      %{
-        external: false,
-        data: render("book.json", book: founded_book)
-      }
-    end
+  def render("found.json", %{book: book, external: external}) do
+    %{
+      book: render("book.json", book: founded_book),
+      external: external_book(external)
+    }
+  end
+
+  defp external_book(nil), do nil
+  defp external_book(external) do
+    %{
+      title: external.title,
+      isbn: external.isbn,
+      authors: external.authors,
+      tags: external.tags,
+      cover_url: external.cover_url,
+      description: external.description
+    }
   end
 end
