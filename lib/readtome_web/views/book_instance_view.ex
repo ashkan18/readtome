@@ -2,12 +2,12 @@ defmodule ReadtomeWeb.BookInstanceView do
   use ReadtomeWeb, :view
   alias ReadtomeWeb.BookInstanceView
 
-  def render("index.json", %{book_instance: book_instance}) do
-    %{data: render_many(book_instance, BookInstanceView, "book_instance.json")}
+  def render("index.json", %{book_instances: book_instances}) do
+    %{book_instances: render_many(book_instances, BookInstanceView, "book_instance.json")}
   end
 
   def render("show.json", %{book_instance: book_instance}) do
-    %{data: render_one(book_instance, BookInstanceView, "book_instance.json")}
+    %{book_instance: render_one(book_instance, BookInstanceView, "book_instance.json")}
   end
 
   def render("book_instance.json", %{book_instance: book_instance}) do

@@ -12,9 +12,6 @@ defmodule ReadtomeWeb.Router do
   pipeline :auth do
     plug ReadtomeWeb.Auth.Pipeline
   end
-  pipeline :ensure_auth do
-    plug Guardian.Plug.EnsureAuthenticated
-  end
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -31,9 +28,15 @@ defmodule ReadtomeWeb.Router do
 
     post "/signup", AccountController, :signup
     post "/login", AccountController, :login
+  end
+
+  scope "/api", ReadtomeWeb do
+    pipe_through [:api, :auth]
+
     get "/find_in_the_wild", BookController, :find_in_the_wild
     resources "/books", BookController, except: [:new, :edit]
     resources "/book_instances", BookInstanceController
     resources "/authors", AuthorController
+    resources "/inquiries", InquiryController, only: [:create]
   end
 end
