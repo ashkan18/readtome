@@ -64,8 +64,8 @@ defmodule Readtome.Books do
     |> Repo.insert_or_update()
   end
 
-  def copy_external(%{isbn: isbn, title: title, authors: authors, tags: tags, cover_url: cover_url, description: description}) do
-    {:ok, book} = create_book(%{isbn: isbn, title: title, tags: tags})
+  def copy_external(%{isbn: isbn, title: title, tags: tags, description: description}) do
+    create_book(%{isbn: isbn, title: title, tags: tags})
   end
 
   def populate_with_external(book, %{authors: authors, cover_url: cover_url}) do

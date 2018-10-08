@@ -45,12 +45,12 @@ defmodule Readtome.Mixfile do
       {:gettext, "~> 0.11"},
       {:geo, "~> 1.1"},
       {:cowboy, "~> 1.0"},
-      {:arc, "~> 0.10.0"},
+      {:arc, ">= 0.10.0"},
       {:ex_aws, "~> 2.1.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.6"},
-      {:httpoison, "~> 0.13"},
-      {:poison, "~> 3.1"},
+      {:httpoison, ">= 0.0.0"},
+      {:poison, ">= 3.1.0"},
       {:sweet_xml, "~> 0.6"},
       {:httpotion, "~> 3.1.0"}
     ]
@@ -66,7 +66,7 @@ defmodule Readtome.Mixfile do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      "test": ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

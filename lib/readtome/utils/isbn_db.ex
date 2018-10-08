@@ -6,7 +6,7 @@ defmodule Readtome.IsbnDb do
   end
 
   def process_request_headers(headers) do
-    Dict.put headers, :"User-Agent", "github-potion"
+    Map.put(headers, :"User-Agent", "github-potion")
   end
 
   def process_response_body(body) do

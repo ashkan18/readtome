@@ -38,7 +38,7 @@ defmodule Readtome.BookCover do
   end
 
   # Override the storage directory:
-  def storage_dir(version, {file, scope}) do
+  def storage_dir(_version, {_file, scope}) do
     "covers/#{scope.id}"
   end
 
@@ -52,7 +52,7 @@ defmodule Readtome.BookCover do
   #    :content_encoding, :content_length, :content_type,
   #    :expect, :expires, :storage_class, :website_redirect_location]
   #
-  def s3_object_headers(version, {file, scope}) do
+  def s3_object_headers(_version, {file, _scope}) do
     [content_type: MIME.from_path(file.file_name)]
   end
 
