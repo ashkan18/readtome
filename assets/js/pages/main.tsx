@@ -5,6 +5,8 @@ import Header from "../components/header";
 import Search from "../components/search"
 import MapComponent from "../components/map_component";
 import Coordinate from "../models/coordinate";
+import { Redirect } from "react-router";
+import BookInstanceService from "js/services/book_instance_service";
 
 let coordinate = {lat: 40.6904832, lng: -73.9753984}
 
@@ -16,29 +18,31 @@ interface State {
   currentLocation: Coordinate
   bookInstances: Array<any>
   searchTerm: string
+  needsLogin: boolean
   isLoaded: boolean
   error?: any
 }
 
-interface Props {
-  user: any
-}
+export default class Map extends React.Component<{}, State>{
+  BookInstanceService: BookInstanceService;
 
-export default class Map extends React.Component<Props, State>{
   public constructor(props, context) {
     super(props, context)
-    this.state = { bookInstances: [], isLoaded: false, error: null, searchTerm: null, currentLocation: coordinate}
+    this.BookInstanceService = new BookInstanceService()
+    this.state = { bookInstances: [], isLoaded: false, error: null, searchTerm: null, currentLocation: coordinate, needsLogin: false}
     this.search = this.search.bind(this)
   }
   public componentDidMount() {
-    this.fetchResults(null, 40.6904832, -73.9753984)
+    this.fetchResults(null, 40.6904832, -73.9753984, null)
   }
   public render(){
-    const { error, isLoaded, bookInstances } = this.state
+    const { error, isLoaded, bookInstances, needsLogin } = this.state
     if (error) {
       return( <div> Error {error.message} </div>)
     } else if (!isLoaded) {
       return( <div> Loading .... </div>)
+    } else if (needsLogin) {
+      return(<Redirect to="/login" />)
     } else {
       return(
         <MainComponent>
@@ -59,19 +63,16 @@ export default class Map extends React.Component<Props, State>{
   }
 
   private search(term) {
-    this.fetchResults(term, 40.6904832, -73.9753984)
+    this.fetchResults(term, 40.6904832, -73.9753984, null)
   }
 
-  private fetchResults(term: string, lat: number, lng: number){
-    fetch(`/api/book_instances?lat=${lat}&lng=${lng}&term=${term}`)
-      .then( res => res.json() )
-      .then(
-        (result) => {
-          this.setState({isLoaded: true, bookInstances: result.data})
-        },
-        (error) => {
-          this.setState({ isLoaded: true, error})
+  private fetchResults(term: string, lat: number, lng: number, offerings: Array<string>){
+    this.BookInstanceService.fetchBooks(term, lat, lng, offerings)
+      .then( bookInstances => {
+          this.setState({isLoaded: true, bookInstances})
         }
-      )
+      ).catch( _error => {
+        this.setState( { needsLogin: true} )
+      })
   }
 }

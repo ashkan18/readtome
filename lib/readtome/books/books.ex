@@ -150,9 +150,10 @@ defmodule Readtome.Books do
       [%BookInstance{}, ...]
 
   """
-  def list_book_instance(%{term: term, point: point}) do
+  def list_book_instance(%{term: term, point: point, offerings: offerings}) do
     BookInstance
       |> by_term(term)
+      |> by_offerings(offerings)
       |> near(point)
       |> preload(:user)
       |> preload([book: :authors])
@@ -174,6 +175,12 @@ defmodule Readtome.Books do
       join: book in assoc(book_instance, :book),
       where: fragment("LOWER(?) % LOWER(?) OR LOWER(?) = LOWER(?)", book.title, ^term, ^term, user.name),
       order_by: fragment("similarity(LOWER(?), LOWER(?)) DESC", book.title, ^term)
+  end
+
+  def by_offerings(query, nil), do: query
+  def by_offerings(query, offerings) do
+    from book_instance in query,
+      where: fragment("offerings in (?)", ^offerings)
   end
 
   def by_isbn(isbn) do

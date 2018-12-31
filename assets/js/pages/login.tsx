@@ -1,8 +1,8 @@
 import * as React from "react"
 import { Redirect } from "react-router"
 import { Link } from 'react-router-dom'
-import axios, { AxiosRequestConfig, AxiosPromise } from 'axios'
 import { Input, Button } from 'semantic-ui-react'
+import AuthService from "js/services/auth_service";
 
 
 interface Props{
@@ -18,22 +18,22 @@ interface State{
 }
 
 export default class Login extends React.Component<Props, State> {
+  Auth: AuthService;
   public constructor(props, context) {
     super(props, context)
-
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.Auth = new AuthService()
     this.state = {loading: false, isLoggedIn: false, userName: '', password: '', error: ''}
   }
 
   public handleSubmit(e){
     e.preventDefault()
     this.setState({ loading: true })
-    axios.post("/api/login", { user: { username: this.state.userName, password: this.state.password } })
-    .then( response => {
-      this.props.authenticate(response.data.token)
+    this.Auth.login(this.state.userName, this.state.password).then( token => {
+      this.props.authenticate(token)
       this.setState({isLoggedIn: true, loading: false})
     }).catch( _error => {
       this.setState( {error: "Username and Password don't match, please rety.", loading: false} )

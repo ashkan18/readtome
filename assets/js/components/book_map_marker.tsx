@@ -1,9 +1,11 @@
 import * as React from "react"
 import { Marker, InfoWindow } from "react-google-maps"
 import BookInstance from "../models/book_instance";
+import { Button } from "semantic-ui-react";
 
 interface Props{
   bookInstance: BookInstance
+  readToMe(bookInstanceId: string): void
 }
 
 interface State{
@@ -28,6 +30,7 @@ export default class BookMapMarker extends React.Component<Props, State>{
                 <li> {this.props.bookInstance.condition} </li>
                 {this.props.bookInstance.book.authors.map( author => <li> {author.name} </li>)}
               </ul>
+              <Button basic color='orange' onClick={this.readIt}>Read it!</Button>
             </div>
           </InfoWindow>}
       </Marker>
@@ -39,4 +42,5 @@ export default class BookMapMarker extends React.Component<Props, State>{
 
   public closeOverlay = () =>
     this.setState({ isOpen: false })
+  private readIt = () => this.props.readToMe(this.props.bookInstance.id)
 }

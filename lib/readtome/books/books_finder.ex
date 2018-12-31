@@ -1,6 +1,4 @@
 defmodule Readtome.BooksFinder do
-  alias Readtome.Books.Book
-
   def by_isbn(isbn) do
     case google_books(isbn) do
       {:found, book} -> {:found, book}

@@ -9,7 +9,11 @@ import Signup from './pages/sign_up';
 interface State{
   token?: any
   isLoggedIn: boolean
-  user?: any
+  user?: UserData
+}
+
+interface UserData {
+  token: string
 }
 
 // https://github.com/varunon9/hello-react/blob/master/client/components/AppRoutes.js
@@ -30,7 +34,7 @@ export default class AppRoutes extends React.Component<{}, State> {
         <Route path="/signup" render={ () => <Signup authenticate={this.authenticate} />} />
         <Route path='/' render={() => (
             this.state.isLoggedIn ?
-                    (<Main user={this.state.user} />) :
+                    (<Main />) :
                     (<Redirect to="/login" />)
           )} />
       </Switch>)
@@ -38,10 +42,10 @@ export default class AppRoutes extends React.Component<{}, State> {
 
   public authenticate(token){
     this.setState({
-      token: token,
+      user: {
+        token: token
+      },
       isLoggedIn: true
-		});
-		// updating user's details
-		localStorage.setItem("token", JSON.stringify(this.state.token))
+		})
   }
 }
