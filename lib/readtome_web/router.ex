@@ -39,5 +39,6 @@ defmodule ReadtomeWeb.Router do
     resources "/authors", AuthorController
     resources "/inquiries", InquiryController, only: [:create]
     resources "/me", MeController, only: [:index]
+    get "/me/inquiries", MeController, :inquiries
   end
 end

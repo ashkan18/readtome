@@ -20,6 +20,11 @@ defmodule Readtome.Connector do
   def list_inquries(user_id) do
     Inquiry
     |> by_user(user_id)
+    |> Repo.all
+  end
+
+  def list_requests(user_id) do
+    Inquiry
     |> for_user(user_id)
     |> Repo.all
   end

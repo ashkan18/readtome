@@ -16,7 +16,7 @@ defmodule ReadtomeWeb.InquiryController do
     with {:ok, %Inquiry{} = inquiry} <- Connector.create_inquiry( %{book_instance_id: book_instance_id, type: type, user_id: user.id}) do
       conn
       |> put_status(:created)
-      |> render("show.json", inquiry: inquiry)
+      |> render("show_lite.json", inquiry: inquiry)
     end
   end
 

@@ -25,6 +25,8 @@ export default class Signup extends React.Component<Props, State> {
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
+    this.handleEmailChange = this.handleEmailChange.bind(this)
+    this.handleNameChange = this.handleNameChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.state = {loading: false, isLoggedIn: false, userName: '', password: '', confirmPassword: '', error: '', name: '', email: ''}
   }
@@ -32,7 +34,12 @@ export default class Signup extends React.Component<Props, State> {
   public handleSubmit(e){
     e.preventDefault()
     this.setState({ loading: true })
-    axios.post("/api/signup", { user: { username: this.state.userName, password: this.state.password } })
+    axios.post("/api/signup", { user: {
+      name: this.state.name,
+      email: this.state.email,
+      username: this.state.userName,
+      password: this.state.password
+    } })
     .then( response => {
       this.props.authenticate(response.data.token)
       this.setState({isLoggedIn: true, loading: false})
@@ -44,6 +51,12 @@ export default class Signup extends React.Component<Props, State> {
   private handleUsernameChange(evt){
     this.setState({userName: evt.target.value})
   }
+  private handleNameChange(evt){
+    this.setState({name: evt.target.value})
+  }
+  private handleEmailChange(evt){
+    this.setState({email: evt.target.value})
+  }
   private handlePasswordChange(evt){
     this.setState({password: evt.target.value})
   }
@@ -53,9 +66,9 @@ export default class Signup extends React.Component<Props, State> {
       <div>
         <div className="error">{ this.state.error }</div>
         <form onSubmit={this.handleSubmit}>
-          <Input error={Boolean(this.state.error)} type="text" placeholder="Name" onChange={this.handlePasswordChange}/>
+          <Input error={Boolean(this.state.error)} type="text" placeholder="Name" onChange={this.handleNameChange}/>
           <Input error={Boolean(this.state.error)} type="text" placeholder="Username" onChange={this.handleUsernameChange} />
-          <Input error={Boolean(this.state.error)} type="email" placeholder="Email" onChange={this.handlePasswordChange}/>
+          <Input error={Boolean(this.state.error)} type="email" placeholder="Email" onChange={this.handleEmailChange}/>
           <Input error={Boolean(this.state.error)} type="email" placeholder="Confirm Email" onChange={this.handlePasswordChange}/>
           <Input error={Boolean(this.state.error)} type="password" placeholder="Password" onChange={this.handlePasswordChange}/>
           <Input error={Boolean(this.state.error)} type="password" placeholder="Confirm Password" onChange={this.handlePasswordChange}/>
