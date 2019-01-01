@@ -6,7 +6,8 @@ defmodule ReadtomeWeb.InquiryController do
   action_fallback ReadtomeWeb.FallbackController
 
   def index(conn) do
-    inquiries = Connector.list_inquries()
+    user = conn.private.guardian_default_resource
+    inquiries = Connector.list_inquries(user.id)
     render(conn, "index.json", inquiries: inquiries)
   end
 

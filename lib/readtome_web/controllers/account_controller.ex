@@ -21,10 +21,7 @@ defmodule ReadtomeWeb.AccountController do
   defp login_reply({:ok, user}, conn) do
     case ReadtomeWeb.Auth.Guardian.encode_and_sign(user) do
     {:ok, token, _claims} -> render(conn, "loggedin.json", token: token)
-    _ ->
-      conn
-        |> put_status(401)
-        |> render("error.json", error: "Cannot create token")
+    _ -> login_reply({:error, "Cannot create token"}, conn)
     end
   end
 end

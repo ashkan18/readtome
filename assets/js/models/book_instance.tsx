@@ -1,4 +1,5 @@
 import Book from "./book";
+import Reader from "./reader";
 
 interface serverCoordinate{
   readonly coordinates: Array<number>
@@ -6,7 +7,7 @@ interface serverCoordinate{
 export default interface BookInstance{
   id: string
   book: Book
-  owner_id: string
+  user: Reader
   location: serverCoordinate
   condition: string
 }

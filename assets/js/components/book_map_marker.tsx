@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Marker, InfoWindow } from "react-google-maps"
 import BookInstance from "../models/book_instance";
-import { Button } from "semantic-ui-react";
+import { Button, Card, Icon, Image } from "semantic-ui-react";
 
 interface Props{
   bookInstance: BookInstance
@@ -23,16 +23,21 @@ export default class BookMapMarker extends React.Component<Props, State>{
         position={{ lat: this.props.bookInstance.location.coordinates[0], lng: this.props.bookInstance.location.coordinates[1]}}
             onClick={this.openOverlay}
         >
-          {this.state.isOpen && <InfoWindow onCloseClick={this.closeOverlay}>
-            <div>
-              <div>{this.props.bookInstance.book.title}</div>
-              <ul>
-                <li> {this.props.bookInstance.condition} </li>
-                {this.props.bookInstance.book.authors.map( author => <li> {author.name} </li>)}
-              </ul>
-              <Button basic color='orange' onClick={this.readIt}>Read it!</Button>
-            </div>
-          </InfoWindow>}
+          {this.state.isOpen &&
+            <InfoWindow onCloseClick={this.closeOverlay}>
+              <Card onClick={this.closeOverlay}>
+                <Card.Content>
+                  <Image floated="left" src={this.props.bookInstance.book.small_cover_url} size="mini"/>
+                  <Card.Meta> {this.props.bookInstance.book.title}</Card.Meta>
+                  <Card.Meta> {this.props.bookInstance.book.authors.map( author => author.name).join(",")}</Card.Meta>
+                  <Card.Meta>{this.props.bookInstance.condition}</Card.Meta>
+                </Card.Content>
+                <Card.Content extra>
+                  <Icon name='user' /> {this.props.bookInstance.user.name}
+                  <Button floated="right" color="orange" onClick={this.readIt}>Read</Button>
+                </Card.Content>
+              </Card>
+            </InfoWindow>}
       </Marker>
     )
   }

@@ -5,6 +5,7 @@ import { Redirect } from 'react-router'
 import Login from "./pages/login"
 import Main from "./pages/main"
 import Signup from './pages/sign_up';
+import AuthService from './services/auth_service';
 
 interface State{
   token?: any
@@ -18,11 +19,12 @@ interface UserData {
 
 // https://github.com/varunon9/hello-react/blob/master/client/components/AppRoutes.js
 export default class AppRoutes extends React.Component<{}, State> {
+  Auth: AuthService;
 
   public constructor(props, context) {
     super(props, context)
-    //const token = localStorage.getItem("token")
-    const token = null
+    let authService = new AuthService
+    let token = authService.getToken()
     this.state = { token, isLoggedIn: token !== null, user: null}
     this.authenticate = this.authenticate.bind(this)
   }

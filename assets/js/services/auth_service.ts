@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import Reader from 'js/models/reader';
 
 export default class AuthService {
   // Initializing important variables
@@ -6,13 +7,23 @@ export default class AuthService {
     this.login = this.login.bind(this)
   }
 
-  public login(username: string, pass: string): Promise<AxiosResponse<string>>{
+  public login(username: string, pass: string): Promise<string>{
     return new Promise((resolve, rejected) =>
       axios.post("/api/login", { user: { username: username, password: pass } })
       .then( response => {
         this.setToken(response.data.data.token)
         return resolve(response.data.data.token)
       })
+      .catch( error => {
+        return rejected(error)
+      })
+    )
+  }
+
+  public me(): Promise<Reader> {
+    return new Promise((resolve, rejected) =>
+      axios.get("/api/me", { headers: { 'Authorization': `Bearer ${this.getToken()}` }})
+      .then( response => resolve(response.data))
       .catch( error => {
         return rejected(error)
       })

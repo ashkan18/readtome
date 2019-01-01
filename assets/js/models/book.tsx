@@ -6,4 +6,6 @@ export default interface Book {
   authors: Array<Author>
   instances: Array<BookInstance>
   genres: Array<string>
+  medium_cover_url: string
+  small_cover_url: string
 }

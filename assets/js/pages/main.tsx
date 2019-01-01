@@ -7,6 +7,8 @@ import MapComponent from "../components/map_component";
 import Coordinate from "../models/coordinate";
 import { Redirect } from "react-router";
 import BookInstanceService from "js/services/book_instance_service";
+import AuthService from "js/services/auth_service";
+import Reader from "js/models/reader";
 
 let coordinate = {lat: 40.6904832, lng: -73.9753984}
 
@@ -20,16 +22,29 @@ interface State {
   searchTerm: string
   needsLogin: boolean
   isLoaded: boolean
-  error?: any
+  error?: any,
+  me?: Reader
 }
 
 export default class Map extends React.Component<{}, State>{
-  BookInstanceService: BookInstanceService;
+  BookInstanceService: BookInstanceService
+  AuthService: AuthService
 
   public constructor(props, context) {
     super(props, context)
     this.BookInstanceService = new BookInstanceService()
-    this.state = { bookInstances: [], isLoaded: false, error: null, searchTerm: null, currentLocation: coordinate, needsLogin: false}
+    this.AuthService = new AuthService()
+    this.state = {
+      bookInstances: [],
+      isLoaded: false,
+      error: null,
+      searchTerm: null,
+      currentLocation: coordinate,
+      needsLogin: false,
+      me: null
+    }
+    this.me.bind(this)
+    this.me()
     this.search = this.search.bind(this)
   }
   public componentDidMount() {
@@ -46,7 +61,7 @@ export default class Map extends React.Component<{}, State>{
     } else {
       return(
         <MainComponent>
-          <Header/>
+          <Header me={this.state.me}/>
           <Search searchMethod={this.search}/>
           <MapComponent
               initialCoordinate={this.state.currentLocation}
@@ -62,6 +77,11 @@ export default class Map extends React.Component<{}, State>{
     }
   }
 
+  private me() {
+    this.AuthService.me()
+    .then(reader => this.setState({me: reader}) )
+    .catch( error => console.log("messed up case"))
+  }
   private search(term) {
     this.fetchResults(term, 40.6904832, -73.9753984, null)
   }
