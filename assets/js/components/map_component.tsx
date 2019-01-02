@@ -5,7 +5,6 @@ import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
 import BookMapMarker from "./book_map_marker";
 import Coordinate from "../models/coordinate"
 import BookInstance from "../models/book_instance"
-import Axios from "axios"
 import AuthService from "js/services/auth_service";
 
 

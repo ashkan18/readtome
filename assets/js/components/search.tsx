@@ -9,13 +9,13 @@ function debounce(a,b,c) {var d,e;return function(){function h(){d=null,c||(e=a.
 
 
 export default class Search extends React.Component<Props, {}>{
-  
+
   componentWillMount() {
     this.search = debounce(this.search, 500, false)
   }
   public render(){
     return(
-      <Input fluid 
+      <Input fluid
         icon='search'
         onChange={ (_event, {value}) => this.search(value) }/>
     )

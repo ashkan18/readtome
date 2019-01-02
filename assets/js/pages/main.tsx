@@ -9,13 +9,10 @@ import { Redirect } from "react-router";
 import BookInstanceService from "js/services/book_instance_service";
 import AuthService from "js/services/auth_service";
 import Reader from "js/models/reader";
+import { Segment } from "semantic-ui-react";
 
 let coordinate = {lat: 40.6904832, lng: -73.9753984}
 
-const MainComponent = styled.div`
-  border-radius: 3px;
-  border: 2px solid palevioletred;
-`
 interface State {
   currentLocation: Coordinate
   bookInstances: Array<any>
@@ -60,7 +57,7 @@ export default class Map extends React.Component<{}, State>{
       return(<Redirect to="/login" />)
     } else {
       return(
-        <MainComponent>
+        <Segment.Group>
           <Header me={this.state.me}/>
           <Search searchMethod={this.search}/>
           <MapComponent
@@ -72,7 +69,7 @@ export default class Map extends React.Component<{}, State>{
               containerElement={<div style={{ height: `400px` }} />}
               mapElement={<div style={{ height: `100%` }} />}
             />
-        </MainComponent>
+        </Segment.Group>
       )
     }
   }

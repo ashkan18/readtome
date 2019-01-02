@@ -9,4 +9,7 @@ defmodule ReadtomeWeb.MeController do
     requests = Connector.list_requests(user.id)
     render(conn, "inquiries.json", inquiries: inquiries, requests: requests)
   end
+
+  def update(conn, params) do
+  end
 end
