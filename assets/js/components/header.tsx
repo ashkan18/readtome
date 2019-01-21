@@ -1,24 +1,56 @@
 import * as React from "react"
-import { Popup, Segment, Header as UIHeader, Image } from "semantic-ui-react";
+import { Popup, Segment, Header as UIHeader, Image, Button, Label } from "semantic-ui-react";
 import Reader from "js/models/reader";
+import { FileUploader } from "./file_uploader";
+import UserService from "js/services/user_service";
 
 interface Props {
   me?: Reader
 }
 
-export default class Header extends React.Component<Props, {}> {
+interface State{
+  editProfile: boolean,
+  photos: any
+}
+
+export default class Header extends React.Component<Props, State> {
+  UserService: UserService
+  public constructor(props, context) {
+    super(props, context)
+    this.UserService = new UserService
+    this.state = { editProfile: false, photos: this.props.me.photos }
+    console.log("---->", this.props.me.photos, this.state.photos.length)
+    this.editProfile = this.editProfile.bind(this)
+    this.uploadPhoto = this.uploadPhoto.bind(this)
+  }
   public render() {
     return(
       <Segment clearing color='orange'>
         <UIHeader as='h4' floated='right'>
         { this.props.me &&
-            <Popup
-              key={this.props.me.name}
-              trigger={<Image src="https://react.semantic-ui.com/images/avatar/small/elliot.jpg" avatar/>}
-              header={this.props.me.name}
-              content={this.props.me.sex}
-              position="top right"
-            />
+            <>
+              <Popup
+                key={this.props.me.name}
+                trigger={
+                  this.state.photos.length > 0 ?
+                    <Image src={this.state.photos[0].thumb} />
+                  :
+                    <Image src="https://react.semantic-ui.com/images/avatar/small/elliot.jpg" avatar/>
+                }
+                header={this.props.me.name}
+                content={
+                  <>
+                  { this.state.editProfile ?
+                  <FileUploader onSelect={this.uploadPhoto}/>
+                  :
+                  <Button onClick={this.editProfile}>edit</Button>
+                  }
+                  </>
+                }
+                position="top right"
+                on="click"
+              />
+            </>
         }
         </UIHeader>
         <UIHeader as='h4' floated='left'>
@@ -26,5 +58,14 @@ export default class Header extends React.Component<Props, {}> {
         </UIHeader>
       </Segment>
     )
+  }
+
+  private editProfile() {
+    this.setState({editProfile: true})
+  }
+
+  private uploadPhoto(file) {
+    this.UserService.uploadPhoto(file)
+    .then( user => this.setState({photos: user.photos, editProfile: false}))
   }
 }

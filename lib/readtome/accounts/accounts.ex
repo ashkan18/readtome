@@ -56,6 +56,22 @@ defmodule Readtome.Accounts do
     |> Repo.insert()
   end
 
+  def add_user_profile_photo(user, photo_url) do
+    with {:ok, file} <- Readtome.UserProfile.store({photo_url, user}) do
+      photos = [
+        %{
+          original: Readtome.UserProfile.url({file, user}, :original),
+          thumb: Readtome.UserProfile.url({file, user}, :thumb),
+          default: false
+        }
+      ]
+      {:ok, user} = update_user(user, %{photos: photos})
+      user
+    else
+      error -> IO.inspect(error)
+    end
+  end
+
   @doc """
   Updates a user.
 

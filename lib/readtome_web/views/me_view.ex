@@ -8,4 +8,6 @@ defmodule ReadtomeWeb.MeView do
       requests: render_many(requests, ReadtomeWeb.InquiryView, "inquiry.json")
     }
   end
+
+  def render("user.json", %{user: user}), do: render_one(user, ReadtomeWeb.UserView, "user.json")
 end

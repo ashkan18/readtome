@@ -10,6 +10,7 @@ defmodule Readtome.Accounts.User do
     field :username, :string
     field :password, :string
     field :birthdate, :date
+    field :photos, {:array, :map}
 
     has_many :book_instances, Readtome.Books.BookInstance
 
@@ -19,7 +20,7 @@ defmodule Readtome.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :sex, :birthdate, :username, :password])
+    |> cast(attrs, [:name, :email, :sex, :birthdate, :username, :password, :photos])
     |> validate_required([:name, :email, :username, :password])
     |> put_pass_hash()
   end

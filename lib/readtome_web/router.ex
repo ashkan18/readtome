@@ -40,5 +40,6 @@ defmodule ReadtomeWeb.Router do
     resources "/inquiries", InquiryController, only: [:create]
     resources "/me", MeController, only: [:index]
     get "/me/inquiries", MeController, :inquiries
+    post "/me/photos", MeController, :photos
   end
 end

@@ -6,7 +6,7 @@ import Inquiry from 'js/models/inquiry';
 
 
 export default class BookInstanceService {
-  Auth: AuthService;
+  private Auth: AuthService;
   // Initializing important variables
   constructor() {
     this.Auth = new AuthService()

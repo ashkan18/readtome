@@ -57,7 +57,7 @@ export default class BookMapMarker extends React.Component<Props, State>{
   private closeOverlay = () => this.setState({ isOpen: false })
   private readIt = () => {
     this.BookInstanceService.inquiry(this.props.bookInstance.id, "random-type")
-    .then( inquiry => this.setState({inquired: true}))
+    .then( _inquiry => this.setState({inquired: true}))
     .catch( error => this.setState({error: error}))
   }
 }
