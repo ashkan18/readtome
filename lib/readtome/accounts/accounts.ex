@@ -58,14 +58,12 @@ defmodule Readtome.Accounts do
 
   def add_user_profile_photo(user, photo_url) do
     with {:ok, file} <- Readtome.UserProfile.store({photo_url, user}) do
-      photos = [
-        %{
+      all_photos = [%{
           original: Readtome.UserProfile.url({file, user}, :original),
           thumb: Readtome.UserProfile.url({file, user}, :thumb),
           default: false
-        }
-      ]
-      {:ok, user} = update_user(user, %{photos: photos})
+        }] |> Enum.into(user.photos || []) |> IO.inspect
+      {:ok, user} = update_user(user, %{photos: all_photos})
       user
     else
       error -> IO.inspect(error)

@@ -37,6 +37,7 @@ export class FileUploader extends Component<ActionProps & ButtonProps> {
                       id={this.id}
                       multiple
                       type="file"
+                      accept="image/png, image/jpeg"
                       onChange={this.onChangeFile} />
               </Label>
             </>

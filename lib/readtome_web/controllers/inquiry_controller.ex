@@ -19,7 +19,4 @@ defmodule ReadtomeWeb.InquiryController do
       |> render("show_lite.json", inquiry: inquiry)
     end
   end
-
-  def update(conn, %{"id" => id, "book_instance" => book_instance_params}) do
-  end
 end

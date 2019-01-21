@@ -16,13 +16,8 @@ export default class UserService {
     formData.append('file', file);
     return new Promise((resolve, rejected) => {
       axios.post("/api/me/photos", formData, { headers: { 'Authorization': `Bearer ${this.Auth.getToken()}`, 'Content-Type': 'multipart/form-data'} })
-      .then( response => {
-        console.log("===>", response)
-        return resolve(response.data)
-      })
-      .catch( error => {
-        return rejected(error)
-      })
+      .then( response => resolve(response.data))
+      .catch( error => rejected(error))
     })
   }
 }

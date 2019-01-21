@@ -13,7 +13,9 @@ defmodule Readtome.UserProfile do
 
   # Whitelist file extensions:
   def validate({file, _}) do
-    ~w(.jpg .jpeg .png) |> Enum.member?(Path.extname(file.file_name))
+    ~w(.jpg .jpeg .png)
+      |> Enum.member?(
+        String.downcase(Path.extname(file.file_name)))
   end
 
   # Define a thumbnail transformation:
@@ -22,12 +24,12 @@ defmodule Readtome.UserProfile do
   end
 
   # Override the persisted filenames:
-  def filename(version, _) do
-    version
+  def filename(version, {file, _scope}) do
+    "#{file.file_name}_#{version}"
   end
 
   # Override the storage directory:
-  def storage_dir(version, {file, scope}) do
+  def storage_dir(_version, {_file, scope}) do
     "uploads/user/#{scope.id}/profiles"
   end
 

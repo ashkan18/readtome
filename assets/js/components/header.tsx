@@ -19,7 +19,6 @@ export default class Header extends React.Component<Props, State> {
     super(props, context)
     this.UserService = new UserService
     this.state = { editProfile: false, photos: this.props.me.photos }
-    console.log("---->", this.props.me.photos, this.state.photos.length)
     this.editProfile = this.editProfile.bind(this)
     this.uploadPhoto = this.uploadPhoto.bind(this)
   }
