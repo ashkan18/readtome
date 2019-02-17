@@ -16,13 +16,6 @@ defmodule ReadtomeWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
-
-  scope "/", ReadtomeWeb do
-    pipe_through :browser # Use the default browser stack
-
-    get "/", PageController, :index
-  end
-
   scope "/api", ReadtomeWeb do
     pipe_through :api
 
@@ -41,5 +34,10 @@ defmodule ReadtomeWeb.Router do
     resources "/me", MeController, only: [:index]
     get "/me/inquiries", MeController, :inquiries
     post "/me/photos", MeController, :photos
+  end
+  scope "/", ReadtomeWeb do
+    pipe_through :browser # Use the default browser stack
+
+    get "/*path", HomeController, :index
   end
 end

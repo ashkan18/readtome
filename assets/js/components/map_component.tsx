@@ -25,7 +25,7 @@ const GoogleMapComponent = compose(
   <GoogleMap
     defaultZoom={13}
     defaultCenter={{ lat: props.initialCoordinate.lat, lng: props.initialCoordinate.lng }}>
-    { props.bookInstances.map( bi => <BookMapMarker bookInstance={bi} />) }
+    { props.bookInstances && props.bookInstances.map( bi => <BookMapMarker bookInstance={bi} />) }
   </GoogleMap>
 )
 

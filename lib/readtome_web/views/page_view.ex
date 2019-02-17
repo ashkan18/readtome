@@ -1,3 +1,3 @@
-defmodule ReadtomeWeb.PageView do
+defmodule ReadtomeWeb.HomeView do
   use ReadtomeWeb, :view
 end

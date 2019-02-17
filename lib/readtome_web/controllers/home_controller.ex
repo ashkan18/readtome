@@ -1,4 +1,4 @@
-defmodule ReadtomeWeb.PageController do
+defmodule ReadtomeWeb.HomeController do
   use ReadtomeWeb, :controller
 
   def index(conn, _params) do

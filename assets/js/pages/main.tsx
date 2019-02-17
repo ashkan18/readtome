@@ -49,12 +49,12 @@ export default class Map extends React.Component<{}, State>{
   }
   public render(){
     const { error, isLoaded, bookInstances, needsLogin } = this.state
-    if (error) {
+    if (needsLogin) {
+      return(<Redirect to="/login" />)
+    } else if (error) {
       return( <div> Error {error.message} </div>)
     } else if (!isLoaded) {
       return( <div> Loading .... </div>)
-    } else if (needsLogin) {
-      return(<Redirect to="/login" />)
     } else {
       return(
         <Segment.Group>
@@ -77,7 +77,7 @@ export default class Map extends React.Component<{}, State>{
   private me() {
     this.AuthService.me()
     .then(reader => this.setState({me: reader}) )
-    .catch( error => console.log("messed up case"))
+    .catch( _error => this.setState({needsLogin: true}))
   }
   private search(term) {
     this.fetchResults(term, 40.6904832, -73.9753984, null)
