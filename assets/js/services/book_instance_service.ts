@@ -15,9 +15,39 @@ export default class BookInstanceService {
 
   public fetchBooks(term: string, lat: number, lng: number, offerings: Array<string>): Promise<Array<BookInstance>>{
     return new Promise((resolve, rejected) =>
-      axios.get("/api/book_instances", { params: {term, lat, lng, offerings }, headers: { 'Authorization': `Bearer ${this.Auth.getToken()}`} })
+
+      axios({
+        url: "/api/",
+        method: "post",
+        data: {
+          query: `
+            query bookInstances($lat: Float, $lng: Float, $term: String, $offerings: [String] ) {
+              bookInstances(lat: $lat, lng: $lng, term: $term, offerings: $offerings) {
+                id
+                reader {
+                  id
+                  name
+                  photos
+                }
+                book {
+                  id
+                  title
+                  authors {
+                    name
+                    id
+                    bio
+                  }
+                }
+                location
+              }
+            }
+          `,
+          variables: {term, lat, lng, offerings },
+          headers: { 'Authorization': `Bearer ${this.Auth.getToken()}`} }
+        })
       .then( response => {
-        return resolve(response.data.book_instances)
+        console.log(response.data.data.bookInstances)
+        return resolve(response.data.data.bookInstances)
       })
       .catch( error => {
         return rejected(error)

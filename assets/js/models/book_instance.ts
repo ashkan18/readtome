@@ -7,7 +7,7 @@ interface serverCoordinate{
 export default interface BookInstance{
   id: string
   book: Book
-  user: Reader
+  reader: Reader
   location: serverCoordinate
   condition: string
 }

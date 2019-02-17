@@ -150,7 +150,8 @@ defmodule Readtome.Books do
       [%BookInstance{}, ...]
 
   """
-  def list_book_instance(%{term: term, point: point, offerings: offerings}) do
+  def list_book_instance(%{term: term, lat: lat, lng: lng, offerings: offerings}) do
+    point = %Geo.Point{coordinates: {lat, lng}, srid: 4326}
     BookInstance
       |> by_term(term)
       |> by_offerings(offerings)

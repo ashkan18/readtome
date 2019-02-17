@@ -38,11 +38,11 @@ export default class BookMapMarker extends React.Component<Props, State>{
                     <Card.Content>
                       <Image floated="left" src={this.props.bookInstance.book.small_cover_url} size="mini"/>
                       <Card.Meta> {this.props.bookInstance.book.title}</Card.Meta>
-                      <Card.Meta> {this.props.bookInstance.book.authors.map( author => author.name).join(",")}</Card.Meta>
+                      <Card.Meta> {this.props.bookInstance.book.authors && this.props.bookInstance.book.authors.map( author => author.name).join(",")}</Card.Meta>
                       <Card.Meta>{this.props.bookInstance.condition}</Card.Meta>
                     </Card.Content>
                     <Card.Content extra>
-                      <Icon name='user' /> {this.props.bookInstance.user.name}
+                      <Icon name='user' /> {this.props.bookInstance.reader.name}
                       <Button floated="right" color="orange" onClick={this.readIt}>Read</Button>
                     </Card.Content>
                   </>

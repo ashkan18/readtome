@@ -6,12 +6,6 @@ defmodule ReadtomeWeb.BookInstanceController do
 
   action_fallback ReadtomeWeb.FallbackController
 
-  def index(conn, params) do
-    %{"lat" => lat, "lng" => lng} = params
-    point = %Geo.Point{coordinates: {String.to_float(lat), String.to_float(lng)}, srid: 4326}
-    render(conn, "index.json", book_instances: Books.list_book_instance(%{point: point, term: params["term"], offerings: params["offerings"]}))
-  end
-
   def create(conn, %{"book_instance" => book_instance_params}) do
     with {:ok, %BookInstance{} = book_instance} <- Books.create_book_instance(book_instance_params) do
       conn
