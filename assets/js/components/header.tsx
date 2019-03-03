@@ -1,11 +1,11 @@
 import * as React from "react"
 import { Popup, Segment, Header as UIHeader, Image, Button, Label } from "semantic-ui-react";
-import Reader from "js/models/reader";
+import Reader from "../models/reader";
 import { FileUploader } from "./file_uploader";
-import UserService from "js/services/user_service";
+import UserService from "../services/user_service";
 
 interface Props {
-  me?: Reader
+  me: Reader | null
 }
 
 interface State{
@@ -15,10 +15,10 @@ interface State{
 
 export default class Header extends React.Component<Props, State> {
   UserService: UserService
-  public constructor(props, context) {
+  public constructor(props: Props, context: any) {
     super(props, context)
     this.UserService = new UserService
-    this.state = { editProfile: false, photos: this.props.me.photos }
+    this.state = { editProfile: false, photos: this.props.me && this.props.me.photos }
     this.editProfile = this.editProfile.bind(this)
     this.uploadPhoto = this.uploadPhoto.bind(this)
   }
@@ -63,7 +63,7 @@ export default class Header extends React.Component<Props, State> {
     this.setState({editProfile: true})
   }
 
-  private uploadPhoto(file) {
+  private uploadPhoto(file: any) {
     this.UserService.uploadPhoto(file)
     .then( user => this.setState({photos: user.photos, editProfile: false}))
   }

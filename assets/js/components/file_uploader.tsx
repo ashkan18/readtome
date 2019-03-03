@@ -4,13 +4,13 @@ import { Button, ButtonProps, Label, Input } from 'semantic-ui-react';
 import * as uuid from 'uuid';
 
 interface ActionProps {
-    onSelect?: (file) => void;
+    onSelect?: (file: any) => void;
 }
 
 export class FileUploader extends Component<ActionProps & ButtonProps> {
     private id: string = uuid.v1();
 
-    constructor(props) {
+    constructor(props: ActionProps) {
         super(props);
         this.onChangeFile = this.onChangeFile.bind(this);
     }

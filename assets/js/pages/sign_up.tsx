@@ -1,7 +1,8 @@
 import * as React from "react"
 import { Redirect } from "react-router"
-import axios, { AxiosRequestConfig, AxiosPromise } from 'axios'
-import { Input, Button } from 'semantic-ui-react'
+import axios from 'axios'
+import { Input, Button, InputOnChangeData } from 'semantic-ui-react'
+import { SyntheticEvent, FormEvent } from "react";
 
 
 interface Props{
@@ -20,7 +21,7 @@ interface State{
 }
 
 export default class Signup extends React.Component<Props, State> {
-  public constructor(props, context) {
+  public constructor(props: Props, context: any) {
     super(props, context)
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
@@ -31,7 +32,7 @@ export default class Signup extends React.Component<Props, State> {
     this.state = {loading: false, isLoggedIn: false, userName: '', password: '', confirmPassword: '', error: '', name: '', email: ''}
   }
 
-  public handleSubmit(e){
+  public handleSubmit(e: FormEvent<HTMLFormElement>){
     e.preventDefault()
     this.setState({ loading: true })
     axios.post("/api/signup", { user: {
@@ -48,17 +49,17 @@ export default class Signup extends React.Component<Props, State> {
     })
   }
 
-  private handleUsernameChange(evt){
-    this.setState({userName: evt.target.value})
+  private handleUsernameChange(_event: SyntheticEvent<HTMLInputElement, Event>, data: InputOnChangeData){
+    this.setState({userName: data.value})
   }
-  private handleNameChange(evt){
-    this.setState({name: evt.target.value})
+  private handleNameChange(_event: SyntheticEvent<HTMLInputElement, Event>, data: InputOnChangeData){
+    this.setState({name: data.value})
   }
-  private handleEmailChange(evt){
-    this.setState({email: evt.target.value})
+  private handleEmailChange(_event: SyntheticEvent<HTMLInputElement, Event>, data: InputOnChangeData){
+    this.setState({email: data.value})
   }
-  private handlePasswordChange(evt){
-    this.setState({password: evt.target.value})
+  private handlePasswordChange(_event: SyntheticEvent<HTMLInputElement, Event>, data: InputOnChangeData){
+    this.setState({password: data.value})
   }
 
   public render() {

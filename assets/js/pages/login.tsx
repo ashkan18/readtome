@@ -1,8 +1,9 @@
 import * as React from "react"
 import { Redirect } from "react-router"
 import { Link } from 'react-router-dom'
-import { Input, Button } from 'semantic-ui-react'
-import AuthService from "js/services/auth_service";
+import { Input, Button, InputOnChangeData } from 'semantic-ui-react'
+import AuthService from "../services/auth_service";
+import { FormEvent, SyntheticEvent } from "react";
 
 
 interface Props{
@@ -19,7 +20,7 @@ interface State{
 
 export default class Login extends React.Component<Props, State> {
   Auth: AuthService;
-  public constructor(props, context) {
+  public constructor(props: Props, context: any) {
     super(props, context)
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
@@ -29,7 +30,7 @@ export default class Login extends React.Component<Props, State> {
     this.state = {loading: false, isLoggedIn: false, userName: '', password: '', error: ''}
   }
 
-  public handleSubmit(e){
+  public handleSubmit(e: FormEvent<HTMLFormElement>){
     e.preventDefault()
     this.setState({ loading: true })
     this.Auth.login(this.state.userName, this.state.password).then( token => {
@@ -40,11 +41,11 @@ export default class Login extends React.Component<Props, State> {
     })
   }
 
-  private handleUsernameChange(evt){
-    this.setState({userName: evt.target.value})
+  private handleUsernameChange(_event: SyntheticEvent<HTMLInputElement, Event>, data: InputOnChangeData){
+    this.setState({userName: data.value})
   }
-  private handlePasswordChange(evt){
-    this.setState({password: evt.target.value})
+  private handlePasswordChange(_event: SyntheticEvent<HTMLInputElement, Event>, data: InputOnChangeData){
+    this.setState({password: data.value})
   }
 
   public render() {

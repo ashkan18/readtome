@@ -6,9 +6,9 @@ import Search from "../components/search"
 import MapComponent from "../components/map_component";
 import Coordinate from "../models/coordinate";
 import { Redirect } from "react-router";
-import BookInstanceService from "js/services/book_instance_service";
-import AuthService from "js/services/auth_service";
-import Reader from "js/models/reader";
+import BookInstanceService from "../services/book_instance_service";
+import AuthService from "../services/auth_service";
+import Reader from "../models/reader";
 import { Segment } from "semantic-ui-react";
 
 let coordinate = {lat: 40.6904832, lng: -73.9753984}
@@ -16,18 +16,18 @@ let coordinate = {lat: 40.6904832, lng: -73.9753984}
 interface State {
   currentLocation: Coordinate
   bookInstances: Array<any>
-  searchTerm: string
+  searchTerm: string | null
   needsLogin: boolean
   isLoaded: boolean
   error?: any,
-  me?: Reader
+  me: Reader | null
 }
 
 export default class Map extends React.Component<{}, State>{
   BookInstanceService: BookInstanceService
   AuthService: AuthService
 
-  public constructor(props, context) {
+  public constructor(props: any, context: any) {
     super(props, context)
     this.BookInstanceService = new BookInstanceService()
     this.AuthService = new AuthService()
@@ -79,11 +79,11 @@ export default class Map extends React.Component<{}, State>{
     .then(reader => this.setState({me: reader}) )
     .catch( _error => this.setState({needsLogin: true}))
   }
-  private search(term) {
+  private search(term: string | null) {
     this.fetchResults(term, 40.6904832, -73.9753984, null)
   }
 
-  private fetchResults(term: string, lat: number, lng: number, offerings: Array<string>){
+  private fetchResults(term: string | null, lat: number, lng: number, offerings: Array<string> | null){
     this.BookInstanceService.fetchBooks(term, lat, lng, offerings)
       .then( bookInstances => {
           this.setState({isLoaded: true, bookInstances})

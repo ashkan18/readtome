@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import AuthService from './auth_service';
-import BookInstance from 'js/models/book_instance';
-import Inquiry from 'js/models/inquiry';
+import BookInstance from '../models/book_instance';
+import Inquiry from '../models/inquiry';
 
 
 
@@ -13,7 +13,7 @@ export default class BookInstanceService {
     this.fetchBooks = this.fetchBooks.bind(this)
   }
 
-  public fetchBooks(term: string, lat: number, lng: number, offerings: Array<string>): Promise<Array<BookInstance>>{
+  public fetchBooks(term: string | null, lat: number, lng: number, offerings: Array<string> | null): Promise<Array<BookInstance>>{
     return new Promise((resolve, rejected) =>
 
       axios({

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Switch, Route, BrowserRouter } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { Redirect } from 'react-router'
 
 import Login from "./pages/login"
@@ -10,22 +10,15 @@ import AuthService from './services/auth_service';
 interface State{
   token?: any
   isLoggedIn: boolean
-  user?: UserData
 }
 
-interface UserData {
-  token: string
-}
-
-// https://github.com/varunon9/hello-react/blob/master/client/components/AppRoutes.js
 export default class AppRoutes extends React.Component<{}, State> {
-  Auth: AuthService;
+  authService: AuthService = new AuthService;
 
-  public constructor(props, context) {
+  public constructor(props: any, context: any) {
     super(props, context)
-    let authService = new AuthService
-    let token = authService.getToken()
-    this.state = { token, isLoggedIn: token !== null, user: null}
+    let token = this.authService.getToken()
+    this.state = { token, isLoggedIn: token !== null}
     this.authenticate = this.authenticate.bind(this)
   }
 
@@ -42,11 +35,9 @@ export default class AppRoutes extends React.Component<{}, State> {
       </Switch>)
   }
 
-  public authenticate(token){
+  public authenticate(token:string){
     this.setState({
-      user: {
-        token: token
-      },
+      token: token,
       isLoggedIn: true
 		})
   }

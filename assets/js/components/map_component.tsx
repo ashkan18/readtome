@@ -5,7 +5,7 @@ import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
 import BookMapMarker from "./book_map_marker";
 import Coordinate from "../models/coordinate"
 import BookInstance from "../models/book_instance"
-import AuthService from "js/services/auth_service";
+import AuthService from "../services/auth_service";
 
 
 interface GoogleMapProps{
@@ -40,7 +40,7 @@ interface Props{
 }
 export default class MapComponent extends React.Component<Props, {}>{
   Auth: AuthService
-  public constructor(props, context) {
+  public constructor(props: Props, context: any) {
     super(props, context)
     this.Auth = new AuthService()
   }

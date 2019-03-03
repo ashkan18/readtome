@@ -1,19 +1,18 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "lib": ["dom", "esnext"],
+    "jsx": "preserve",
+    "target": "es2016",
+    "module": "esnext",
     "moduleResolution": "node",
-    "target": "es5",
-    "jsx": "react",
-    "experimentalDecorators": true,
+    "preserveConstEnums": true,
+    "removeComments": false,
     "sourceMap": true,
-    "skipDefaultLibCheck": true,
-    "lib": ["es2015", "dom"],
-    "types": ["webpack-env"],
-    "paths": {
-      // Fix "Duplicate identifier" errors caused by multiple dependencies fetching their own copies of type definitions.
-      // We tell TypeScript which type definitions module to treat as the canonical one (instead of combining all of them).
-      "history": ["./node_modules/@types/history/index"],
-      "react": ["./node_modules/@types/react/index"]
-    }
-  }
+    "strict": true
+  },
+  "include": ["./**/*.ts", "./**/*.tsx"]
 }

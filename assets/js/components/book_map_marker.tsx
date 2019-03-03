@@ -2,7 +2,7 @@ import * as React from "react"
 import { Marker, InfoWindow } from "react-google-maps"
 import BookInstance from "../models/book_instance";
 import { Button, Card, Icon, Image } from "semantic-ui-react";
-import BookInstanceService from "js/services/book_instance_service";
+import BookInstanceService from "../services/book_instance_service";
 
 interface Props{
   bookInstance: BookInstance
@@ -11,12 +11,12 @@ interface Props{
 interface State{
   isOpen: boolean
   inquired: boolean
-  error: string
+  error: string | null
 }
 
 export default class BookMapMarker extends React.Component<Props, State>{
   BookInstanceService: BookInstanceService;
-  public constructor(props, context) {
+  public constructor(props: Props, context: any) {
     super(props, context)
     this.BookInstanceService = new BookInstanceService
     this.state = { isOpen: false, inquired: false, error: null }
@@ -57,7 +57,7 @@ export default class BookMapMarker extends React.Component<Props, State>{
   private closeOverlay = () => this.setState({ isOpen: false })
   private readIt = () => {
     this.BookInstanceService.inquiry(this.props.bookInstance.id, "random-type")
-    .then( _inquiry => this.setState({inquired: true}))
-    .catch( error => this.setState({error: error}))
+    .then( (_inquiry: any) => this.setState({inquired: true}))
+    .catch( (error: any) => this.setState({error: error}))
   }
 }
