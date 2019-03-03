@@ -55,8 +55,6 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :readtome, Readtome.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
   database: "readtome_dev",
   hostname: "localhost",
   pool_size: 10,

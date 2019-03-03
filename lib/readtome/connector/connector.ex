@@ -9,15 +9,15 @@ defmodule Readtome.Connector do
   alias Readtome.Connector.Inquiry
 
   @doc """
-  Returns the list of inquries.
+  Returns the list of inquiries.
 
   ## Examples
 
-      iex> list_inquries()
+      iex> list_inquiries()
       [%Inquiry{}, ...]
 
   """
-  def list_inquries(user_id) do
+  def list_inquiries(user_id) do
     Inquiry
     |> by_user(user_id)
     |> Repo.all

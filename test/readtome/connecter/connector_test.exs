@@ -3,7 +3,7 @@ defmodule Readtome.ConnectorTest do
 
   alias Readtome.Connector
 
-  describe "inquries" do
+  describe "inquiries" do
     alias Readtome.Connector.Inquiry
 
     @valid_attrs %{type: "some type"}
@@ -19,9 +19,9 @@ defmodule Readtome.ConnectorTest do
       inquiry
     end
 
-    test "list_inquries/0 returns all inquries" do
+    test "list_inquiries/0 returns all inquiries" do
       inquiry = inquiry_fixture()
-      assert Connector.list_inquries() == [inquiry]
+      assert Connector.list_inquiries() == [inquiry]
     end
 
     test "get_inquiry!/1 returns the inquiry with given id" do

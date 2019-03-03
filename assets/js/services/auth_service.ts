@@ -24,9 +24,8 @@ export default class AuthService {
     return new Promise((resolve, rejected) =>
       axios.get("/api/me", { headers: { 'Authorization': `Bearer ${this.getToken()}` }})
       .then( response => resolve(response.data))
-      .catch( error => {
-        return rejected(error)
-      })
+      .catch( error => rejected(error)
+      )
     )
   }
 

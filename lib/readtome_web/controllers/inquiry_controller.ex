@@ -7,7 +7,7 @@ defmodule ReadtomeWeb.InquiryController do
 
   def index(conn) do
     user = conn.private.guardian_default_resource
-    inquiries = Connector.list_inquries(user.id)
+    inquiries = Connector.list_inquiries(user.id)
     render(conn, "index.json", inquiries: inquiries)
   end
 

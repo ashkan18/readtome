@@ -3,7 +3,7 @@ defmodule Readtome.Connector.Inquiry do
   import Ecto.Changeset
 
 
-  schema "inquries" do
+  schema "inquiries" do
     field :type, :string
 
     belongs_to :user, Readtome.Accounts.User
