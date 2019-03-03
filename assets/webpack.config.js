@@ -1,112 +1,56 @@
+const path = require('path');
+const glob = require('glob');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require("webpack");
-var path = require("path");
 
-// We'll be using the ExtractTextPlugin to extract any required CSS into a
-// // single CSS file
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-// // We'll use CopyWebpackPlugin to copy over static assets like images and
-// fonts
-const CopyWebpackPlugin = require("copy-webpack-plugin")
-
-var env = process.env.MIX_ENV || "dev"
-const isDev = env === "dev"
-const devtool = isDev ? "eval" : "source-map"
-const mode = isDev ? 'development' : 'production'
-
-const config = {
-  devtool: devtool,
-  mode: mode,
-
-  context: __dirname,
-
-  entry: {
-    app: [
-      "./css/app.scss",
-      "./js/app.js"
+module.exports = (env, options) => ({
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: false,
+          ecma: 6,
+          mangle: true
+        },
+        sourceMap: true
+      }),
+      new OptimizeCSSAssetsPlugin({}),
     ]
   },
-
+  entry: {
+      './js/app.tsx': ['./js/app.tsx'].concat(glob.sync('./vendor/**/*.js'))
+  },
   output: {
-    path: path.resolve(__dirname, "../priv/static/js"),
-    filename: "[name].js",
-    publicPath: 'http://localhost:8080/'
+    filename: 'app.js',
+    path: path.resolve(__dirname, '../priv/static/js')
   },
-
-  devServer: {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    }
-  },
-
-  resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx"],
-    modules: ["node_modules", __dirname]
-  },
-
-
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
-        use: ["babel-loader", "ts-loader"]
+        use: {
+          loader: 'babel-loader'
+        }
       },
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: "babel-loader"
-      },
-      {
-        test: /\.s?[ac]ss$/,
-        use: [
-          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader',
-        ],
-      },
-      {
-        test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-        // put fonts in assets/static/fonts/
-        loader: 'file-loader?name=/fonts/[name].[ext]'
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
-  plugins: isDev ?
-    [
-      new CopyWebpackPlugin([{
-        from: "./static",
-        to: path.resolve(__dirname, "../priv/static")
-      }])
-    ] :
-
-    [
-      new CopyWebpackPlugin([{
-        from: "./static",
-        to: path.resolve(__dirname, "../priv/static")
-      }]),
-
-      new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // both options are optional
-        filename: "[name].css",
-        chunkFilename: "[id].css"
-      }),
-
-      new webpack.optimize.UglifyJsPlugin({ 
-        sourceMap: true,
-        beautify: false,
-        comments: false,
-        extractComments: false,
-        compress: {
-          warnings: false,
-          drop_console: true
-        },
-        mangle: {
-          except: ['$'],
-          screw_ie8 : true,
-          keep_fnames: true,
-        }
-      })
-    ]
-};
-module.exports = config;
+  plugins: [
+    new MiniCssExtractPlugin({ filename: '../css/app.css' }),
+    new CopyWebpackPlugin([{ from: 'static/', to: '../' }]),
+  ],
+  resolve: {
+    // Add '.ts' and '.tsx' as resolvable extensions.
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    modules: ["node_modules", __dirname]
+  }
+});
