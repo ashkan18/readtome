@@ -1,0 +1,15 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+build:
+  docker:
+    web: Dockerfile
+  config:
+    MIX_ENV: prod
+    SECRET_KEY_BASE: $SECRET_KEY_BASE
+    DATBASE_URL: $DATABASE_URL
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    AWS_S3_BUCKET: $AWS_S3_BUCKET
+    POOL_SIZE: $POOL_SIZE
