@@ -6,7 +6,7 @@ defmodule Readtome.Books.BookInstance do
     field :condition, :string
     field :medium, :string
     field :offerings, :string
-    field :location, Geo.Point
+    field :location, Geo.PostGIS.Geometry
     field :availability, :string
 
     belongs_to :user, Readtome.Accounts.User
