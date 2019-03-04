@@ -56,7 +56,8 @@ defmodule Readtome.Mixfile do
       {:httpoison, ">= 0.0.0"},
       {:poison, ">= 3.1.0"},
       {:sweet_xml, "~> 0.6"},
-      {:httpotion, "~> 3.1.0"}
+      {:httpotion, "~> 3.1.0"},
+      {:jason, "~> 1.1"}
     ]
   end
 
