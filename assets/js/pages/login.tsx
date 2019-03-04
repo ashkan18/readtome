@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 import { Input, Button, InputOnChangeData } from 'semantic-ui-react'
 import AuthService from "../services/auth_service";
 import { FormEvent, SyntheticEvent } from "react";
+import MainLayout from "./main_layout";
+import Header from "../components/header";
+import styled from "styled-components";
 
 
 interface Props{
@@ -18,6 +21,14 @@ interface State{
   error: string
 }
 
+
+const LoginForm = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-grow: 1;
+  padding-top: 50px;
+`
 export default class Login extends React.Component<Props, State> {
   Auth: AuthService;
   public constructor(props: Props, context: any) {
@@ -50,18 +61,21 @@ export default class Login extends React.Component<Props, State> {
 
   public render() {
     return(
-      <div>
-        <div className="error">{ this.state.error }</div>
-        <form onSubmit={this.handleSubmit}>
-          <Input error={Boolean(this.state.error)} type="text" placeholder="Username" onChange={this.handleUsernameChange} />
-          <Input error={Boolean(this.state.error)} type="password" placeholder="Password" onChange={this.handlePasswordChange}/>
-          <Button basic color='orange' onSubmit={this.handleSubmit}>Login</Button>
-        </form>
-        { this.state.isLoggedIn && <Redirect to="/"/> }
-        <div>
-          Don't have an account? click <Link to="/signup">here</Link>
-        </div>
-      </div>
+      <MainLayout>
+        <Header me={null}/>
+        <LoginForm>
+          <div className="error">{ this.state.error }</div>
+          <form onSubmit={this.handleSubmit}>
+            <Input error={Boolean(this.state.error)} type="text" placeholder="Username" onChange={this.handleUsernameChange} />
+            <Input error={Boolean(this.state.error)} type="password" placeholder="Password" onChange={this.handlePasswordChange}/>
+            <Button basic color='orange' onSubmit={this.handleSubmit}>Login</Button>
+          </form>
+          { this.state.isLoggedIn && <Redirect to="/"/> }
+          <div>
+            Don't have an account? click <Link to="/signup">here</Link>
+          </div>
+        </LoginForm>
+      </MainLayout>
     )
   }
 }

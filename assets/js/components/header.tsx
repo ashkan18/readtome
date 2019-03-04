@@ -3,6 +3,7 @@ import { Popup, Segment, Header as UIHeader, Image, Button, Label } from "semant
 import Reader from "../models/reader";
 import { FileUploader } from "./file_uploader";
 import UserService from "../services/user_service";
+import styled from "styled-components";
 
 interface Props {
   me: Reader | null
@@ -12,6 +13,25 @@ interface State{
   editProfile: boolean,
   photos: any
 }
+
+const HeaderDiv = styled.div`
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-basis: 7%;
+  align-self: flex-start;
+  justify-content: space-between;
+  border-bottom: 2px solid orange;
+`
+
+const LogoSection = styled.div`
+  align-self: flex-start;
+`
+const ProfileSection = styled.div`
+  align-self: flex-end;
+`
+
 
 export default class Header extends React.Component<Props, State> {
   UserService: UserService
@@ -24,10 +44,12 @@ export default class Header extends React.Component<Props, State> {
   }
   public render() {
     return(
-      <Segment clearing color='orange'>
-        <UIHeader as='h4' floated='right'>
+      <HeaderDiv>
+        <LogoSection>
+          <h2>R<span style={{fontSize: 11 }}>ead</span>T<span style={{fontSize: 11 }}>o</span>M<span style={{fontSize: 11 }}>e</span></h2>
+        </LogoSection>
         { this.props.me &&
-            <>
+            <ProfileSection>
               <Popup
                 key={this.props.me.name}
                 trigger={
@@ -49,13 +71,9 @@ export default class Header extends React.Component<Props, State> {
                 position="top right"
                 on="click"
               />
-            </>
+            </ProfileSection>
         }
-        </UIHeader>
-        <UIHeader as='h4' floated='left'>
-          Read to me 📖
-        </UIHeader>
-      </Segment>
+      </HeaderDiv>
     )
   }
 

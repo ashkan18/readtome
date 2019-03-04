@@ -9,7 +9,7 @@ import { Redirect } from "react-router";
 import BookInstanceService from "../services/book_instance_service";
 import AuthService from "../services/auth_service";
 import Reader from "../models/reader";
-import { Segment } from "semantic-ui-react";
+import MainLayout from "./main_layout";
 
 let coordinate = {lat: 40.6904832, lng: -73.9753984}
 
@@ -22,6 +22,10 @@ interface State {
   error?: any,
   me: Reader | null
 }
+
+const MapContainer = styled.div`
+  height: 600px;
+`
 
 export default class Map extends React.Component<{}, State>{
   BookInstanceService: BookInstanceService
@@ -57,7 +61,7 @@ export default class Map extends React.Component<{}, State>{
       return( <div> Loading .... </div>)
     } else {
       return(
-        <Segment.Group>
+        <MainLayout>
           <Header me={this.state.me}/>
           <Search searchMethod={this.search}/>
           <MapComponent
@@ -66,10 +70,10 @@ export default class Map extends React.Component<{}, State>{
               isMarkerShown
               googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
               loadingElement={<div style={{ height: `100%` }} />}
-              containerElement={<div style={{ height: `400px` }} />}
+              containerElement={<MapContainer />}
               mapElement={<div style={{ height: `100%` }} />}
             />
-        </Segment.Group>
+        </MainLayout>
       )
     }
   }

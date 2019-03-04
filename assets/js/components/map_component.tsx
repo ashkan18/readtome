@@ -51,9 +51,9 @@ export default class MapComponent extends React.Component<Props, {}>{
           bookInstances={this.props.bookInstances}
           isMarkerShown
           googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `400px` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
+          loadingElement={this.props.loadingElement}
+          containerElement={this.props.containerElement}
+          mapElement={this.props.mapElement}
         />
     )
   }
