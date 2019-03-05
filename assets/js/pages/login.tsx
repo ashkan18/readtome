@@ -30,21 +30,20 @@ const LoginForm = styled.div`
   padding-top: 50px;
 `
 export default class Login extends React.Component<Props, State> {
-  Auth: AuthService;
+  authService: AuthService = new AuthService
   public constructor(props: Props, context: any) {
     super(props, context)
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.Auth = new AuthService()
     this.state = {loading: false, isLoggedIn: false, userName: '', password: '', error: ''}
   }
 
   public handleSubmit(e: FormEvent<HTMLFormElement>){
     e.preventDefault()
     this.setState({ loading: true })
-    this.Auth.login(this.state.userName, this.state.password).then( token => {
+    this.authService.login(this.state.userName, this.state.password).then( token => {
       this.props.authenticate(token)
       this.setState({isLoggedIn: true, loading: false})
     }).catch( _error => {

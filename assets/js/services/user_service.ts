@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import AuthService from './auth_service'
-import Reader from 'js/models/reader';
+import Reader from '../models/reader';
 
 
 export default class UserService {
@@ -11,7 +11,7 @@ export default class UserService {
     this.uploadPhoto = this.uploadPhoto.bind(this)
   }
 
-  public uploadPhoto(file): Promise<Reader>{
+  public uploadPhoto(file: any): Promise<Reader>{
     let formData = new FormData()
     formData.append('file', file);
     return new Promise((resolve, rejected) => {
