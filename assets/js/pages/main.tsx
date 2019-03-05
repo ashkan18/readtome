@@ -11,7 +11,7 @@ import AuthService from "../services/auth_service";
 import Reader from "../models/reader";
 import MainLayout from "./main_layout";
 
-let defaultCoordinate = {lat: 40.6904832, lng: -73.9753984}
+let defaultCoordinate = {lat: 40.690008, lng: -73.9857765}
 
 interface State {
   bookInstances: Array<any>

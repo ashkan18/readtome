@@ -8,7 +8,7 @@ import styled from "styled-components";
 
 
 const Map = ReactMapboxGl({
-  accessToken: "pk.eyJ1IjoiYXNoa2FuMTgiLCJhIjoiY2pzd2RrN2JyMGdzbTN5bzVjcHZlYnh6biJ9.M1Au5ozQDj-F_y8ge3_I1w",
+  accessToken: "pk.eyJ1IjoiYXNoa2FuMTgiLCJhIjoiY2pzdnk5eGRpMGMxcTN5bzRsOHRjdDR2cCJ9.qaLMKiKsDDLnMPLJ-s4rIQ",
   minZoom: 8,
   maxZoom: 15,
 });
@@ -45,14 +45,13 @@ interface State {
   zoom: [number];
 }
 export default class MapComponent extends React.Component<Props, State>{
-  Auth: AuthService
+  authService: AuthService = new AuthService()
   public constructor(props: Props, context: any) {
     super(props, context)
-    this.Auth = new AuthService()
     this.state = {
       fitBounds: undefined,
-      center: [40.6904832, -73.9753984], //[props.initialCoordinate.lat, props.initialCoordinate.lng],
-      zoom: [11],
+      center: [props.initialCoordinate.lng, props.initialCoordinate.lat],
+      zoom: [13],
       selectedBookInstance: undefined
     }
   }
@@ -85,7 +84,7 @@ export default class MapComponent extends React.Component<Props, State>{
     const { fitBounds, center, zoom, selectedBookInstance } = this.state
     return(
       <Map
-        style="mapbox://styles/mapbox/streets-v9"
+        style="mapbox://styles/ashkan18/cjswesy7d0gqp1fqmkzbtuudr"
         containerStyle={mapStyle}
         flyToOptions={flyToOptions}
         center={center}
@@ -96,15 +95,15 @@ export default class MapComponent extends React.Component<Props, State>{
           type="symbol"
           id="marker"
           layout={layoutLayer}>
-          {/* { bookInstances && bookInstances.map( bi =>
+          { bookInstances && bookInstances.map( bi =>
             <Feature
               key={bi.id}
-              // onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
-              // onMouseLeave={this.onToggleHover.bind(this, '')}
+              onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
+              onMouseLeave={this.onToggleHover.bind(this, '')}
               onClick={this.markerClick.bind(this, bi)}
-              coordinates={bi.location.coordinates}
+              coordinates={bi.location.coordinates.reverse()}
               />)
-          } */}
+          }
         </Layer>
       </Map>
     )
