@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import Reader from 'js/models/reader';
+import Reader from '../models/reader';
 
 export default class AuthService {
   // Initializing important variables
@@ -29,12 +29,12 @@ export default class AuthService {
     )
   }
 
-  setToken = (idToken) => {
+  setToken = (idToken: string) => {
     // Saves user token to localStorage
     localStorage.setItem('id_token', idToken)
   }
 
-  getToken() {
+  getToken():string|null {
       // Retrieves the user token from localStorage
       return localStorage.getItem('id_token')
   }

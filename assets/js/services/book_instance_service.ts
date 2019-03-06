@@ -46,7 +46,6 @@ export default class BookInstanceService {
           headers: { 'Authorization': `Bearer ${this.Auth.getToken()}`} }
         })
       .then( response => {
-        console.log(response.data.data.bookInstances)
         return resolve(response.data.data.bookInstances)
       })
       .catch( error => {

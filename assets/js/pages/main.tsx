@@ -11,10 +11,9 @@ import AuthService from "../services/auth_service";
 import Reader from "../models/reader";
 import MainLayout from "./main_layout";
 
-let coordinate = {lat: 40.6904832, lng: -73.9753984}
+let defaultCoordinate = {lat: 40.690008, lng: -73.9857765}
 
 interface State {
-  currentLocation: Coordinate
   bookInstances: Array<any>
   searchTerm: string | null
   needsLogin: boolean
@@ -23,24 +22,21 @@ interface State {
   me: Reader | null
 }
 
-const MapContainer = styled.div`
-  height: 600px;
-`
+interface Props {
+  initialCoordinate?: Coordinate
+}
 
-export default class Map extends React.Component<{}, State>{
-  BookInstanceService: BookInstanceService
-  AuthService: AuthService
+export default class Map extends React.Component<Props, State>{
+  bookInstanceService: BookInstanceService = new BookInstanceService
+  authService: AuthService = new AuthService
 
-  public constructor(props: any, context: any) {
+  public constructor(props: Props, context: any) {
     super(props, context)
-    this.BookInstanceService = new BookInstanceService()
-    this.AuthService = new AuthService()
     this.state = {
       bookInstances: [],
       isLoaded: false,
       error: null,
       searchTerm: null,
-      currentLocation: coordinate,
       needsLogin: false,
       me: null
     }
@@ -65,13 +61,8 @@ export default class Map extends React.Component<{}, State>{
           <Header me={this.state.me}/>
           <Search searchMethod={this.search}/>
           <MapComponent
-              initialCoordinate={this.state.currentLocation}
+              initialCoordinate={this.props.initialCoordinate || defaultCoordinate}
               bookInstances={bookInstances}
-              isMarkerShown
-              googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-              loadingElement={<div style={{ height: `100%` }} />}
-              containerElement={<MapContainer />}
-              mapElement={<div style={{ height: `100%` }} />}
             />
         </MainLayout>
       )
@@ -79,7 +70,7 @@ export default class Map extends React.Component<{}, State>{
   }
 
   private me() {
-    this.AuthService.me()
+    this.authService.me()
     .then(reader => this.setState({me: reader}) )
     .catch( _error => this.setState({needsLogin: true}))
   }
@@ -88,7 +79,7 @@ export default class Map extends React.Component<{}, State>{
   }
 
   private fetchResults(term: string | null, lat: number, lng: number, offerings: Array<string> | null){
-    this.BookInstanceService.fetchBooks(term, lat, lng, offerings)
+    this.bookInstanceService.fetchBooks(term, lat, lng, offerings)
       .then( bookInstances => {
           this.setState({isLoaded: true, bookInstances})
         }
