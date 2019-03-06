@@ -32,7 +32,6 @@ module.exports = (env, options) => ({
           },
           ecma: 6,
           mangle: {
-            except: ['$'],
             screw_ie8 : true,
             keep_fnames: true,
           }
