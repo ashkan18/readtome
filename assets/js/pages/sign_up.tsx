@@ -29,7 +29,7 @@ const SignUpForm = styled.div`
   justify-content: center;
   flex-grow: 1;
   padding-top: 50px;
-  `
+`
 
 export default class Signup extends React.Component<Props, State> {
   public constructor(props: Props, context: any) {

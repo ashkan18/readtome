@@ -5,6 +5,7 @@ import Coordinate from "../models/coordinate"
 import BookInstance from "../models/book_instance"
 import AuthService from "../services/auth_service";
 import styled from "styled-components";
+import {GeolocateControl} from "mapbox-gl"
 
 
 const Map = ReactMapboxGl({
@@ -12,6 +13,8 @@ const Map = ReactMapboxGl({
   minZoom: 8,
   maxZoom: 15,
 });
+
+
 
 const mapStyle = {
   flex: 1
@@ -46,6 +49,7 @@ interface State {
 }
 export default class MapComponent extends React.Component<Props, State>{
   authService: AuthService = new AuthService()
+  geoLocation: GeolocateControl;
   public constructor(props: Props, context: any) {
     super(props, context)
     this.state = {
@@ -54,6 +58,12 @@ export default class MapComponent extends React.Component<Props, State>{
       zoom: [13],
       selectedBookInstance: undefined
     }
+    this.geoLocation = new GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: false
+      },
+      trackUserLocation: false
+    })
   }
   private onDrag = () => {
     if (this.state.selectedBookInstance) {
@@ -76,6 +86,10 @@ export default class MapComponent extends React.Component<Props, State>{
 
   private onStyleLoad = (map: any) => {
     const { onStyleLoad } = this.props;
+    map.addControl(this.geoLocation);
+    setTimeout(() => {
+      this.geoLocation.trigger()
+    }, 500);
     return onStyleLoad && onStyleLoad(map);
   };
 
@@ -87,6 +101,7 @@ export default class MapComponent extends React.Component<Props, State>{
         style="mapbox://styles/ashkan18/cjswesy7d0gqp1fqmkzbtuudr"
         containerStyle={mapStyle}
         flyToOptions={flyToOptions}
+        onStyleLoad={this.onStyleLoad}
         center={center}
         fitBounds={fitBounds}
         zoom={zoom}

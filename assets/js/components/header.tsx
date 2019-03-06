@@ -46,7 +46,7 @@ export default class Header extends React.Component<Props, State> {
     return(
       <HeaderDiv>
         <LogoSection>
-          <h2>R<span style={{fontSize: 11 }}>ead</span>T<span style={{fontSize: 11 }}>o</span>M<span style={{fontSize: 11 }}>e</span></h2>
+          <h2>R<span style={{fontSize: 10 }}>ead</span>T<span style={{fontSize: 11 }}>o</span>M<span style={{fontSize: 11 }}>e</span></h2>
         </LogoSection>
         { this.props.me &&
             <ProfileSection>
