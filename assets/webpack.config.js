@@ -6,16 +6,36 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require("webpack");
 
+var env = process.env.MIX_ENV || "dev"
+const isDev = env === "dev"
+const devtool = isDev ? "eval" : "source-map"
+const mode = isDev ? 'development' : 'production'
+
 module.exports = (env, options) => ({
+  devtool: devtool,
+  mode: mode,
+  context: __dirname,
+
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
         uglifyOptions: {
-          compress: false,
+          sourceMap: true,
+          beautify: false,
+          comments: false,
+          extractComments: false,
+          compress: {
+            warnings: false,
+            drop_console: true
+          },
           ecma: 6,
-          mangle: true
+          mangle: {
+            except: ['$'],
+            screw_ie8 : true,
+            keep_fnames: true,
+          }
         },
         sourceMap: true
       }),
@@ -41,10 +61,23 @@ module.exports = (env, options) => ({
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
+      },
+      {
+        test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        // put fonts in assets/static/fonts/
+        loader: 'file-loader?name=/fonts/[name].[ext]'
       }
     ]
   },
-  plugins: [
+  plugins: isDev ?
+  [
+    new CopyWebpackPlugin([{
+      from: "./static",
+      to: path.resolve(__dirname, "../priv/static")
+    }]),
+    new MiniCssExtractPlugin({ filename: '../css/app.css' }),
+  ] :
+  [
     new MiniCssExtractPlugin({ filename: '../css/app.css' }),
     new CopyWebpackPlugin([{ from: 'static/', to: '../' }]),
   ],

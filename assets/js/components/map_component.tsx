@@ -1,5 +1,5 @@
 import * as React from "react"
-import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
+import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl"
 
 import Coordinate from "../models/coordinate"
 import BookInstance from "../models/book_instance"

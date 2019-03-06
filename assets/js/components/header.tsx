@@ -17,9 +17,9 @@ interface State{
 const HeaderDiv = styled.div`
   padding: 10px;
   display: flex;
+  flex-shrink: 1;
   width: 100%;
   flex-direction: row;
-  flex-basis: 7%;
   align-self: flex-start;
   justify-content: space-between;
   border-bottom: 2px solid orange;
