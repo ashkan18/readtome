@@ -31,10 +31,6 @@ module.exports = (env, options) => ({
             drop_console: true
           },
           ecma: 6,
-          mangle: {
-            screw_ie8 : true,
-            keep_fnames: true,
-          }
         },
         sourceMap: true
       }),
