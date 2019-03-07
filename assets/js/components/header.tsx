@@ -54,7 +54,7 @@ export default class Header extends React.Component<Props, State> {
                 key={this.props.me.name}
                 trigger={
                   this.state.photos && this.state.photos.length > 0 ?
-                    <Image src={this.state.photos[0].thumb} />
+                    <Image src={this.state.photos[0].thumb} size="mini"/>
                   :
                     <Image src="https://react.semantic-ui.com/images/avatar/small/elliot.jpg" avatar/>
                 }
