@@ -37,6 +37,7 @@ export default class BookInstanceService {
                     id
                     bio
                   }
+                  small_cover_url
                 }
                 location
               }

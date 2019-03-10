@@ -55,8 +55,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :readtome, Readtome.Repo,
   adapter: Ecto.Adapters.Postgres,
-  database: "readtome_dev",
-  hostname: "localhost",
-  pool_size: 10,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: 2,
   extensions: [{Geo.PostGIS.Extension, library: Geo}],
-  types: Readtome.PostgresTypes
+  types: Readtome.PostgresTypes,
+  ssl: true

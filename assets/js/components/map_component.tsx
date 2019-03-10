@@ -1,11 +1,12 @@
 import * as React from "react"
-import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl"
+import ReactMapboxGl, { Marker, Popup } from "react-mapbox-gl"
 
 import Coordinate from "../models/coordinate"
 import BookInstance from "../models/book_instance"
 import AuthService from "../services/auth_service";
-import styled from "styled-components";
+import styled from "styled-components"
 import {GeolocateControl} from "mapbox-gl"
+import BookInstanceDetail from "./book_instance_detail";
 
 
 const Map = ReactMapboxGl({
@@ -24,16 +25,15 @@ const flyToOptions = {
   speed: 0.8
 };
 
-const layoutLayer = {  };
 
-
-const StyledPopup = styled.div`
-  background: white;
-  color: #3f618c;
-  font-weight: 400;
-  padding: 5px;
-  border-radius: 2px;
+const Mark = styled.div`
+  background-color: #e74c3c;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  border: 4px solid #eaa29b;
 `;
+
 
 interface Props{
   bookInstances: Array<BookInstance>
@@ -47,9 +47,24 @@ interface State {
   center: [number, number];
   zoom: [number];
 }
+
+const StyledMarker = styled.div`
+  background-color: orange;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+  left: -0.5rem;
+  top: -0.5rem;
+  position: relative;
+  border-radius: 1.5rem 1.5rem 0;
+  transform: rotate(45deg);
+  border: 1px solid orangered;
+`
+
 export default class MapComponent extends React.Component<Props, State>{
   authService: AuthService = new AuthService()
   geoLocation: GeolocateControl;
+
   public constructor(props: Props, context: any) {
     super(props, context)
     this.state = {
@@ -75,10 +90,10 @@ export default class MapComponent extends React.Component<Props, State>{
     map.getCanvas().style.cursor = cursor;
   }
 
-  private markerClick = (selectedBookInstance: BookInstance) => {
+  private onMarkerClick = (selectedBookInstance: BookInstance) => {
     const {location} = selectedBookInstance
     this.setState({
-      center: [location.coordinates[0], location.coordinates[1]],
+      center: [location.lng, location.lat],
       zoom: [14],
       selectedBookInstance
     });
@@ -91,10 +106,10 @@ export default class MapComponent extends React.Component<Props, State>{
       this.geoLocation.trigger()
     }, 500);
     return onStyleLoad && onStyleLoad(map);
-  };
+  }
 
   render(){
-    const { bookInstances} = this.props
+    const { bookInstances } = this.props
     const { fitBounds, center, zoom, selectedBookInstance } = this.state
     return(
       <Map
@@ -102,24 +117,30 @@ export default class MapComponent extends React.Component<Props, State>{
         containerStyle={mapStyle}
         flyToOptions={flyToOptions}
         onStyleLoad={this.onStyleLoad}
+        onDrag={this.onDrag}
         center={center}
         fitBounds={fitBounds}
         zoom={zoom}
         >
-        <Layer
-          type="symbol"
-          id="marker"
-          layout={layoutLayer}>
-          { bookInstances && bookInstances.map( bi =>
-            <Feature
-              key={bi.id}
-              onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
-              onMouseLeave={this.onToggleHover.bind(this, '')}
-              onClick={this.markerClick.bind(this, bi)}
-              coordinates={bi.location.coordinates.reverse()}
-              />)
-          }
-        </Layer>
+        { bookInstances && bookInstances.map( bi =>
+          <Marker
+            coordinates={[bi.location.lng, bi.location.lat]}
+            onClick={ () => {
+              this.onMarkerClick(bi)}
+            }
+            anchor="bottom">
+            <StyledMarker key={bi.id}/>
+          </Marker>)
+        }
+        { selectedBookInstance ?
+          <Popup
+            coordinates={[selectedBookInstance.location.lng, selectedBookInstance.location.lat]}
+            anchor="bottom"
+            offset={[0, -15]}>
+            <BookInstanceDetail bookInstance={selectedBookInstance}/>
+          </Popup>
+        :
+        null}
       </Map>
     )
   }

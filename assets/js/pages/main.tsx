@@ -80,11 +80,7 @@ export default class Map extends React.Component<Props, State>{
 
   private fetchResults(term: string | null, lat: number, lng: number, offerings: Array<string> | null){
     this.bookInstanceService.fetchBooks(term, lat, lng, offerings)
-      .then( bookInstances => {
-          this.setState({isLoaded: true, bookInstances})
-        }
-      ).catch( _error => {
-        this.setState( { needsLogin: true} )
-      })
+      .then( bookInstances => this.setState({isLoaded: true, bookInstances}))
+      .catch( _error => this.setState( { needsLogin: true} ))
   }
 }

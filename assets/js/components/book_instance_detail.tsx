@@ -13,7 +13,7 @@ interface State{
   error: string | null
 }
 
-export default class BookMapMarker extends React.Component<Props, State>{
+export default class BookInstanceDetail extends React.Component<Props, State>{
   BookInstanceService: BookInstanceService;
   public constructor(props: Props, context: any) {
     super(props, context)
@@ -21,6 +21,7 @@ export default class BookMapMarker extends React.Component<Props, State>{
     this.state = { isOpen: false, inquired: false, error: null }
   }
   public render() {
+    const {bookInstance} = this.props
     return(
       <Card>
         { this.state.inquired &&
@@ -29,13 +30,13 @@ export default class BookMapMarker extends React.Component<Props, State>{
         { !this.state.inquired &&
           <>
             <Card.Content>
-              <Image floated="left" src={this.props.bookInstance.book.small_cover_url} size="mini"/>
-              <Card.Meta> {this.props.bookInstance.book.title}</Card.Meta>
-              <Card.Meta> {this.props.bookInstance.book.authors && this.props.bookInstance.book.authors.map( author => author.name).join(",")}</Card.Meta>
-              <Card.Meta>{this.props.bookInstance.condition}</Card.Meta>
+              <Image floated="left" src={bookInstance.book.small_cover_url} size="mini"/>
+              <Card.Meta> {bookInstance.book.title}</Card.Meta>
+              <Card.Meta> {bookInstance.book.authors && bookInstance.book.authors.map( author => author.name).join(",")}</Card.Meta>
+              <Card.Meta>{bookInstance.condition}</Card.Meta>
             </Card.Content>
             <Card.Content extra>
-              <Icon name='user' /> {this.props.bookInstance.reader.name}
+              <Icon name='user' /> {bookInstance.reader.name}
               <Button floated="right" color="orange" onClick={this.readIt}>Read</Button>
             </Card.Content>
           </>
