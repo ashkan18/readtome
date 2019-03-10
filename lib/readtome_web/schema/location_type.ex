@@ -27,5 +27,12 @@ defmodule ReadtomeWeb.Schema.LocationType do
     :error
   end
 
-  defp encode(value), do: Geo.JSON.encode(value)
+  defp encode(value) do
+    {:ok, location} = Geo.JSON.encode(value)
+    [lat,lng] = location["coordinates"]
+    %{
+      lat: lat,
+      lng: lng
+    }
+  end
 end

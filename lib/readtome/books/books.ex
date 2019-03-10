@@ -220,6 +220,7 @@ defmodule Readtome.Books do
 
   """
   def create_book_instance(attrs \\ %{}) do
+    IO.inspect(attrs)
     attrs = case attrs do
       %{"lat" => lat, "lng" => lng} -> Map.put(attrs, "location", %Geo.Point{coordinates: {lat, lng}, srid: 4326})
       _ -> attrs
