@@ -10,7 +10,6 @@ defmodule ReadtomeWeb.BookInstanceController do
     with {:ok, %BookInstance{} = book_instance} <- Books.create_book_instance(book_instance_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", book_instance_path(conn, :show, book_instance))
       |> render("show.json", book_instance: book_instance)
     end
   end
