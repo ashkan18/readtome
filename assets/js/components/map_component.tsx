@@ -94,7 +94,7 @@ export default class MapComponent extends React.Component<Props, State>{
     const {location} = selectedBookInstance
     this.setState({
       center: [location.lng, location.lat],
-      zoom: [14],
+      zoom: [13],
       selectedBookInstance
     });
   };

@@ -14,10 +14,9 @@ interface State{
 }
 
 export default class BookInstanceDetail extends React.Component<Props, State>{
-  BookInstanceService: BookInstanceService;
+  BookInstanceService: BookInstanceService = new BookInstanceService;
   public constructor(props: Props, context: any) {
     super(props, context)
-    this.BookInstanceService = new BookInstanceService
     this.state = { isOpen: false, inquired: false, error: null }
   }
   public render() {
