@@ -1,7 +1,8 @@
 import * as React from "react"
-import BookInstance from "../models/book_instance";
-import { Button, Card, Icon, Image } from "semantic-ui-react";
-import BookInstanceService from "../services/book_instance_service";
+import BookInstance from "../models/book_instance"
+import { Button, Card, Image } from "semantic-ui-react"
+  import BookInstanceService from "../services/book_instance_service"
+import ProfileGallery from "./profile_gallery";
 
 interface Props{
   bookInstance: BookInstance
@@ -35,7 +36,8 @@ export default class BookInstanceDetail extends React.Component<Props, State>{
               <Card.Meta>{bookInstance.condition}</Card.Meta>
             </Card.Content>
             <Card.Content extra>
-              <Icon name='user' /> {bookInstance.reader.name}
+              {bookInstance.reader.photos && bookInstance.reader.photos.length > 0 && <ProfileGallery reader={bookInstance.reader}/>}
+              <Card.Meta>{bookInstance.reader.name}</Card.Meta>
               <Button floated="right" color="orange" onClick={this.readIt}>Read</Button>
             </Card.Content>
           </>

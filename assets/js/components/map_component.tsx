@@ -15,8 +15,6 @@ const Map = ReactMapboxGl({
   maxZoom: 15,
 });
 
-
-
 const mapStyle = {
   flex: 1
 };
@@ -124,6 +122,7 @@ export default class MapComponent extends React.Component<Props, State>{
         >
         { bookInstances && bookInstances.map( bi =>
           <Marker
+            key={bi.id}
             coordinates={[bi.location.lng, bi.location.lat]}
             onClick={ () => {
               this.onMarkerClick(bi)}
