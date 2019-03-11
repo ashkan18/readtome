@@ -1,5 +1,4 @@
 import * as React from "react"
-import styled from 'styled-components'
 
 import Header from "../components/header";
 import Search from "../components/search"
@@ -9,7 +8,8 @@ import { Redirect } from "react-router";
 import BookInstanceService from "../services/book_instance_service";
 import AuthService from "../services/auth_service";
 import Reader from "../models/reader";
-import MainLayout from "./main_layout";
+import MainLayout from "./main_layout"
+import {Spinner} from "@artsy/palette"
 
 let defaultCoordinate = {lat: 40.690008, lng: -73.9857765}
 
@@ -54,7 +54,7 @@ export default class Map extends React.Component<Props, State>{
     } else if (error) {
       return( <div> Error {error.message} </div>)
     } else if (!isLoaded) {
-      return( <div> Loading .... </div>)
+      return( <Spinner/>)
     } else {
       return(
         <MainLayout>
