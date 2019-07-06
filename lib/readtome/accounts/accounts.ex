@@ -136,4 +136,8 @@ defmodule Readtome.Accounts do
       false -> {:error, "Incorrect username or password"}
     end
   end
+
+  def data() do
+    Dataloader.Ecto.new(Repo)
+  end
 end

@@ -7,6 +7,7 @@ import { GeolocateControl } from "mapbox-gl";
 import BookInstanceDetail from "./book_instance_detail";
 import { svg } from "./icon";
 
+
 const Map = ReactMapboxGl({
   accessToken:
     "pk.eyJ1IjoiYXNoa2FuMTgiLCJhIjoiY2pzdnk5eGRpMGMxcTN5bzRsOHRjdDR2cCJ9.qaLMKiKsDDLnMPLJ-s4rIQ",

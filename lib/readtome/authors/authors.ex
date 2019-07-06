@@ -108,4 +108,8 @@ defmodule Readtome.Authors do
   def change_author(%Author{} = author) do
     Author.changeset(author, %{})
   end
+
+  def data() do
+    Dataloader.Ecto.new(Repo)
+  end
 end

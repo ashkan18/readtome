@@ -1,6 +1,9 @@
 defmodule ReadtomeWeb.Schema.BookTypes do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+
+  connection(node_type: :author)
 
   @desc "An Author"
   object :author do
@@ -18,7 +21,13 @@ defmodule ReadtomeWeb.Schema.BookTypes do
     field(:large_cover_url, :string)
     field(:medium_cover_url, :string)
     field(:small_cover_url, :string)
-    field(:authors, list_of(:author))
+    connection field :authors, node_type: :author do
+      resolve(fn
+        pagination_args, %{source: book} ->
+          book = Readtome.Repo.preload(book, :authors)
+          Absinthe.Relay.Connection.from_list(book.authors, pagination_args)
+      end)
+    end
   end
 
   @desc "A reader"
@@ -43,7 +52,7 @@ defmodule ReadtomeWeb.Schema.BookTypes do
   @desc "A Book Instance"
   object :book_instance do
     field(:id, :id)
-    field(:book, :book)
+    field :book, :book, resolve: dataloader(Book)
     field(:location, :location)
     field(:medium, :medium)
     field(:offerings, list_of(:offering))

@@ -39,6 +39,7 @@ defmodule Readtome.Mixfile do
       {:bcrypt_elixir, "~> 0.12"},
       {:comeonin, "~> 4.0"},
       {:cowboy, "~> 2.7"},
+      {:dataloader, "~> 1.0.0"},
       {:ecto_sql, "~> 3.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:ex_aws, "~> 2.1.0"},
