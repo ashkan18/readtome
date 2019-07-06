@@ -11,7 +11,6 @@ export default interface Book {
   authors: AuthorConnection
   instances: Array<BookInstance>
   genres: Array<string>
-  medium_cover_url: string
-  small_cover_url: string
-  tags: Array<string>
+  mediumCoverUrl: string
+  smallCoverUrl: string
 }

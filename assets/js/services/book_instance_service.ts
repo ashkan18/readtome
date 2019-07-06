@@ -26,8 +26,8 @@ query bookInstances($lat: Float, $lng: Float, $term: String, $offerings: [String
           }
         }
       }
-      small_cover_url
-      medium_cover_url
+      smallCoverUrl
+      mediumCoverUrl
     }
     location
   }
