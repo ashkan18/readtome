@@ -28,8 +28,9 @@ defmodule ReadtomeWeb do
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/readtome_web/templates",
-                        namespace: ReadtomeWeb
+      use Phoenix.View,
+        root: "lib/readtome_web/templates",
+        namespace: ReadtomeWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]

@@ -6,9 +6,9 @@ defmodule Readtome.Mixfile do
       app: :readtome,
       version: "0.0.1",
       elixir: "~> 1.4",
-      elixirc_paths: elixirc_paths(Mix.env),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers,
-      start_permanent: Mix.env == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
     ]
@@ -26,7 +26,7 @@ defmodule Readtome.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #
@@ -35,12 +35,12 @@ defmodule Readtome.Mixfile do
     [
       {:absinthe_plug, "~> 1.4"},
       {:absinthe_relay, "~> 1.4"},
-      {:phoenix, "~> 1.3.2"},
-      {:phoenix_pubsub, "~> 1.1"},
+      {:phoenix, "~> 1.5.6"},
+      {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 2.10"},
+      {:phoenix_html, "~> 2.14"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:guardian, "~> 1.0"},
       {:comeonin, "~> 4.0"},
@@ -56,7 +56,7 @@ defmodule Readtome.Mixfile do
       {:httpoison, ">= 0.0.0"},
       {:poison, ">= 3.1.0"},
       {:sweet_xml, "~> 0.6"},
-      {:httpotion, "~> 3.1.0"},
+      {:tesla, "~> 1.3.0"},
       {:jason, "~> 1.1"}
     ]
   end

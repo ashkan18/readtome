@@ -3,7 +3,7 @@ defmodule ReadtomeWeb.BookController do
 
   alias Readtome.{Books, Books.Book, BooksFinder}
 
-  action_fallback ReadtomeWeb.FallbackController
+  action_fallback(ReadtomeWeb.FallbackController)
 
   def index(conn, _params) do
     books = Books.list_books()
@@ -32,6 +32,7 @@ defmodule ReadtomeWeb.BookController do
             |> put_status(:not_found)
             |> render(ReadtomeWeb.ErrorView, :"404")
         end
+
       book ->
         render(conn, "found.json", book: book, external: nil)
     end
@@ -52,6 +53,7 @@ defmodule ReadtomeWeb.BookController do
 
   def delete(conn, %{"id" => id}) do
     book = Books.get_book!(id)
+
     with {:ok, %Book{}} <- Books.delete_book(book) do
       send_resp(conn, :no_content, "")
     end

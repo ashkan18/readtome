@@ -7,17 +7,18 @@ defmodule Readtome.BooksFinder do
   end
 
   defp google_books(isbn) do
-    case Readtome.GoogleBook.get("/v1/volumes", query: %{q: "#{isbn}+isbn", key: Application.fetch_env!(:readtome, :googlebooks_api).key }) do
-      %HTTPotion.Response{status_code: 200, body: body} ->
-        first_guess = List.first(body["items"])
-        {:found, %{
-          isbn: isbn,
-          title: first_guess["volumeInfo"]["title"],
-          authors: first_guess["volumeInfo"]["authors"],
-          tags: first_guess["volumeInfo"]["categories"],
-          cover_url: first_guess["volumeInfo"]["imageLinks"]["large"] || first_guess["volumeInfo"]["imageLinks"]["thumbnail"],
-          description: first_guess["volumeInfo"]["description"]
-        }}
+    case Readtome.GoogleBook.get_book(isbn) do
+      {:ok, book} ->
+        {:found,
+         %{
+           isbn: isbn,
+           title: book["volumeInfo"]["title"],
+           authors: book["volumeInfo"]["authors"],
+           tags: book["volumeInfo"]["categories"],
+           cover_url: book["volumeInfo"]["imageLinks"]["large"] || book["volumeInfo"]["imageLinks"]["thumbnail"],
+           description: book["volumeInfo"]["description"]
+         }}
+
       _ ->
         {:not_found}
     end

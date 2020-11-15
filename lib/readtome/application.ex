@@ -4,14 +4,13 @@ defmodule Readtome.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    import Supervisor.Spec
-
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
-      supervisor(Readtome.Repo, []),
+      {Readtome.Repo, []},
       # Start the endpoint when the application starts
-      supervisor(ReadtomeWeb.Endpoint, []),
+      {ReadtomeWeb.Endpoint, []},
+      {Phoenix.PubSub, [name: Readtome.PubSub, adapter: Phoenix.PubSub.PG2]}
       # Start your own worker by calling: Readtome.Worker.start_link(arg1, arg2, arg3)
       # worker(Readtome.Worker, [arg1, arg2, arg3]),
     ]

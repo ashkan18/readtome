@@ -19,26 +19,28 @@ defmodule ReadtomeWeb.BookInstanceControllerTest do
 
   describe "index" do
     test "lists all book_instance", %{conn: conn} do
-      conn = get conn, book_instance_path(conn, :index)
+      conn = get(conn, book_instance_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
     end
   end
 
   describe "create book_instance" do
     test "renders book_instance when data is valid", %{conn: conn} do
-      conn = post conn, book_instance_path(conn, :create), book_instance: @create_attrs
+      conn = post(conn, book_instance_path(conn, :create), book_instance: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get conn, book_instance_path(conn, :show, id)
+      conn = get(conn, book_instance_path(conn, :show, id))
+
       assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "condition" => "some condition",
-        "medium" => "some medium",
-        "offerings" => "some offerings"}
+               "id" => id,
+               "condition" => "some condition",
+               "medium" => "some medium",
+               "offerings" => "some offerings"
+             }
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post conn, book_instance_path(conn, :create), book_instance: @invalid_attrs
+      conn = post(conn, book_instance_path(conn, :create), book_instance: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -47,19 +49,21 @@ defmodule ReadtomeWeb.BookInstanceControllerTest do
     setup [:create_book_instance]
 
     test "renders book_instance when data is valid", %{conn: conn, book_instance: %BookInstance{id: id} = book_instance} do
-      conn = put conn, book_instance_path(conn, :update, book_instance), book_instance: @update_attrs
+      conn = put(conn, book_instance_path(conn, :update, book_instance), book_instance: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get conn, book_instance_path(conn, :show, id)
+      conn = get(conn, book_instance_path(conn, :show, id))
+
       assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "condition" => "some updated condition",
-        "medium" => "some updated medium",
-        "offerings" => "some updated offerings"}
+               "id" => id,
+               "condition" => "some updated condition",
+               "medium" => "some updated medium",
+               "offerings" => "some updated offerings"
+             }
     end
 
     test "renders errors when data is invalid", %{conn: conn, book_instance: book_instance} do
-      conn = put conn, book_instance_path(conn, :update, book_instance), book_instance: @invalid_attrs
+      conn = put(conn, book_instance_path(conn, :update, book_instance), book_instance: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -68,11 +72,12 @@ defmodule ReadtomeWeb.BookInstanceControllerTest do
     setup [:create_book_instance]
 
     test "deletes chosen book_instance", %{conn: conn, book_instance: book_instance} do
-      conn = delete conn, book_instance_path(conn, :delete, book_instance)
+      conn = delete(conn, book_instance_path(conn, :delete, book_instance))
       assert response(conn, 204)
-      assert_error_sent 404, fn ->
-        get conn, book_instance_path(conn, :show, book_instance)
-      end
+
+      assert_error_sent(404, fn ->
+        get(conn, book_instance_path(conn, :show, book_instance))
+      end)
     end
   end
 

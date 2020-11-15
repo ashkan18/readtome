@@ -4,7 +4,7 @@ defmodule ReadtomeWeb.BookInstanceController do
   alias Readtome.Books
   alias Readtome.Books.BookInstance
 
-  action_fallback ReadtomeWeb.FallbackController
+  action_fallback(ReadtomeWeb.FallbackController)
 
   def create(conn, %{"book_instance" => book_instance_params}) do
     with {:ok, %BookInstance{} = book_instance} <- Books.create_book_instance(book_instance_params) do
@@ -29,6 +29,7 @@ defmodule ReadtomeWeb.BookInstanceController do
 
   def delete(conn, %{"id" => id}) do
     book_instance = Books.get_book_instance!(id)
+
     with {:ok, %BookInstance{}} <- Books.delete_book_instance(book_instance) do
       send_resp(conn, :no_content, "")
     end

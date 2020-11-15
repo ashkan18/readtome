@@ -58,11 +58,17 @@ defmodule Readtome.Accounts do
 
   def add_user_profile_photo(user, photo_url) do
     with {:ok, file} <- Readtome.UserProfile.store({photo_url, user}) do
-      all_photos = [%{
-          original: Readtome.UserProfile.url({file, user}, :original),
-          thumb: Readtome.UserProfile.url({file, user}, :thumb),
-          default: false
-        }] |> Enum.into(user.photos || []) |> IO.inspect
+      all_photos =
+        [
+          %{
+            original: Readtome.UserProfile.url({file, user}, :original),
+            thumb: Readtome.UserProfile.url({file, user}, :thumb),
+            default: false
+          }
+        ]
+        |> Enum.into(user.photos || [])
+        |> IO.inspect()
+
       {:ok, user} = update_user(user, %{photos: all_photos})
       user
     else
@@ -119,10 +125,11 @@ defmodule Readtome.Accounts do
 
   def authenticate_user(username, plain_text_pass) do
     Repo.get_by(User, username: username)
-      |> check_password(plain_text_pass)
+    |> check_password(plain_text_pass)
   end
 
   defp check_password(nil, _), do: {:error, "Incorrect username or password"}
+
   defp check_password(user, plain_text_password) do
     case Bcrypt.checkpw(plain_text_password, user.password) do
       true -> {:ok, user}

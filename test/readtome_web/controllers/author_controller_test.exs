@@ -19,25 +19,27 @@ defmodule ReadtomeWeb.AuthorControllerTest do
 
   describe "index" do
     test "lists all authors", %{conn: conn} do
-      conn = get conn, author_path(conn, :index)
+      conn = get(conn, author_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
     end
   end
 
   describe "create author" do
     test "renders author when data is valid", %{conn: conn} do
-      conn = post conn, author_path(conn, :create), author: @create_attrs
+      conn = post(conn, author_path(conn, :create), author: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get conn, author_path(conn, :show, id)
+      conn = get(conn, author_path(conn, :show, id))
+
       assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "bio" => "some bio",
-        "name" => "some name"}
+               "id" => id,
+               "bio" => "some bio",
+               "name" => "some name"
+             }
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post conn, author_path(conn, :create), author: @invalid_attrs
+      conn = post(conn, author_path(conn, :create), author: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -46,18 +48,20 @@ defmodule ReadtomeWeb.AuthorControllerTest do
     setup [:create_author]
 
     test "renders author when data is valid", %{conn: conn, author: %Author{id: id} = author} do
-      conn = put conn, author_path(conn, :update, author), author: @update_attrs
+      conn = put(conn, author_path(conn, :update, author), author: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get conn, author_path(conn, :show, id)
+      conn = get(conn, author_path(conn, :show, id))
+
       assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "bio" => "some updated bio",
-        "name" => "some updated name"}
+               "id" => id,
+               "bio" => "some updated bio",
+               "name" => "some updated name"
+             }
     end
 
     test "renders errors when data is invalid", %{conn: conn, author: author} do
-      conn = put conn, author_path(conn, :update, author), author: @invalid_attrs
+      conn = put(conn, author_path(conn, :update, author), author: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -66,11 +70,12 @@ defmodule ReadtomeWeb.AuthorControllerTest do
     setup [:create_author]
 
     test "deletes chosen author", %{conn: conn, author: author} do
-      conn = delete conn, author_path(conn, :delete, author)
+      conn = delete(conn, author_path(conn, :delete, author))
       assert response(conn, 204)
-      assert_error_sent 404, fn ->
-        get conn, author_path(conn, :show, author)
-      end
+
+      assert_error_sent(404, fn ->
+        get(conn, author_path(conn, :show, author))
+      end)
     end
   end
 

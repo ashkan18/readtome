@@ -7,7 +7,14 @@ defmodule Readtome.BooksTest do
     alias Readtome.Books.Book
 
     @valid_attrs %{condition: "some condition", isbn: "some isbn", large_cover_url: "some large_cover_url", medium_cover_url: "some medium_cover_url", name: "some name", small_cover_url: "some small_cover_url"}
-    @update_attrs %{condition: "some updated condition", isbn: "some updated isbn", large_cover_url: "some updated large_cover_url", medium_cover_url: "some updated medium_cover_url", name: "some updated name", small_cover_url: "some updated small_cover_url"}
+    @update_attrs %{
+      condition: "some updated condition",
+      isbn: "some updated isbn",
+      large_cover_url: "some updated large_cover_url",
+      medium_cover_url: "some updated medium_cover_url",
+      name: "some updated name",
+      small_cover_url: "some updated small_cover_url"
+    }
     @invalid_attrs %{condition: nil, isbn: nil, large_cover_url: nil, medium_cover_url: nil, name: nil, small_cover_url: nil}
 
     def book_fixture(attrs \\ %{}) do

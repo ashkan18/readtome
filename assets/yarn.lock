@@ -684,6 +684,13 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
+"@babel/runtime@^7.10.3":
+  version "7.12.5"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
+  integrity sha1-QQ5+SHRB4bNgwpvnFdhw2bmFiC4=
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.1.0", "@babel/template@^7.1.2", "@babel/template@^7.2.2":
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.2.2.tgz#005b3fdf0ed96e88041330379e0da9a708eb2907"
@@ -862,6 +869,13 @@
   version "11.10.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.10.4.tgz#3f5fc4f0f322805f009e00ab35a2ff3d6b778e42"
   integrity sha512-wa09itaLE8L705aXd8F80jnFpxz3Y1/KRHfKsYL2bPc0XF+wEWu8sR9n5bmeu8Ba1N9z2GRNzm/YdHcghLkLKg==
+
+"@types/nuka-carousel@^4.4.6":
+  version "4.4.6"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/@types/nuka-carousel/-/nuka-carousel-4.4.6.tgz#3749fced6fe61afee634910abcfe27ad783513bc"
+  integrity sha1-N0n87W/mGv7mNJEKvP4nrXg1E7w=
+  dependencies:
+    nuka-carousel "*"
 
 "@types/prop-types@*":
   version "15.7.0"
@@ -2613,9 +2627,24 @@ csstype@^2.2.0:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.3.tgz#2504152e6e1cc59b32098b7f5d6a63f16294c1f7"
 
+csstype@^2.6.6:
+  version "2.6.14"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/csstype/-/csstype-2.6.14.tgz#004822a4050345b55ad4dcc00be1d9cf2f4296de"
+  integrity sha1-AEgipAUDRbVa1NzAC+HZzy9Clt4=
+
 cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
+
+d3-ease@^1.0.3:
+  version "1.0.7"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/d3-ease/-/d3-ease-1.0.7.tgz#9a834890ef8b8ae8c558b2fe55bd57f5993b85e2"
+  integrity sha1-moNIkO+LiujFWLL+Vb1X9Zk7heI=
+
+d3-timer@^1.0.9:
+  version "1.0.10"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/d3-timer/-/d3-timer-1.0.10.tgz#dfe76b8a91748831b13b6d9c793ffbd508dd9de5"
+  integrity sha1-3+dripF0iDGxO22ceT/71QjdneU=
 
 date-now@^0.1.4:
   version "0.1.4"
@@ -2940,9 +2969,9 @@ execa@^1.0.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exenv@^1.2.2:
+exenv@^1.2.0, exenv@^1.2.2:
   version "1.2.2"
-  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
   integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
 
 expand-brackets@^2.1.4:
@@ -3777,6 +3806,13 @@ json5@^2.1.0:
   dependencies:
     minimist "^1.2.0"
 
+kapellmeister@^3.0.1:
+  version "3.0.1"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/kapellmeister/-/kapellmeister-3.0.1.tgz#419b715cd221acda3db79892caedf63e1c9f7d25"
+  integrity sha1-QZtxXNIhrNo9t5iSyu32PhyffSU=
+  dependencies:
+    d3-timer "^1.0.9"
+
 kdbush@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/kdbush/-/kdbush-1.0.1.tgz#3cbd03e9dead9c0f6f66ccdb96450e5cecc640e0"
@@ -4319,6 +4355,18 @@ nth-check@^1.0.2:
   dependencies:
     boolbase "~1.0.0"
 
+nuka-carousel@*, nuka-carousel@^4.5.2:
+  version "4.7.2"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/nuka-carousel/-/nuka-carousel-4.7.2.tgz#62ee8c8d66f9c15bd9bc54bb3949172d123e39d3"
+  integrity sha1-Yu6MjWb5wVvZvFS7OUkXLRI+OdM=
+  dependencies:
+    csstype "^2.6.6"
+    d3-ease "^1.0.3"
+    exenv "^1.2.0"
+    prop-types "^15.6.0"
+    react-move "^6.1.0"
+    wicg-inert "^3.0.3"
+
 number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
@@ -4545,10 +4593,10 @@ performance-now@^2.1.0:
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
 "phoenix@file:../deps/phoenix":
-  version "1.3.4"
+  version "1.5.6"
 
 "phoenix_html@file:../deps/phoenix_html":
-  version "2.13.1"
+  version "2.14.2"
 
 pify@^3.0.0:
   version "3.0.0"
@@ -4924,7 +4972,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@15.x, prop-types@^15.5.10, prop-types@^15.6.2:
+prop-types@15.x, prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5167,6 +5215,15 @@ react-mapbox-gl@^4.2.0:
     deep-equal "1.0.1"
     supercluster "3.0.2"
 
+react-move@^6.1.0:
+  version "6.4.0"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/react-move/-/react-move-6.4.0.tgz#9163a87c62fff94bf6e6980685c713739192650e"
+  integrity sha1-kWOofGL/+Uv25pgGhccTc5GSZQ4=
+  dependencies:
+    "@babel/runtime" "^7.10.3"
+    kapellmeister "^3.0.1"
+    prop-types "^15.7.2"
+
 react-powerplug@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-powerplug/-/react-powerplug-1.0.0.tgz#f9c10a761ece115661b8fd10920c4e573ea95909"
@@ -5291,6 +5348,11 @@ regenerator-runtime@^0.12.0:
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
   integrity sha512-odxIc1/vDlo4iZcfXqRYFj0vpXFNoGdKMAUieAlFYO6m/nl5e9KR/beGf41z4a1FI+aQgtjhuaSlDxQ0hmkrHg==
+
+regenerator-runtime@^0.13.4:
+  version "0.13.7"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz#cac2dacc8a1ea675feaabaeb8ae833898ae46f55"
+  integrity sha1-ysLazIoepnX+qrrriugziYrkb1U=
 
 regenerator-transform@^0.10.0:
   version "0.10.1"
@@ -6367,6 +6429,11 @@ which@^1.2.14, which@^1.2.9:
   resolved "https://registry.yarnpkg.com/which/-/which-1.3.1.tgz#a45043d54f5805316da8d62f9f50918d3da70b0a"
   dependencies:
     isexe "^2.0.0"
+
+wicg-inert@^3.0.3:
+  version "3.1.0"
+  resolved "https://artifactory.spotify.net/artifactory/api/npm/virtual-npm/wicg-inert/-/wicg-inert-3.1.0.tgz#6525f12db188b83f0051bed2ddcf6c1aa5b17590"
+  integrity sha1-ZSXxLbGIuD8AUb7S3c9sGqWxdZA=
 
 wide-align@^1.1.0:
   version "1.1.3"

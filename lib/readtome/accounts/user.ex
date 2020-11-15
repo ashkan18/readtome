@@ -4,15 +4,15 @@ defmodule Readtome.Accounts.User do
   alias Comeonin.Bcrypt
 
   schema "users" do
-    field :email, :string
-    field :name, :string
-    field :sex, :string
-    field :username, :string
-    field :password, :string
-    field :birthdate, :date
-    field :photos, {:array, :map}
+    field(:email, :string)
+    field(:name, :string)
+    field(:sex, :string)
+    field(:username, :string)
+    field(:password, :string)
+    field(:birthdate, :date)
+    field(:photos, {:array, :map})
 
-    has_many :book_instances, Readtome.Books.BookInstance
+    has_many(:book_instances, Readtome.Books.BookInstance)
 
     timestamps()
   end
@@ -28,5 +28,6 @@ defmodule Readtome.Accounts.User do
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
     change(changeset, password: Bcrypt.hashpwsalt(password))
   end
+
   defp put_pass_hash(changeset), do: changeset
 end

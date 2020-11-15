@@ -19,10 +19,9 @@ defmodule Readtome.Books do
   """
   def list_books do
     Repo.all(Book)
-        |> Repo.preload([instances: :user])
-        |> Repo.preload(:authors)
+    |> Repo.preload(instances: :user)
+    |> Repo.preload(:authors)
   end
-
 
   @doc """
   Gets a single book.
@@ -64,27 +63,26 @@ defmodule Readtome.Books do
     |> Repo.insert_or_update()
   end
 
-  def copy_external(%{isbn: isbn, title: title, tags: tags, description: description}) do
+  def copy_external(%{isbn: isbn, title: title, tags: tags, description: _description}) do
     create_book(%{isbn: isbn, title: title, tags: tags})
   end
 
   def populate_with_external(book, %{authors: authors, cover_url: cover_url}) do
     authors
-    |> Enum.map(fn(au) -> Readtome.Authors.add_by_name(au) end)
-    |> Enum.map(fn(au) -> set_book_author(au, book) end)
+    |> Enum.map(fn au -> Readtome.Authors.add_by_name(au) end)
+    |> Enum.map(fn au -> set_book_author(au, book) end)
 
     with {:ok, file} <- Readtome.BookCover.store({cover_url, book}) do
       book
       |> update_book(%{
-          medium_cover_url: Readtome.BookCover.url({file, book}, :medium),
-          small_cover_url: Readtome.BookCover.url({file, book}, :small),
-          large_cover_url: Readtome.BookCover.url({file, book}, :large)
-        })
+        medium_cover_url: Readtome.BookCover.url({file, book}, :medium),
+        small_cover_url: Readtome.BookCover.url({file, book}, :small),
+        large_cover_url: Readtome.BookCover.url({file, book}, :large)
+      })
     else
       error -> IO.inspect(error)
     end
   end
-
 
   def set_book_author(author, book) do
     %BookAuthor{}
@@ -152,42 +150,49 @@ defmodule Readtome.Books do
   """
   def list_book_instance(%{term: term, lat: lat, lng: lng, offerings: offerings}) do
     point = %Geo.Point{coordinates: {lat, lng}, srid: 4326}
-    BookInstance
-      |> by_term(term)
-      |> by_offerings(offerings)
-      |> near(point)
-      |> preload(:user)
-      |> preload([book: :authors])
-      |> Repo.all
 
+    BookInstance
+    |> by_term(term)
+    |> by_offerings(offerings)
+    |> near(point)
+    |> preload(:user)
+    |> preload(book: :authors)
+    |> Repo.all()
   end
 
   def near(query, nil), do: query
+
   def near(query, point) do
     {lng, lat} = point.coordinates
-    from book_instance in query,
+
+    from(book_instance in query,
       order_by: fragment("? <-> ST_SetSRID(ST_MakePoint(?,?), ?)", book_instance.location, ^lng, ^lat, ^point.srid)
+    )
   end
 
   def by_term(query, nil), do: query
+
   def by_term(query, term) do
-    from book_instance in query,
+    from(book_instance in query,
       join: user in assoc(book_instance, :user),
       join: book in assoc(book_instance, :book),
       where: fragment("LOWER(?) % LOWER(?) OR LOWER(?) = LOWER(?)", book.title, ^term, ^term, user.name),
       order_by: fragment("similarity(LOWER(?), LOWER(?)) DESC", book.title, ^term)
+    )
   end
 
   def by_offerings(query, nil), do: query
+
   def by_offerings(query, offerings) do
-    from book_instance in query,
+    from(book_instance in query,
       where: fragment("offerings in (?)", ^offerings)
+    )
   end
 
   def by_isbn(isbn) do
     Book
     |> Repo.get_by(isbn: isbn)
-    |> Repo.preload([instances: :user])
+    |> Repo.preload(instances: :user)
     |> Repo.preload(:authors)
   end
 
@@ -221,10 +226,13 @@ defmodule Readtome.Books do
   """
   def create_book_instance(attrs \\ %{}) do
     IO.inspect(attrs)
-    attrs = case attrs do
-      %{"lat" => lat, "lng" => lng} -> Map.put(attrs, "location", %Geo.Point{coordinates: {lat, lng}, srid: 4326})
-      _ -> attrs
-    end
+
+    attrs =
+      case attrs do
+        %{"lat" => lat, "lng" => lng} -> Map.put(attrs, "location", %Geo.Point{coordinates: {lat, lng}, srid: 4326})
+        _ -> attrs
+      end
+
     %BookInstance{}
     |> BookInstance.changeset(attrs)
     |> Repo.insert()

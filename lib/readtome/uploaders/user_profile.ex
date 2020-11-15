@@ -14,8 +14,7 @@ defmodule Readtome.UserProfile do
   # Whitelist file extensions:
   def validate({file, _}) do
     ~w(.jpg .jpeg .png)
-      |> Enum.member?(
-        String.downcase(Path.extname(file.file_name)))
+    |> Enum.member?(String.downcase(Path.extname(file.file_name)))
   end
 
   # Define a thumbnail transformation:

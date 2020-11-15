@@ -20,24 +20,26 @@ defmodule Readtome.Connector do
   def list_inquiries(user_id) do
     Inquiry
     |> by_user(user_id)
-    |> Repo.all
+    |> Repo.all()
   end
 
   def list_requests(user_id) do
     Inquiry
     |> for_user(user_id)
-    |> Repo.all
+    |> Repo.all()
   end
 
   def by_user(query, user_id) do
-    from i in query,
+    from(i in query,
       where: i.user_id == ^user_id
+    )
   end
 
   def for_user(query, user_id) do
-    from i in query,
+    from(i in query,
       join: bi in assoc(i, :book_instance),
       where: bi.user_id == ^user_id
+    )
   end
 
   @doc """

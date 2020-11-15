@@ -4,7 +4,7 @@ defmodule ReadtomeWeb.AuthorController do
   alias Readtome.Authors
   alias Readtome.Authors.Author
 
-  action_fallback ReadtomeWeb.FallbackController
+  action_fallback(ReadtomeWeb.FallbackController)
 
   def index(conn, _params) do
     authors = Authors.list_authors()
@@ -35,6 +35,7 @@ defmodule ReadtomeWeb.AuthorController do
 
   def delete(conn, %{"id" => id}) do
     author = Authors.get_author!(id)
+
     with {:ok, %Author{}} <- Authors.delete_author(author) do
       send_resp(conn, :no_content, "")
     end

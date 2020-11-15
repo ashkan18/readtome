@@ -2,12 +2,11 @@ defmodule Readtome.Authors.Author do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "authors" do
-    field :bio, :string
-    field :name, :string
+    field(:bio, :string)
+    field(:name, :string)
 
-    many_to_many :books, Readtome.Books.Book, join_through: Readtome.Books.BookAuthor
+    many_to_many(:books, Readtome.Books.Book, join_through: Readtome.Books.BookAuthor)
     timestamps()
   end
 

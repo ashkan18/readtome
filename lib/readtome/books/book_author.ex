@@ -3,8 +3,8 @@ defmodule Readtome.Books.BookAuthor do
   import Ecto.Changeset
 
   schema "book_authors" do
-    belongs_to :book, Readtome.Books.Book
-    belongs_to :author, Readtome.Authors.Author
+    belongs_to(:book, Readtome.Books.Book)
+    belongs_to(:author, Readtome.Authors.Author)
 
     timestamps()
   end

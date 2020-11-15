@@ -7,12 +7,14 @@ defmodule ReadtomeWeb.BookInstanceView do
   end
 
   def render("book_instance.json", %{book_instance: book_instance}) do
-    %{id: book_instance.id,
+    %{
+      id: book_instance.id,
       condition: book_instance.condition,
       medium: book_instance.medium,
       offerings: book_instance.offerings,
       location: Geo.JSON.encode(book_instance.location),
       book: render_one(book_instance.book, ReadtomeWeb.BookView, "book.json"),
-      user: render_one(book_instance.user, ReadtomeWeb.UserView, "user.json")}
+      user: render_one(book_instance.user, ReadtomeWeb.UserView, "user.json")
+    }
   end
 end

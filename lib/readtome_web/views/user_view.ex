@@ -11,12 +11,6 @@ defmodule ReadtomeWeb.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id,
-      name: user.name,
-      email: user.email,
-      sex: user.sex,
-      birthdate: user.birthdate,
-      photos: user.photos
-    }
+    %{id: user.id, name: user.name, email: user.email, sex: user.sex, birthdate: user.birthdate, photos: user.photos}
   end
 end

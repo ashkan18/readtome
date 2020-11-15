@@ -3,14 +3,14 @@ defmodule Readtome.Books.BookInstance do
   import Ecto.Changeset
 
   schema "book_instances" do
-    field :condition, :string
-    field :medium, :string
-    field :offerings, :string
-    field :location, Geo.PostGIS.Geometry
-    field :availability, :string
+    field(:condition, :string)
+    field(:medium, :string)
+    field(:offerings, :string)
+    field(:location, Geo.PostGIS.Geometry)
+    field(:availability, :string)
 
-    belongs_to :user, Readtome.Accounts.User
-    belongs_to :book, Readtome.Books.Book
+    belongs_to(:user, Readtome.Accounts.User)
+    belongs_to(:book, Readtome.Books.Book)
 
     timestamps()
   end

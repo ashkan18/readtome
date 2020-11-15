@@ -2,12 +2,11 @@ defmodule Readtome.Connector.Inquiry do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "inquiries" do
-    field :type, :string
+    field(:type, :string)
 
-    belongs_to :user, Readtome.Accounts.User
-    belongs_to :book_instance, Readtome.Books.BookInstance
+    belongs_to(:user, Readtome.Accounts.User)
+    belongs_to(:book_instance, Readtome.Books.BookInstance)
 
     timestamps()
   end

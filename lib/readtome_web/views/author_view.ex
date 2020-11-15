@@ -11,8 +11,6 @@ defmodule ReadtomeWeb.AuthorView do
   end
 
   def render("author.json", %{author: author}) do
-    %{id: author.id,
-      name: author.name,
-      bio: author.bio}
+    %{id: author.id, name: author.name, bio: author.bio}
   end
 end
