@@ -3,9 +3,10 @@ import { Switch, Route } from 'react-router-dom'
 import { Redirect } from 'react-router'
 
 import Login from "./pages/login"
-import Main from "./pages/main"
+import {Map} from "./pages/map"
 import Signup from './pages/sign_up';
 import AuthService from './services/auth_service';
+import BookInstanceService from './services/book_instance_service'
 
 interface State{
   token?: any
@@ -14,6 +15,7 @@ interface State{
 
 export default class AppRoutes extends React.Component<{}, State> {
   authService: AuthService = new AuthService;
+  bookInstanceServcie: BookInstanceService = new BookInstanceService
 
   public constructor(props: any, context: any) {
     super(props, context)
@@ -27,11 +29,7 @@ export default class AppRoutes extends React.Component<{}, State> {
       <Switch>
         <Route path="/login" render={ () => <Login authenticate={this.authenticate} />} />
         <Route path="/signup" render={ () => <Signup authenticate={this.authenticate} />} />
-        <Route path='/' render={() => (
-            this.state.isLoggedIn ?
-                    (<Main />) :
-                    (<Redirect to="/login" />)
-          )} />
+        <Route path='/' render={() => <Map bookInstanceService={this.bookInstanceServcie} authService={this.authService}/>}/>
       </Switch>)
   }
 

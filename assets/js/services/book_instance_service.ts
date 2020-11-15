@@ -1,19 +1,15 @@
 import axios, { AxiosResponse } from 'axios'
-import AuthService from './auth_service';
 import BookInstance from '../models/book_instance';
 import Inquiry from '../models/inquiry';
 
 
 
 export default class BookInstanceService {
-  private Auth: AuthService;
-  // Initializing important variables
   constructor() {
-    this.Auth = new AuthService()
     this.fetchBooks = this.fetchBooks.bind(this)
   }
 
-  public fetchBooks(term: string | null, lat: number, lng: number, offerings: Array<string> | null): Promise<Array<BookInstance>>{
+  public fetchBooks(token: string, term: string | null, lat: number, lng: number, offerings: Array<string> | null): Promise<Array<BookInstance>>{
     return new Promise((resolve, rejected) =>
 
       axios({
@@ -44,7 +40,7 @@ export default class BookInstanceService {
             }
           `,
           variables: {term, lat, lng, offerings },
-          headers: { 'Authorization': `Bearer ${this.Auth.getToken()}`} }
+          headers: { 'Authorization': `Bearer ${token}`} }
         })
       .then( response => {
         return resolve(response.data.data.bookInstances)
