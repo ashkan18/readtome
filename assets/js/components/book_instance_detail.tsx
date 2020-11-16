@@ -3,9 +3,10 @@ import BookInstance from "../models/book_instance"
 import { Button, Card, Image } from "semantic-ui-react"
   import BookInstanceService from "../services/book_instance_service"
 import ProfileGallery from "./profile_gallery";
+import AuthService from "../services/auth_service";
 
 interface Props{
-  bookInstance: BookInstance
+  bookInstance: BookInstance,
 }
 
 interface State{
@@ -15,7 +16,8 @@ interface State{
 }
 
 export default class BookInstanceDetail extends React.Component<Props, State>{
-  BookInstanceService: BookInstanceService = new BookInstanceService;
+  bookInstanceService: BookInstanceService = new BookInstanceService;
+  authService: AuthService = new AuthService
   public constructor(props: Props, context: any) {
     super(props, context)
     this.state = { isOpen: false, inquired: false, error: null }
@@ -49,7 +51,7 @@ export default class BookInstanceDetail extends React.Component<Props, State>{
   private openOverlay = () => this.setState({ isOpen: true })
   private closeOverlay = () => this.setState({ isOpen: false })
   private readIt = () => {
-    this.BookInstanceService.inquiry(this.props.bookInstance.id, "random-type")
+    this.bookInstanceService.inquiry(this.authService.getToken(), this.props.bookInstance.id, "random-type")
     .then( (_inquiry: any) => this.setState({inquired: true}))
     .catch( (error: any) => this.setState({error: error}))
   }

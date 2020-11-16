@@ -9,20 +9,10 @@ import BookInstanceService from "../services/book_instance_service";
 import AuthService from "../services/auth_service";
 import Reader from "../models/reader";
 import BookInstance from "../models/book_instance"
-import MainLayout from "./main_layout"
 import {Spinner} from "@artsy/palette"
+import MainLayout from "../components/main_layout";
 
 let defaultCoordinate = {lat: 40.690008, lng: -73.9857765}
-
-interface State {
-  bookInstances: Array<any>
-  searchTerm: string | null
-  needsLogin: boolean
-  isLoaded: boolean
-  error?: any,
-  me: Reader | null
-}
-
 interface Props {
   initialCoordinate?: Coordinate
   bookInstanceService: BookInstanceService

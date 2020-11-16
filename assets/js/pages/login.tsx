@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import { Input, Button, InputOnChangeData } from 'semantic-ui-react'
 import AuthService from "../services/auth_service";
 import { FormEvent, SyntheticEvent } from "react";
-import MainLayout from "./main_layout";
 import Header from "../components/header";
 import styled from "styled-components";
+import MainLayout from "../components/main_layout";
 
 
 interface Props{

@@ -51,9 +51,9 @@ export default class BookInstanceService {
     )
   }
 
-  public inquiry(bookInstanceId: string, type: string): Promise<Inquiry> {
+  public inquiry(token: string | null, bookInstanceId: string, type: string): Promise<Inquiry> {
     return new Promise((resolve, rejected) =>
-      axios.post("/api/inquiries", {book_instance_id: bookInstanceId, type}, { headers: { 'Authorization': `Bearer ${this.Auth.getToken()}`}})
+      axios.post("/api/inquiries", {book_instance_id: bookInstanceId, type}, { headers: { 'Authorization': `Bearer ${token}`}})
         .then( response => {
           return resolve(response.data)
         })

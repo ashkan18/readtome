@@ -3,7 +3,7 @@ import { Redirect } from "react-router"
 import axios from 'axios'
 import { Input, Button, InputOnChangeData } from 'semantic-ui-react'
 import { SyntheticEvent, FormEvent } from "react";
-import MainLayout from "./main_layout";
+import MainLayout from "../components/main_layout";
 import Header from "../components/header";
 import styled from "styled-components";
 
