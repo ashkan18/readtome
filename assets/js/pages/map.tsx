@@ -11,12 +11,14 @@ import Reader from "../models/reader";
 import BookInstance from "../models/book_instance"
 import {Spinner} from "@artsy/palette"
 import MainLayout from "../components/main_layout";
+import UserService from "../services/user_service";
 
 let defaultCoordinate = {lat: 40.690008, lng: -73.9857765}
 interface Props {
   initialCoordinate?: Coordinate
   bookInstanceService: BookInstanceService
   authService: AuthService
+  userService: UserService
 }
 
 export const Map = (props: Props) => {
@@ -60,7 +62,7 @@ export const Map = (props: Props) => {
   } else {
     return(
       <MainLayout>
-        <Header me={me}/>
+        <Header me={me} userService={props.userService}/>
         <Search searchMethod={search}/>
         <MapComponent
             initialCoordinate={props.initialCoordinate || defaultCoordinate}

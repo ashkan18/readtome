@@ -33,8 +33,8 @@ defmodule Readtome.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:absinthe_plug, "~> 1.4"},
-      {:absinthe_relay, "~> 1.4"},
+      {:absinthe_plug, "~> 1.5.0"},
+      {:absinthe_relay, "~> 1.5.0"},
       {:phoenix, "~> 1.5.6"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},

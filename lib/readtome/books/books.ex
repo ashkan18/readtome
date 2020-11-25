@@ -7,6 +7,7 @@ defmodule Readtome.Books do
   alias Readtome.Repo
 
   alias Readtome.Books.{Book, BookAuthor}
+  alias Readtome.BooksFinder
 
   @doc """
   Returns the list of books.
@@ -225,8 +226,6 @@ defmodule Readtome.Books do
 
   """
   def create_book_instance(attrs \\ %{}) do
-    IO.inspect(attrs)
-
     attrs =
       case attrs do
         %{"lat" => lat, "lng" => lng} -> Map.put(attrs, "location", %Geo.Point{coordinates: {lat, lng}, srid: 4326})
@@ -283,5 +282,20 @@ defmodule Readtome.Books do
   """
   def change_book_instance(%BookInstance{} = book_instance) do
     BookInstance.changeset(book_instance, %{})
+  end
+
+  def find_in_the_wild(isbn) do
+    case by_isbn(isbn) do
+      nil ->
+        with {:found, founded_book} <- BooksFinder.by_isbn(isbn),
+             {:ok, stored_book} <- copy_external(founded_book) do
+          Task.async(fn -> populate_with_external(stored_book, founded_book) end)
+          {:found_and_stored, %{book: stored_book, external: founded_book}}
+        else
+          _ -> {:not_found}
+        end
+
+      book -> {:found, book}
+    end
   end
 end

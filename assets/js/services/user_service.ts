@@ -6,8 +6,8 @@ import Reader from '../models/reader';
 export default class UserService {
   private Auth: AuthService;
   // Initializing important variables
-  constructor() {
-    this.Auth = new AuthService()
+  constructor(authService: AuthService) {
+    this.Auth = authService
     this.uploadPhoto = this.uploadPhoto.bind(this)
   }
 

@@ -17,5 +17,11 @@ defmodule ReadtomeWeb.Schema do
       arg(:offerings, list_of(:string))
       resolve(&Resolvers.Book.find_book_instances/3)
     end
+
+    field :book, :book do
+      arg(:isbn, :string)
+      resolve(&Resolvers.Book.find_by_isbn/3)
+    end
   end
+
 end

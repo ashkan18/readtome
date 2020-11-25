@@ -8,4 +8,5 @@ export default interface Book {
   genres: Array<string>
   medium_cover_url: string
   small_cover_url: string
+  tags: Array<string>
 }
