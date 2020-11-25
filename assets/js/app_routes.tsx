@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { Redirect } from 'react-router'
+
 
 import Login from "./pages/login"
 import {Map} from "./pages/map"
@@ -29,8 +29,8 @@ export default class AppRoutes extends React.Component<{}, State> {
   public render(){
     return(
       <Switch>
-        <Route path="/login" render={ () => <Login authenticate={this.authenticate} />} />
-        <Route path="/signup" render={ () => <Signup authenticate={this.authenticate} />} />
+        <Route path="/login" render={ () => <Login authenticate={this.authenticate} authService={this.authService} userService={this.userService}/>} />
+        <Route path="/signup" render={ () => <Signup authenticate={this.authenticate} userService={this.userService}/>} />
         <Route path='/' render={() => 
           <Map bookInstanceService={this.bookInstanceServcie} authService={this.authService} userService={this.userService}/>
         }/>

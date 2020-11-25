@@ -4,13 +4,16 @@ import { Link } from 'react-router-dom'
 import { Input, Button, InputOnChangeData } from 'semantic-ui-react'
 import AuthService from "../services/auth_service";
 import { FormEvent, SyntheticEvent } from "react";
-import Header from "../components/header";
+import { Header } from "../components/header";
 import styled from "styled-components";
 import MainLayout from "../components/main_layout";
+import UserService from "../services/user_service";
 
 
 interface Props{
   authenticate: any
+  authService: AuthService
+  userService: UserService
 }
 
 interface State{
@@ -30,7 +33,6 @@ const LoginForm = styled.div`
   padding-top: 50px;
 `
 export default class Login extends React.Component<Props, State> {
-  authService: AuthService = new AuthService
   public constructor(props: Props, context: any) {
     super(props, context)
 
@@ -43,7 +45,7 @@ export default class Login extends React.Component<Props, State> {
   public handleSubmit(e: FormEvent<HTMLFormElement>){
     e.preventDefault()
     this.setState({ loading: true })
-    this.authService.login(this.state.userName, this.state.password).then( token => {
+    this.props.authService.login(this.state.userName, this.state.password).then( token => {
       this.props.authenticate(token)
       this.setState({isLoggedIn: true, loading: false})
     }).catch( _error => {
@@ -61,7 +63,7 @@ export default class Login extends React.Component<Props, State> {
   public render() {
     return(
       <MainLayout>
-        <Header me={null}/>
+        <Header me={null} userService={this.props.userService}/>
         <LoginForm>
           <div className="error">{ this.state.error }</div>
           <form onSubmit={this.handleSubmit}>

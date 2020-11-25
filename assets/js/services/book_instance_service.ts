@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+const { default: axios } = require('axios');
 import BookInstance from '../models/book_instance';
 import Inquiry from '../models/inquiry';
 
