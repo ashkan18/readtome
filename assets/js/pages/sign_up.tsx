@@ -4,12 +4,14 @@ import axios from 'axios'
 import { Input, Button, InputOnChangeData } from 'semantic-ui-react'
 import { SyntheticEvent, FormEvent } from "react";
 import MainLayout from "../components/main_layout";
-import Header from "../components/header";
+import {Header} from "../components/header";
 import styled from "styled-components";
+import UserService from "../services/user_service";
 
 
 interface Props{
   authenticate: any
+  userService: UserService
 }
 
 interface State{
@@ -76,7 +78,7 @@ export default class Signup extends React.Component<Props, State> {
   public render() {
     return(
       <MainLayout>
-        <Header me={null}/>
+        <Header me={null} userService={this.props.userService}/>
         <SignUpForm>
           <div className="error">{ this.state.error }</div>
           <form onSubmit={this.handleSubmit}>

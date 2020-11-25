@@ -1,5 +1,5 @@
 import * as React from "react"
-import ReactMapboxGl, { Marker, Popup } from "react-mapbox-gl"
+import ReactMapboxGl, { Marker, Popup } from 'react-mapbox-gl';
 
 import Coordinate from "../models/coordinate"
 import BookInstance from "../models/book_instance"
@@ -120,7 +120,7 @@ export default class MapComponent extends React.Component<Props, State>{
         fitBounds={fitBounds}
         zoom={zoom}
         >
-        { bookInstances && bookInstances.map( bi =>
+        {/* { bookInstances && bookInstances.map( bi =>
           <Marker
             key={bi.id}
             coordinates={[bi.location.lng, bi.location.lat]}
@@ -130,16 +130,15 @@ export default class MapComponent extends React.Component<Props, State>{
             anchor="bottom">
             <StyledMarker key={bi.id}/>
           </Marker>)
-        }
-        { selectedBookInstance ?
+        } */}
+        { selectedBookInstance &&
           <Popup
             coordinates={[selectedBookInstance.location.lng, selectedBookInstance.location.lat]}
             anchor="bottom"
             offset={[0, -15]}>
             <BookInstanceDetail bookInstance={selectedBookInstance}/>
           </Popup>
-        :
-        null}
+        }
       </Map>
     )
   }

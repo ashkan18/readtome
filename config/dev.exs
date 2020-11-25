@@ -14,7 +14,6 @@ config :readtome, ReadtomeWeb.Endpoint,
   watchers: [
     node: [
       "node_modules/webpack/bin/webpack.js",
-      "--watch-stdin",
       "--progress",
       "--color",
       cd: Path.expand("../assets", __DIR__)

@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import Header from "../components/header";
+import {Header} from "../components/header";
 import Search from "../components/search"
 import MapComponent from "../components/map_component";
 import Coordinate from "../models/coordinate";

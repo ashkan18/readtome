@@ -3,9 +3,9 @@ import { Popup, Header as UIHeader} from "semantic-ui-react";
 import Reader from "../models/reader";
 import UserService from "../services/user_service";
 import styled from "styled-components";
-import { PlusIcon } from "@artsy/palette";
 import { Profile } from "./profile";
 import { BookSubmission } from "./book_submit";
+import { PlusIcon } from "@artsy/palette/dist/svgs/PlusIcon";
 
 interface Props {
   me: Reader | null
@@ -33,19 +33,15 @@ const LogoSection = styled.div`
 `
 
 
-export default class Header extends React.Component<Props, State> {
-  UserService: UserService
-  public constructor(props: Props, context: any) {
-    super(props, context)
-  }
-  public render() {
+export const Header = (props: Props) => {
+  
     return(
       <HeaderDiv>
         <LogoSection>
           <h2>R<span style={{fontSize: 10 }}>ead</span>T<span style={{fontSize: 11 }}>o</span>M<span style={{fontSize: 11 }}>e</span></h2>
         </LogoSection>
         
-        { this.props.me &&
+        { props.me &&
         <>
           <Popup trigger={<PlusIcon width={25} height={25}/>}
             header="Add New Book"
@@ -54,11 +50,9 @@ export default class Header extends React.Component<Props, State> {
             }
             position="top center"
             on="click" />
-          <Profile me={this.props.me} userService={this.props.userService} />
+          <Profile me={props.me} userService={props.userService} />
         </>
         }
       </HeaderDiv>
     )
-  }
-
 }

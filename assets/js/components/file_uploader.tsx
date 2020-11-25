@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Button, ButtonProps, Label, Input } from 'semantic-ui-react';
+import { Button, Label, Input } from 'semantic-ui-react';
 import * as uuid from 'uuid';
+import { ButtonProps } from '../../node_modules/semantic-ui-react/dist/commonjs/elements/Button/Button';
 
 interface ActionProps {
     onSelect?: (file: any) => void;

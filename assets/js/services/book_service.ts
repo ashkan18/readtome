@@ -1,6 +1,7 @@
-import axios, { AxiosResponse } from 'axios'
+const { default: axios } = require('axios');
+import Book from '../models/book'
 
-export const findByISBN = (token: string | null, isbn: string) => {
+export const findByISBN = (token: string | null, isbn: string): Promise<Book> => {
   return new Promise((resolve, rejected) =>
       axios({
         url: "/api/",

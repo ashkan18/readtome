@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+const { default: axios } = require('axios');
 import AuthService from './auth_service'
 import Reader from '../models/reader';
 
