@@ -2,7 +2,7 @@ import * as React from "react"
 
 import {Header} from "../components/header";
 import Search from "../components/search"
-import MapComponent from "../components/map_component";
+import {MapComponent} from "../components/map_component";
 import Coordinate from "../models/coordinate";
 import { Redirect } from "react-router";
 import BookInstanceService from "../services/book_instance_service";
