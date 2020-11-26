@@ -88,7 +88,7 @@ export default class MapComponent extends React.Component<Props, State>{
     const {location} = selectedBookInstance
     this.setState({
       center: [location.lng, location.lat],
-      zoom: [13],
+      zoom: [15],
       selectedBookInstance
     });
   };
@@ -128,17 +128,6 @@ export default class MapComponent extends React.Component<Props, State>{
             ))}
           </Layer>
           
-        {/* { bookInstances && bookInstances.map( bi =>
-          <Marker
-            key={bi.id}
-            coordinates={[bi.location.lng, bi.location.lat]}
-            onClick={ () => {
-              this.onMarkerClick(bi)}
-            }
-            anchor="bottom">
-            <StyledMarker key={bi.id}/>
-          </Marker>)
-        } */}
         { selectedBookInstance &&
           <Popup
             coordinates={[selectedBookInstance.location.lng, selectedBookInstance.location.lat]}
