@@ -11,10 +11,7 @@ export const BookSubmission = () => {
   const search = () => {
     if (isbn !== undefined) {
       findByISBN(null, isbn)
-      .then(book => {
-        console.table(book)
-        setBook(book)
-      })
+      .then(book => setBook(book))
     }
   }
   return(

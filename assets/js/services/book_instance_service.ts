@@ -28,12 +28,14 @@ export default class BookInstanceService {
                 book {
                   id
                   title
+                  tags
                   authors {
                     name
                     id
                     bio
                   }
                   small_cover_url
+                  medium_cover_url
                 }
                 location
               }

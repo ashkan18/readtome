@@ -14,7 +14,7 @@ export const BookComponent = (props: Props) => {
         <Image floated="left" src={book.small_cover_url} size="mini"/>
         <Card.Meta> {book.title}</Card.Meta>
         <Card.Meta> {book.authors && book.authors.map( author => author.name).join(",")}</Card.Meta>
-        <Card.Meta> {book.tags && book.tags.join(",")}</Card.Meta>
+        <Card.Meta> {book?.tags.join(",")}</Card.Meta>
       </Card.Content>
     </Card>
   )
