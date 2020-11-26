@@ -16,6 +16,7 @@ config :readtome, ReadtomeWeb.Endpoint,
       "node_modules/webpack/bin/webpack.js",
       "--progress",
       "--color",
+      "--watch",
       cd: Path.expand("../assets", __DIR__)
     ]
   ]
@@ -60,4 +61,5 @@ config :readtome, Readtome.Repo,
   url: System.get_env("DATABASE_URL"),
   pool_size: 2,
   extensions: [{Geo.PostGIS.Extension, library: Geo}],
-  types: Readtome.PostgresTypes
+  types: Readtome.PostgresTypes,
+  ssl: true

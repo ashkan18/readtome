@@ -150,7 +150,7 @@ defmodule Readtome.Books do
 
   """
   def list_book_instance(%{term: term, lat: lat, lng: lng, offerings: offerings}) do
-    point = %Geo.Point{coordinates: {lat, lng}, srid: 4326}
+    point = %Geo.Point{coordinates: {lng, lat}, srid: 4326}
 
     BookInstance
     |> by_term(term)
@@ -228,7 +228,7 @@ defmodule Readtome.Books do
   def create_book_instance(attrs \\ %{}) do
     attrs =
       case attrs do
-        %{"lat" => lat, "lng" => lng} -> Map.put(attrs, "location", %Geo.Point{coordinates: {lat, lng}, srid: 4326})
+        %{"lat" => lat, "lng" => lng} -> Map.put(attrs, "location", %Geo.Point{coordinates: {lng, lat}, srid: 4326})
         _ -> attrs
       end
 

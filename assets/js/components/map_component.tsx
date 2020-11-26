@@ -1,5 +1,5 @@
 import * as React from "react"
-import ReactMapboxGl, { Marker, Popup } from 'react-mapbox-gl';
+import ReactMapboxGl, { Feature, Layer, Marker, Popup } from 'react-mapbox-gl';
 
 import Coordinate from "../models/coordinate"
 import BookInstance from "../models/book_instance"
@@ -7,6 +7,7 @@ import AuthService from "../services/auth_service";
 import styled from "styled-components"
 import {GeolocateControl} from "mapbox-gl"
 import BookInstanceDetail from "./book_instance_detail";
+import { svg } from "./icon";
 
 
 const Map = ReactMapboxGl({
@@ -24,15 +25,6 @@ const flyToOptions = {
 };
 
 
-const Mark = styled.div`
-  background-color: #e74c3c;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  border: 4px solid #eaa29b;
-`;
-
-
 interface Props{
   bookInstances: Array<BookInstance>
   initialCoordinate: Coordinate
@@ -46,18 +38,22 @@ interface State {
   zoom: [number];
 }
 
-const StyledMarker = styled.div`
-  background-color: orange;
-  width: 1.5rem;
-  height: 1.5rem;
-  display: block;
-  left: -0.5rem;
-  top: -0.5rem;
-  position: relative;
-  border-radius: 1.5rem 1.5rem 0;
-  transform: rotate(45deg);
-  border: 1px solid orangered;
-`
+
+const layoutLayer = { 'icon-image': 'londonCycle' };
+
+// Create an image for the Layer
+const image = new Image();
+image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(svg);
+const images: any = ['londonCycle', image];
+
+const StyledPopup = styled.div`
+  background: white;
+  color: #3f618c;
+  font-weight: 400;
+  padding: 5px;
+  border-radius: 2px;
+`;
+
 
 export default class MapComponent extends React.Component<Props, State>{
   authService: AuthService = new AuthService()
@@ -117,9 +113,21 @@ export default class MapComponent extends React.Component<Props, State>{
         onStyleLoad={this.onStyleLoad}
         onDrag={this.onDrag}
         center={center}
-        fitBounds={fitBounds}
         zoom={zoom}
+        fitBounds={fitBounds}
         >
+          <Layer type="symbol" id="marker" layout={layoutLayer} images={images}>
+            {bookInstances?.map((bi, index) => (
+              <Feature
+                key={bi.id}
+                onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
+                onMouseLeave={this.onToggleHover.bind(this, '')}
+                onClick={() => this.onMarkerClick(bi)}
+                coordinates={[bi.location.lng, bi.location.lat]}
+              />
+            ))}
+          </Layer>
+          
         {/* { bookInstances && bookInstances.map( bi =>
           <Marker
             key={bi.id}
