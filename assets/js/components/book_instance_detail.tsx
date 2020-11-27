@@ -43,7 +43,7 @@ export default class BookInstanceDetail extends React.Component<Props, State> {
           <Card.Meta>{bookInstance.reader.name}</Card.Meta>
         </Card.Content>
         {!this.state.inquired && (
-          <Button color="orange" onClick={this.readIt} />
+          <Button color="orange" onClick={this.readIt}> Read </Button>
         )}
         {this.state.inquired && (
           <Card.Content> Your inquiry is created!</Card.Content>
