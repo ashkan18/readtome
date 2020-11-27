@@ -26,7 +26,7 @@ export default class BookInstanceDetail extends React.Component<Props, State> {
     const { bookInstance } = this.props;
     return (
       <Card>
-        <Image src={bookInstance.book.small_cover_url} size="mini" ui={false} />
+        <Image src={bookInstance.book.medium_cover_url} size="small" centered/>
         <Card.Content>
           <Card.Header>{bookInstance.book.title}</Card.Header>
           <Card.Description>
