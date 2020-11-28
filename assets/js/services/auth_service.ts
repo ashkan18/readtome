@@ -1,6 +1,11 @@
 const { default: axios } = require('axios');
 import Reader from '../models/reader';
 
+export const getToken = ():string|null => {
+  // Retrieves the user token from localStorage
+  return localStorage.getItem('id_token')
+}
+
 export default class AuthService {
   // Initializing important variables
   constructor() {

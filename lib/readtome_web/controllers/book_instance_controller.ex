@@ -7,7 +7,10 @@ defmodule ReadtomeWeb.BookInstanceController do
   action_fallback(ReadtomeWeb.FallbackController)
 
   def create(conn, %{"book_instance" => book_instance_params}) do
-    with {:ok, %BookInstance{} = book_instance} <- Books.create_book_instance(book_instance_params) do
+    with user <- conn.private.guardian_default_resource,
+         {:ok, %BookInstance{} = book_instance} <- Books.create_book_instance(user, book_instance_params),
+         book_instance <-
+           Books.populate(book_instance, [:book, :user]) do
       conn
       |> put_status(:created)
       |> render("show.json", book_instance: book_instance)

@@ -23,5 +23,4 @@ defmodule ReadtomeWeb.Schema do
       resolve(&Resolvers.Book.find_by_isbn/3)
     end
   end
-
 end

@@ -225,17 +225,18 @@ defmodule Readtome.Books do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_book_instance(attrs \\ %{}) do
+  def create_book_instance(user, attrs = %{"lat" => lat, "lng" => lng}) do
     attrs =
-      case attrs do
-        %{"lat" => lat, "lng" => lng} -> Map.put(attrs, "location", %Geo.Point{coordinates: {lng, lat}, srid: 4326})
-        _ -> attrs
-      end
+      attrs
+      |> Map.put("location", %Geo.Point{coordinates: {lng, lat}, srid: 4326})
+      |> Map.put("user_id", user.id)
 
     %BookInstance{}
     |> BookInstance.changeset(attrs)
     |> Repo.insert()
   end
+
+  def create_book_instance(_, _), do: {:error, :missing_coordinates}
 
   @doc """
   Updates a book_instance.
@@ -295,7 +296,12 @@ defmodule Readtome.Books do
           _ -> {:not_found}
         end
 
-      book -> {:found, book}
+      book ->
+        {:found, book}
     end
+  end
+
+  def populate(model, attrs) do
+    Repo.preload(model, attrs)
   end
 end

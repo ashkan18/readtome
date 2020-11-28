@@ -1,6 +1,6 @@
 import * as React from "react";
 import BookInstance from "../models/book_instance";
-import { Button, Card, Image } from "semantic-ui-react";
+import { Button, Card, Image, Item } from "semantic-ui-react";
 import BookInstanceService from "../services/book_instance_service";
 import ProfileGallery from "./profile_gallery";
 import AuthService from "../services/auth_service";
@@ -25,30 +25,37 @@ export default class BookInstanceDetail extends React.Component<Props, State> {
   public render() {
     const { bookInstance } = this.props;
     return (
-      <Card>
-        <Image src={bookInstance.book.medium_cover_url} size="small" centered/>
-        <Card.Content>
-          <Card.Header>{bookInstance.book.title}</Card.Header>
-          <Card.Description>
-            {bookInstance.book?.authors?.map((author) => author.name).join(",")}
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <Card.Meta> {bookInstance.book?.tags?.join(",")}</Card.Meta>
-          <Card.Meta>{bookInstance.condition}</Card.Meta>
-          {bookInstance.reader.photos &&
-            bookInstance.reader.photos.length > 0 && (
-              <ProfileGallery reader={bookInstance.reader} />
-            )}
-          <Card.Meta>{bookInstance.reader.name}</Card.Meta>
-        </Card.Content>
+      <>
+        <Item.Group>
+          <Item>
+            <Item.Image size="tiny" src={bookInstance.book.medium_cover_url} />
+            <Item.Content>
+              <Item.Header as="a">{bookInstance.book.title}</Item.Header>
+              <Item.Meta>
+                {bookInstance.book.authors
+                  ?.map((author) => author.name)
+                  .join(",")}
+              </Item.Meta>
+              <Item.Extra>{bookInstance.book?.tags.join(",")}</Item.Extra>
+            </Item.Content>
+          </Item>
+          <Item>
+            <Item.Header as="a">{bookInstance.reader.name}</Item.Header>
+            <Item.Meta>
+              {bookInstance.reader.photos &&
+                bookInstance.reader.photos.length > 0 && (
+                  <ProfileGallery reader={bookInstance.reader} />
+                )}
+            </Item.Meta>
+          </Item>
+        </Item.Group>
         {!this.state.inquired && (
-          <Button color="orange" onClick={this.readIt}> Read </Button>
+          <Button color="orange" onClick={this.readIt}>
+            Read
+          </Button>
         )}
-        {this.state.inquired && (
-          <Card.Content> Your inquiry is created!</Card.Content>
-        )}
-      </Card>
+        {this.state.inquired && "Your inquiry is created!"}
+      </>
     );
   }
 

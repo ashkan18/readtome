@@ -3,6 +3,19 @@ import BookInstance from '../models/book_instance';
 import Inquiry from '../models/inquiry';
 
 
+export const submitOffering = (token: string | null, bookId: string, lat: number, lng: number, offerType: string): Promise<BookInstance> => {
+  return new Promise((resolve, rejected) =>
+    axios.post("/api/book_instances", {book_instance: { book_id: bookId, lat, lng, offerings: offerType, medium: "read", condition: "fair"}}, { headers: { 'Authorization': `Bearer ${token}`}})
+      .then( response => {
+        return resolve(response.data)
+      })
+      .catch( error => {
+        console.error(error)
+        return rejected(error)
+      })
+  )
+}
+
 
 export default class BookInstanceService {
   constructor() {
@@ -63,6 +76,5 @@ export default class BookInstanceService {
           return rejected(error)
         })
     )
-  }
-    
+  }  
 }

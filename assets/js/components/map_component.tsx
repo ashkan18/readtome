@@ -31,8 +31,9 @@ const images: any = ["londonCycle", image];
 
 interface Props {
   bookInstances: Array<BookInstance>;
-  initialCoordinate: Coordinate;
+  center: Coordinate;
   onStyleLoad?: (map: any) => any;
+  geoLocation: GeolocateControl;
 }
 
 interface State {
@@ -45,6 +46,7 @@ interface State {
 interface Action {
   type: string;
   item?: BookInstance;
+  coordinate?: { lat: number; lng: number };
 }
 
 const reducer = (state, action) => {
@@ -59,29 +61,31 @@ const reducer = (state, action) => {
         centerLng: bookInstance.location.lng,
       };
     case "RESET_SELECT":
-      if (state.selectedBookInstance) {
+      if (state.bookInstance !== undefined)
         return { ...state, bookInstance: undefined };
+      else return state;
+    case "GOT_CURRENT_LOCATION":
+      if (action.coordinate !== null) {
+        return {
+          ...state,
+          centerLat: action.coordinate.lat,
+          centerLng: action.coordinate.lng,
+        };
       } else {
         return state;
       }
+
     default:
       return state;
   }
 };
 
 export const MapComponent = (props: Props) => {
-  const geoLocation = new GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: false,
-    },
-    trackUserLocation: false,
-  });
-
   const initialState = {
     bookInstance: undefined,
     zoom: 13,
-    centerLat: props.initialCoordinate.lat,
-    centerLng: props.initialCoordinate.lng,
+    centerLat: 40.690008,
+    centerLng: -73.9857765,
   };
 
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
@@ -90,9 +94,7 @@ export const MapComponent = (props: Props) => {
   );
 
   const onDrag = () => {
-    if (state.bookInstance) {
-      dispatch({ type: "RESET_SELECT" });
-    }
+    dispatch({ type: "RESET_SELECT" });
   };
   const onToggleHover = (cursor: string, { map }: { map: any }) => {
     map.getCanvas().style.cursor = cursor;
@@ -104,12 +106,16 @@ export const MapComponent = (props: Props) => {
 
   const onStyleLoad = (map: any) => {
     const { onStyleLoad } = props;
-    map.addControl(geoLocation);
+    map.addControl(props.geoLocation);
     setTimeout(() => {
-      geoLocation.trigger();
+      props.geoLocation.trigger();
     }, 500);
     return onStyleLoad && onStyleLoad(map);
   };
+
+  React.useEffect(() => {
+    dispatch({ type: "GOT_CURRENT_LOCATION", coordinate: props.center });
+  }, [props.center]);
 
   return (
     <Map

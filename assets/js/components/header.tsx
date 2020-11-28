@@ -6,16 +6,14 @@ import styled from "styled-components";
 import { Profile } from "./profile";
 import { BookSubmission } from "./book_submit";
 import { PlusIcon } from "@artsy/palette/dist/svgs/PlusIcon";
+import { GeolocateControl } from "mapbox-gl";
 
 interface Props {
   me: Reader | null
   userService: UserService
+  currentLocation?: any
 }
 
-interface State{
-  editProfile: boolean,
-  photos: any
-}
 
 const HeaderDiv = styled.div`
   padding: 10px;
@@ -46,7 +44,7 @@ export const Header = (props: Props) => {
           <Popup trigger={<PlusIcon width={25} height={25}/>}
             header="Add New Book"
             content={
-              <BookSubmission/>
+              <BookSubmission currentLocation={props.currentLocation}/>
             }
             position="top center"
             on="click" />

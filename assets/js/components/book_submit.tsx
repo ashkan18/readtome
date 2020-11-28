@@ -1,14 +1,21 @@
+import { GeolocateControl } from "mapbox-gl";
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Input } from "semantic-ui-react";
 import Book from "../models/book";
 import { findByISBN } from "../services/book_service";
 import { BookComponent } from "./book_detail";
+import { BookSubmissionForm } from "./book_submission_form";
 
-export const BookSubmission = () => {
+
+interface Props {
+  currentLocation: any
+}
+
+export const BookSubmission = (props: Props) => {
 
   const [isbn, setISBN] = useState<string>()
   const [book, setBook] = useState<Book>()
-  const search = () => {
+  const findByIsbn = () => {
     if (isbn !== undefined) {
       findByISBN(null, isbn)
       .then(book => setBook(book))
@@ -19,10 +26,14 @@ export const BookSubmission = () => {
       <Form>
         <FormGroup>
           <Input type="text" placeholder="ISBN" onChange={(_event, data) => setISBN(data.value) }/>
-          <Button onClick={() => search()}>Find By ISBN</Button>
+          <Button onClick={() => findByIsbn()}>Find By ISBN</Button>
         </FormGroup>
       </Form>
-      {book && <BookComponent book={book} />}
+      {book && 
+        <>
+          <BookComponent book={book} />
+          <BookSubmissionForm book={book} currentLocation={props.currentLocation}/>
+        </>}
     </>
   )
 }

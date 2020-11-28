@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 
 
 import Login from "./pages/login"
-import {Map} from "./pages/map"
+import {Home} from "./pages/home"
 import Signup from './pages/sign_up';
 import AuthService from './services/auth_service';
 import BookInstanceService from './services/book_instance_service'
@@ -32,7 +32,7 @@ export default class AppRoutes extends React.Component<{}, State> {
         <Route path="/login" render={ () => <Login authenticate={this.authenticate} authService={this.authService} userService={this.userService}/>} />
         <Route path="/signup" render={ () => <Signup authenticate={this.authenticate} userService={this.userService}/>} />
         <Route path='/' render={() => 
-          <Map bookInstanceService={this.bookInstanceServcie} authService={this.authService} userService={this.userService}/>
+          <Home bookInstanceService={this.bookInstanceServcie} authService={this.authService} userService={this.userService}/>
         }/>
       </Switch>)
   }
