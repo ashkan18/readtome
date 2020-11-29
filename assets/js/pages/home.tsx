@@ -30,7 +30,7 @@ export const Home = (props: Props) => {
   });
 
   const [bookInstances, setBookInstances] = React.useState<BookInstance[]>([]);
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [searching, setSearching] = React.useState(false);
   const [error, setError] = React.useState<any>();
   const [needsLogin, setNeedsLogin] = React.useState(false);
   const [me, setMe] = React.useState<Reader | null>(null);
@@ -38,13 +38,14 @@ export const Home = (props: Props) => {
   const [currentLocation, setCurrentLocation] = React.useState<any | null>(
     null
   );
-  const [searchTerm, setSearchTerm] = React.useState<string>()
+  const [searchTerm, setSearchTerm] = React.useState<string>();
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const search = (term: string | null) => {
     const coordination = currentLocation; //|| defaultCoordinate
     const token = props.authService.getToken();
     if (token) {
+      setSearching(true);
       props.bookInstanceService
         .fetchBooks(token, term, coordination.lat, coordination.lng, offerings)
         .then((bookInstances) => setBookInstances(bookInstances))
@@ -55,9 +56,9 @@ export const Home = (props: Props) => {
   React.useEffect(
     () => {
       if (debouncedSearchTerm) {
-        search(debouncedSearchTerm)
+        search(debouncedSearchTerm);
       } else {
-        setBookInstances([])
+        setBookInstances([]);
       }
     },
     [debouncedSearchTerm] // Only call effect if debounced search term changes
@@ -79,15 +80,12 @@ export const Home = (props: Props) => {
     fetchData();
   }, []);
 
-
-  React.useEffect(() => setIsLoaded(true), [bookInstances]);
+  React.useEffect(() => setSearching(false), [bookInstances]);
 
   if (needsLogin) {
     return <Redirect to="/login" />;
   } else if (error) {
     return <div> Error {error.message} </div>;
-  } else if (!isLoaded) {
-    return <Spinner />;
   } else {
     return (
       <MainLayout>
@@ -96,9 +94,12 @@ export const Home = (props: Props) => {
           userService={props.userService}
           currentLocation={currentLocation}
         />
-        <Input fluid
-          icon='search'
-          onChange={ (_event, {value}) => setSearchTerm(value) }/>
+        <Input
+          fluid
+          icon="search"
+          loading={searching}
+          onChange={(_event, { value }) => setSearchTerm(value)}
+        />
 
         <MapComponent
           center={currentLocation}
