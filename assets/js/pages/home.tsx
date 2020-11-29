@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { Header } from "../components/header";
-import Search from "../components/search";
 import { MapComponent } from "../components/map_component";
 import { Redirect } from "react-router";
 import BookInstanceService from "../services/book_instance_service";
@@ -12,6 +11,8 @@ import { Spinner } from "@artsy/palette";
 import MainLayout from "../components/main_layout";
 import UserService from "../services/user_service";
 import { GeolocateControl } from "mapbox-gl";
+import { useDebounce } from "../hooks/debounce";
+import { Input } from "semantic-ui-react";
 
 //let defaultCoordinate = {lat: 40.690008, lng: -73.9857765}
 interface Props {
@@ -21,6 +22,13 @@ interface Props {
 }
 
 export const Home = (props: Props) => {
+  const geoLocation = new GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: false,
+    },
+    trackUserLocation: false,
+  });
+
   const [bookInstances, setBookInstances] = React.useState<BookInstance[]>([]);
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [error, setError] = React.useState<any>();
@@ -30,13 +38,30 @@ export const Home = (props: Props) => {
   const [currentLocation, setCurrentLocation] = React.useState<any | null>(
     null
   );
+  const [searchTerm, setSearchTerm] = React.useState<string>()
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const geoLocation = new GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: false,
+  const search = (term: string | null) => {
+    const coordination = currentLocation; //|| defaultCoordinate
+    const token = props.authService.getToken();
+    if (token) {
+      props.bookInstanceService
+        .fetchBooks(token, term, coordination.lat, coordination.lng, offerings)
+        .then((bookInstances) => setBookInstances(bookInstances))
+        .catch((_error) => setNeedsLogin(true));
+    }
+  };
+
+  React.useEffect(
+    () => {
+      if (debouncedSearchTerm) {
+        search(debouncedSearchTerm)
+      } else {
+        setBookInstances([])
+      }
     },
-    trackUserLocation: false,
-  });
+    [debouncedSearchTerm] // Only call effect if debounced search term changes
+  );
 
   geoLocation.on("geolocate", (data) => {
     const { latitude, longitude } = data.coords;
@@ -54,16 +79,6 @@ export const Home = (props: Props) => {
     fetchData();
   }, []);
 
-  const search = (term: string | null) => {
-    const coordination = currentLocation; //|| defaultCoordinate
-    const token = props.authService.getToken();
-    if (token) {
-      props.bookInstanceService
-        .fetchBooks(token, term, coordination.lat, coordination.lng, offerings)
-        .then((bookInstances) => setBookInstances(bookInstances))
-        .catch((_error) => setNeedsLogin(true));
-    }
-  };
 
   React.useEffect(() => setIsLoaded(true), [bookInstances]);
 
@@ -81,7 +96,9 @@ export const Home = (props: Props) => {
           userService={props.userService}
           currentLocation={currentLocation}
         />
-        <Search searchMethod={search} />
+        <Input fluid
+          icon='search'
+          onChange={ (_event, {value}) => setSearchTerm(value) }/>
 
         <MapComponent
           center={currentLocation}

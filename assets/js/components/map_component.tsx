@@ -64,6 +64,10 @@ const reducer = (state, action) => {
       if (state.bookInstance !== undefined)
         return { ...state, bookInstance: undefined };
       else return state;
+    case "GOT_SEARCH_RESULTS":
+      if (state.bookInstance !== undefined)
+        return { ...state, bookInstance: undefined };
+      else return state;
     case "GOT_CURRENT_LOCATION":
       if (action.coordinate !== null) {
         return {
@@ -116,6 +120,10 @@ export const MapComponent = (props: Props) => {
   React.useEffect(() => {
     dispatch({ type: "GOT_CURRENT_LOCATION", coordinate: props.center });
   }, [props.center]);
+
+  React.useEffect(() => {
+    dispatch({ type: "GOT_SEARCH_RESULTS" });
+  }, [props.bookInstances]);
 
   return (
     <Map
