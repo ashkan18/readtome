@@ -7,7 +7,6 @@ import BookInstanceService from "../services/book_instance_service";
 import AuthService from "../services/auth_service";
 import Reader from "../models/reader";
 import BookInstance from "../models/book_instance";
-import { Spinner } from "@artsy/palette";
 import MainLayout from "../components/main_layout";
 import UserService from "../services/user_service";
 import { GeolocateControl } from "mapbox-gl";
@@ -95,6 +94,7 @@ export const Home = (props: Props) => {
           currentLocation={currentLocation}
         />
         <Input
+          placeholder="Search By Title, Author..."
           fluid
           icon="search"
           loading={searching}

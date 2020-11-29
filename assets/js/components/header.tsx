@@ -1,12 +1,10 @@
 import * as React from "react"
-import { Popup, Header as UIHeader} from "semantic-ui-react";
+import { Popup, Header as UIHeader, Icon} from "semantic-ui-react";
 import Reader from "../models/reader";
 import UserService from "../services/user_service";
 import styled from "styled-components";
 import { Profile } from "./profile";
 import { BookSubmission } from "./book_submit";
-import { PlusIcon } from "@artsy/palette/dist/svgs/PlusIcon";
-import { GeolocateControl } from "mapbox-gl";
 
 interface Props {
   me: Reader | null
@@ -41,7 +39,8 @@ export const Header = (props: Props) => {
         
         { props.me &&
         <>
-          <Popup trigger={<PlusIcon width={25} height={25}/>}
+        
+          <Popup trigger={<Icon name="plus square outline" size="large" style={{cursor: "pointer"}}/>}
             header="Add New Book"
             content={
               <BookSubmission currentLocation={props.currentLocation}/>
