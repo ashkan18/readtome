@@ -4,7 +4,7 @@ import Book from '../models/book'
 export const findByISBN = (token: string | null, isbn: string): Promise<Book> => {
   return new Promise((resolve, rejected) =>
       axios({
-        url: "/api/",
+        url: "/api/graph",
         method: "post",
         data: {
           query: `

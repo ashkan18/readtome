@@ -34,6 +34,7 @@ defmodule ReadtomeWeb.Schema.BookTypes do
     field(:book, :book)
     field(:location, :location)
     field(:medium, :string)
+    field(:condition, :string)
 
     field :reader, :reader do
       resolve(fn parent, _, _ -> {:ok, parent.user} end)

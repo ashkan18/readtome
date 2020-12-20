@@ -5,7 +5,7 @@ import Inquiry from '../models/inquiry';
 
 export const submitOffering = (token: string | null, bookId: string, lat: number, lng: number, offerType: string): Promise<BookInstance> => {
   return new Promise((resolve, rejected) =>
-    axios.post("/api/book_instances", {book_instance: { book_id: bookId, lat, lng, offerings: offerType, medium: "read", condition: "fair"}}, { headers: { 'Authorization': `Bearer ${token}`}})
+    axios.post("/api/graph", {book_instance: { book_id: bookId, lat, lng, offerings: offerType, medium: "read", condition: "fair"}}, { headers: { 'Authorization': `Bearer ${token}`}})
       .then( response => {
         return resolve(response.data)
       })
@@ -26,13 +26,14 @@ export default class BookInstanceService {
     return new Promise((resolve, rejected) =>
 
       axios({
-        url: "/api/",
+        url: "/api/graph",
         method: "post",
         data: {
           query: `
             query bookInstances($lat: Float, $lng: Float, $term: String, $offerings: [String] ) {
               bookInstances(lat: $lat, lng: $lng, term: $term, offerings: $offerings) {
                 id
+                medium
                 reader {
                   id
                   name
