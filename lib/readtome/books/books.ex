@@ -226,11 +226,11 @@ defmodule Readtome.Books do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_book_instance(user, attrs = %{"lat" => lat, "lng" => lng}) do
+  def create_book_instance(user, attrs = %{lat: lat, lng: lng}) do
     attrs =
       attrs
-      |> Map.put("location", %Geo.Point{coordinates: {lng, lat}, srid: 4326})
-      |> Map.put("user_id", user.id)
+      |> Map.put(:location, %Geo.Point{coordinates: {lng, lat}, srid: 4326})
+      |> Map.put(:user_id, user.id)
 
     %BookInstance{}
     |> BookInstance.changeset(attrs)

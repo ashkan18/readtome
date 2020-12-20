@@ -40,7 +40,7 @@ defmodule ReadtomeWeb.Router do
   end
 
   scope "/api" do
-    pipe_through([:api, :graphql_auth])
+    pipe_through([:api, :auth, :graphql_auth])
 
     forward("/graphiql", Absinthe.Plug.GraphiQL, schema: ReadtomeWeb.Schema)
     forward("/graph", Absinthe.Plug, schema: ReadtomeWeb.Schema)

@@ -19,7 +19,7 @@ defmodule Readtome.Books.BookInstance do
   def changeset(book_instance, attrs) do
     book_instance
     |> cast(attrs, [:condition, :medium, :offerings, :location, :book_id, :user_id])
-    |> validate_required([:condition, :medium, :offerings, :location])
+    |> validate_required([:medium, :offerings, :location])
     |> assoc_constraint(:user)
     |> assoc_constraint(:book)
   end

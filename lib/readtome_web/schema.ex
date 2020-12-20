@@ -27,10 +27,11 @@ defmodule ReadtomeWeb.Schema do
   mutation do
     @desc "Create a book offering"
     field :post_book, type: :book_instance do
-      arg(:book_id, non_null(:string))
+      arg(:book_id, non_null(:id))
       arg(:lat, non_null(:float))
       arg(:lng, non_null(:float))
-      arg(:offer_type, :string)
+      arg(:offerings, :string)
+      arg(:medium, non_null(:string))
 
       resolve(&Resolvers.BookInstance.post_book/3)
     end

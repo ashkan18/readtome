@@ -2,6 +2,28 @@ const { default: axios } = require('axios');
 import BookInstance from '../models/book_instance';
 import Inquiry from '../models/inquiry';
 
+const POST_BOOK_QUERY = `
+  mutation PostBook($lat: Float!, $lng: Float!, $bookId: ID!) {
+    postBook(bookId: $bookId, lat: $lat, lng: $lng) {
+      id
+      reader{
+        id
+        name
+      }
+      book {
+        id
+        title
+        isbn
+        authors{
+          id
+          name
+          bio
+        }
+      }
+    } 
+  }
+`
+
 
 export const submitOffering = (token: string | null, bookId: string, lat: number, lng: number, offerType: string): Promise<BookInstance> => {
   return new Promise((resolve, rejected) =>
