@@ -12,7 +12,7 @@ interface Props {
 
 export const BookSubmissionForm = (props: Props) => {
   const [offerType, setOfferType] = useState<Array<string>>(["READ", "BORROW"]);
-  const [medium, setMedium] = useState<string>("PAPERBACK"]);
+  const [medium, setMedium] = useState<string>("PAPERBACK");
   const submit = () => {
     const token = getToken();
     submitOffering(
