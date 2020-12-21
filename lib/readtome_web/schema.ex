@@ -30,8 +30,8 @@ defmodule ReadtomeWeb.Schema do
       arg(:book_id, non_null(:id))
       arg(:lat, non_null(:float))
       arg(:lng, non_null(:float))
-      arg(:offerings, :string)
-      arg(:medium, non_null(:string))
+      arg(:offerings, list_of(:offering))
+      arg(:medium, non_null(:medium))
 
       resolve(&Resolvers.BookInstance.post_book/3)
     end

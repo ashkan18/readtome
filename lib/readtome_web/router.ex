@@ -31,8 +31,6 @@ defmodule ReadtomeWeb.Router do
   scope "/api" do
     pipe_through([:api, :auth])
 
-    resources("/book_instances", ReadtomeWeb.BookInstanceController)
-    resources("/authors", ReadtomeWeb.AuthorController)
     resources("/inquiries", ReadtomeWeb.InquiryController, only: [:create])
     resources("/me", ReadtomeWeb.MeController, only: [:index])
     get("/me/inquiries", ReadtomeWeb.MeController, :inquiries)

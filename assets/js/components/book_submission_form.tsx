@@ -11,7 +11,8 @@ interface Props {
 }
 
 export const BookSubmissionForm = (props: Props) => {
-  const [offerType, setOfferType] = useState<string>("pickup");
+  const [offerType, setOfferType] = useState<Array<string>>(["READ", "BORROW"]);
+  const [medium, setMedium] = useState<string>("PAPERBACK"]);
   const submit = () => {
     const token = getToken();
     submitOffering(
@@ -19,7 +20,8 @@ export const BookSubmissionForm = (props: Props) => {
       props.book.id,
       props.currentLocation.lat,
       props.currentLocation.lng,
-      offerType
+      offerType,
+      medium
     );
   };
 
