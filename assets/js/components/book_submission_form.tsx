@@ -11,26 +11,34 @@ interface Props {
 }
 
 export const BookSubmissionForm = (props: Props) => {
-  const [offerType, setOfferType] = useState<Array<string>>(["READ", "BORROW"]);
+  const [read, setRead] = useState(true);
+  const [borrow, setBorrow] = useState(true);
   const [medium, setMedium] = useState<string>("PAPERBACK");
   const submit = () => {
     const token = getToken();
+    let offers = read ? ["READ"] : []
+    if (borrow) {
+      offers.push('BORROW')
+    }
     submitOffering(
       token,
       props.book.id,
       props.currentLocation.lat,
       props.currentLocation.lng,
-      offerType,
+      offers,
       medium
     );
   };
 
+
   return (
     <>
       <Form>
-        <FormGroup>
-          
-        </FormGroup>
+        <Form.Group inline>
+          <label>What to offer?</label>
+          <Form.Field label='Read' control='input' type='checkbox' name="READ" checked={read} onChange={ (e) => setRead(e.target.checked)}/>
+          <Form.Field label='Borrow' control='input' type='checkbox' name="BORROW" checked={borrow} onChange={ (e) => setBorrow(e.target.checked)}/>
+        </Form.Group>
         <FormGroup>
           <Button onClick={() => submit()}>Offer!</Button>
         </FormGroup>
