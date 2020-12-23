@@ -7,13 +7,11 @@ import { FormEvent, SyntheticEvent } from "react";
 import { Header } from "../components/header";
 import styled from "styled-components";
 import MainLayout from "../components/main_layout";
-import UserService from "../services/user_service";
 
 
 interface Props{
   authenticate: any
   authService: AuthService
-  userService: UserService
 }
 
 interface State{
@@ -63,7 +61,7 @@ export default class Login extends React.Component<Props, State> {
   public render() {
     return(
       <MainLayout>
-        <Header me={null} userService={this.props.userService}/>
+        <Header me={null}/>
         <LoginForm>
           <div className="error">{ this.state.error }</div>
           <form onSubmit={this.handleSubmit}>

@@ -1,14 +1,12 @@
 import * as React from "react"
 import { Popup, Header as UIHeader, Icon} from "semantic-ui-react";
 import Reader from "../models/reader";
-import UserService from "../services/user_service";
 import styled from "styled-components";
 import { Profile } from "./profile";
 import { BookSubmission } from "./book_submit";
 
 interface Props {
   me: Reader | null
-  userService: UserService
   currentLocation?: any
 }
 
@@ -47,7 +45,7 @@ export const Header = (props: Props) => {
             }
             position="top center"
             on="click" />
-          <Profile me={props.me} userService={props.userService} />
+          <Profile me={props.me}/>
         </>
         }
       </HeaderDiv>

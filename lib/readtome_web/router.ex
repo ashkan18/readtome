@@ -17,6 +17,10 @@ defmodule ReadtomeWeb.Router do
     plug(:accepts, ["json"])
   end
 
+  pipeline :graphql_auth do
+    plug(ReadtomeWeb.Auth.GraphQLContextPlug)
+  end
+
   scope "/api", ReadtomeWeb do
     pipe_through(:api)
 
@@ -27,10 +31,6 @@ defmodule ReadtomeWeb.Router do
   scope "/api" do
     pipe_through([:api, :auth])
 
-    get("/find_in_the_wild", ReadtomeWeb.BookController, :find_in_the_wild)
-    resources("/books", ReadtomeWeb.BookController, except: [:new, :edit])
-    resources("/book_instances", ReadtomeWeb.BookInstanceController)
-    resources("/authors", ReadtomeWeb.AuthorController)
     resources("/inquiries", ReadtomeWeb.InquiryController, only: [:create])
     resources("/me", ReadtomeWeb.MeController, only: [:index])
     get("/me/inquiries", ReadtomeWeb.MeController, :inquiries)
@@ -38,10 +38,10 @@ defmodule ReadtomeWeb.Router do
   end
 
   scope "/api" do
-    pipe_through([:api])
+    pipe_through([:api, :auth, :graphql_auth])
 
     forward("/graphiql", Absinthe.Plug.GraphiQL, schema: ReadtomeWeb.Schema)
-    forward("/", Absinthe.Plug, schema: ReadtomeWeb.Schema)
+    forward("/graph", Absinthe.Plug, schema: ReadtomeWeb.Schema)
   end
 
   scope "/", ReadtomeWeb do

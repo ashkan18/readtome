@@ -11,4 +11,5 @@ export default interface BookInstance{
   reader: Reader
   location: serverCoordinate
   condition: string
+  offerings: Array<string>
 }

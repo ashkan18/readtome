@@ -28,12 +28,25 @@ defmodule ReadtomeWeb.Schema.BookTypes do
     field(:photos, :json)
   end
 
+  enum :medium do
+    value :pdf
+    value :paperback
+    value :hardcover
+  end
+
+  enum :offering do
+    value :read
+    value :borrow
+  end
+
+
   @desc "A Book Instance"
   object :book_instance do
     field(:id, :id)
     field(:book, :book)
     field(:location, :location)
-    field(:medium, :string)
+    field(:medium, :medium)
+    field(:offerings, list_of(:offering))
 
     field :reader, :reader do
       resolve(fn parent, _, _ -> {:ok, parent.user} end)

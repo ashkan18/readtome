@@ -2,6 +2,7 @@ import { GeolocateControl } from "mapbox-gl";
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Input } from "semantic-ui-react";
 import Book from "../models/book";
+import { getToken } from "../services/auth_service";
 import { findByISBN } from "../services/book_service";
 import { BookComponent } from "./book_detail";
 import { BookSubmissionForm } from "./book_submission_form";
@@ -17,7 +18,7 @@ export const BookSubmission = (props: Props) => {
   const [book, setBook] = useState<Book>()
   const findByIsbn = () => {
     if (isbn !== undefined) {
-      findByISBN(null, isbn)
+      findByISBN(getToken(), isbn)
       .then(book => setBook(book))
     }
   }

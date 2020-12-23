@@ -1,9 +1,8 @@
 import * as React from "react";
 import BookInstance from "../models/book_instance";
 import { Button, Card, Image, Item } from "semantic-ui-react";
-import BookInstanceService from "../services/book_instance_service";
-import ProfileGallery from "./profile_gallery";
 import AuthService from "../services/auth_service";
+import { inquiry } from "../services/book_instance_service";
 
 interface Props {
   bookInstance: BookInstance;
@@ -16,7 +15,6 @@ interface State {
 }
 
 export default class BookInstanceDetail extends React.Component<Props, State> {
-  bookInstanceService: BookInstanceService = new BookInstanceService();
   authService: AuthService = new AuthService();
   public constructor(props: Props, context: any) {
     super(props, context);
@@ -25,45 +23,56 @@ export default class BookInstanceDetail extends React.Component<Props, State> {
   public render() {
     const { bookInstance } = this.props;
     return (
-      <>
-        <Item.Group>
-          <Item>
-            <Item.Image size="tiny" src={bookInstance.book.medium_cover_url} />
-            <Item.Content>
-              <Item.Header as="a">{bookInstance.book.title}</Item.Header>
-              <Item.Meta>
-                {bookInstance.book.authors
-                  ?.map((author) => author.name)
-                  .join(",")}
-              </Item.Meta>
-              <Item.Extra>{bookInstance.book?.tags.join(",")}</Item.Extra>
-            </Item.Content>
-          </Item>
-          <Item>
-            <Item.Header as="a">{bookInstance.reader.name}</Item.Header>
-            <Item.Meta>
-              {bookInstance.reader.photos &&
-                bookInstance.reader.photos.length > 0 && (
-                  <ProfileGallery reader={bookInstance.reader} />
-                )}
-            </Item.Meta>
-          </Item>
-        </Item.Group>
+      <Card.Group>
+        <Card fluid>
+          <Card.Content>
+            {bookInstance.book.medium_cover_url && (<Image
+              floated="left"
+              size="tiny"
+              src={bookInstance.book.medium_cover_url}
+            />)}
+            <Card.Header>{bookInstance.book.title}</Card.Header>
+            <Card.Meta>{bookInstance.book.authors
+                ?.map((author) => author.name)
+                .join(",")}</Card.Meta>
+            <Card.Meta>{bookInstance.condition}</Card.Meta>
+            <Card.Description>
+            {bookInstance.book?.tags.join(",")}
+            </Card.Description>
+          </Card.Content>
+        <Card.Content extra>
+          {bookInstance.reader?.photos?.length > 0 && (<Image
+            floated="right"
+            size="mini"
+            src={bookInstance.reader.photos?.find(Boolean)?.thumb}
+          />)}
+          <Card.Header>{bookInstance.reader.name}</Card.Header>
+          <Card.Description>
+            {bookInstance.reader.name} in interested in{" "}
+            <strong>musicians</strong>
+          </Card.Description>
+        </Card.Content>
         {!this.state.inquired && (
-          <Button color="orange" onClick={this.readIt}>
-            Read
-          </Button>
+          <Card.Content extra>
+            <div className="ui buttons">
+              <Button basic color="green" onClick={this.readIt}>
+                I'm Interested!
+              </Button>
+            </div>
+          </Card.Content>
         )}
-        {this.state.inquired && "Your inquiry is created!"}
-      </>
+        {this.state.inquired && (
+          <Card.Content extra>Your inquiry is created!</Card.Content>
+        )}
+        </Card>
+      </Card.Group>
     );
   }
 
   private openOverlay = () => this.setState({ isOpen: true });
   private closeOverlay = () => this.setState({ isOpen: false });
   private readIt = () => {
-    this.bookInstanceService
-      .inquiry(
+    inquiry(
         this.authService.getToken(),
         this.props.bookInstance.id,
         "random-type"

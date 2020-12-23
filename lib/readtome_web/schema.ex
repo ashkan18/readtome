@@ -23,4 +23,17 @@ defmodule ReadtomeWeb.Schema do
       resolve(&Resolvers.Book.find_by_isbn/3)
     end
   end
+
+  mutation do
+    @desc "Create a book offering"
+    field :post_book, type: :book_instance do
+      arg(:book_id, non_null(:id))
+      arg(:lat, non_null(:float))
+      arg(:lng, non_null(:float))
+      arg(:offerings, list_of(:offering))
+      arg(:medium, non_null(:medium))
+
+      resolve(&Resolvers.BookInstance.post_book/3)
+    end
+  end
 end
