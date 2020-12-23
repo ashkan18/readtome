@@ -4,7 +4,7 @@ import { Popup, Image, Button, Menu, Label } from "semantic-ui-react"
 import styled from "styled-components";
 import React, { useState } from "react";
 import Reader from "../models/reader";
-import UserService from "../services/user_service";
+import { uploadPhoto } from "../services/user_service";
 
 const ProfileSection = styled.div`
   align-self: flex-end;
@@ -12,7 +12,6 @@ const ProfileSection = styled.div`
 
 interface Props {
   me: Reader
-  userService: UserService
 }
 
 export const Profile = (props: Props) => {
@@ -20,8 +19,8 @@ export const Profile = (props: Props) => {
   const [photos, setPhotos] = useState(props.me && props.me.photos || [])
   const [activeItem, setActiveItem] = useState<string>()
 
-  const uploadPhoto = (file: any) => {
-    props.userService.uploadPhoto(file)
+  const uploadProfilePhoto = (file: any) => {
+    uploadPhoto(file)
     .then( user => setPhotos(user.photos))
   }
 
@@ -56,7 +55,7 @@ export const Profile = (props: Props) => {
             > 
             </Menu.Item>
           </Menu>
-          {activeItem === 'edit' && <FileUploader onSelect={uploadPhoto}/>}
+          {activeItem === 'edit' && <FileUploader onSelect={uploadProfilePhoto}/>}
           </>
         }
         position="top right"

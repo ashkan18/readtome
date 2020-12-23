@@ -6,8 +6,6 @@ import Login from "./pages/login"
 import {Home} from "./pages/home"
 import Signup from './pages/sign_up';
 import AuthService from './services/auth_service';
-import BookInstanceService from './services/book_instance_service'
-import UserService from './services/user_service'
 
 interface State{
   token?: any
@@ -16,8 +14,6 @@ interface State{
 
 export default class AppRoutes extends React.Component<{}, State> {
   authService: AuthService = new AuthService;
-  bookInstanceServcie: BookInstanceService = new BookInstanceService
-  userService: UserService = new UserService(this.authService)
 
   public constructor(props: any, context: any) {
     super(props, context)
@@ -29,10 +25,10 @@ export default class AppRoutes extends React.Component<{}, State> {
   public render(){
     return(
       <Switch>
-        <Route path="/login" render={ () => <Login authenticate={this.authenticate} authService={this.authService} userService={this.userService}/>} />
-        <Route path="/signup" render={ () => <Signup authenticate={this.authenticate} userService={this.userService}/>} />
+        <Route path="/login" render={ () => <Login authenticate={this.authenticate} authService={this.authService} />} />
+        <Route path="/signup" render={ () => <Signup authenticate={this.authenticate}/>} />
         <Route path='/' render={() => 
-          <Home bookInstanceService={this.bookInstanceServcie} authService={this.authService} userService={this.userService}/>
+          <Home authService={this.authService}/>
         }/>
       </Switch>)
   }

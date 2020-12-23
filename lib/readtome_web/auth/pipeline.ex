@@ -10,5 +10,5 @@ defmodule ReadtomeWeb.Auth.Pipeline do
   # If there is an authorization header, validate it
   plug(Guardian.Plug.VerifyHeader, claims: %{"typ" => "access"})
   # Load the user if either of the verifications worked
-  plug(Guardian.Plug.LoadResource, allow_blank: true)
+  plug(Guardian.Plug.LoadResource, ensure: true)
 end

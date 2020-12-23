@@ -22,9 +22,9 @@ export const findByISBN = (token: string | null, isbn: string): Promise<Book> =>
               }
             }
           `,
-          variables: {isbn},
-          headers: { 'Authorization': `Bearer ${token}`} }
-        })
+          variables: {isbn}
+        },
+        headers: { 'Authorization': `Bearer ${token}`}})
       .then( response => {
         return resolve(response.data.data.book)
       })
