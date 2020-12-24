@@ -22,7 +22,6 @@ defmodule ReadtomeWeb.Schema do
     [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
   end
 
-
   query do
     @desc "Find Book Instance by location"
     field :book_instances, list_of(:book_instance) do

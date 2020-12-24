@@ -14,7 +14,7 @@ defmodule ReadtomeWeb.Router do
   end
 
   pipeline :graphql do
-    plug ReadtomeWeb.GraphQLContextPlug
+    plug(ReadtomeWeb.GraphQLContextPlug)
   end
 
   pipeline :api do

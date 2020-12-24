@@ -1,5 +1,6 @@
 defmodule ReadtomeWeb.Resolvers.BookResolver do
   alias Readtome.Books
+
   def find_book_instances(_parent, args, _resolution) do
     %{lat: lat, lng: lng, term: term} = args
     {:ok, Books.list_book_instance(%{lat: lat, lng: lng, term: term, offerings: args[:offerings]})}

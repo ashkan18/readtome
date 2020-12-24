@@ -1,8 +1,8 @@
-import Author from "./author"
+import {AuthorNode} from "./author"
 import BookInstance from "./book_instance"
 
 interface AuthorConnection {
-  edges: Array<Author>
+  edges: Array<AuthorNode>
 }
 
 export default interface Book {

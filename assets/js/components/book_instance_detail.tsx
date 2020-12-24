@@ -32,7 +32,7 @@ export default class BookInstanceDetail extends React.Component<Props, State> {
               src={bookInstance.book.mediumCoverUrl}
             />)}
             <Card.Header>{bookInstance.book.title}</Card.Header>
-            <Card.Meta>{bookInstance.book.authors.edges.map( author => author.name).join(",")}</Card.Meta>
+            <Card.Meta>{bookInstance.book.authors.edges.map( edge => edge.node.name).join(",")}</Card.Meta>
             <Card.Meta>{bookInstance.condition}</Card.Meta>
             <Card.Description>
             {bookInstance.book?.tags.join(",")}

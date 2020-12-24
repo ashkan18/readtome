@@ -19,5 +19,4 @@ defmodule ReadtomeWeb.Auth.GraphQLContextPlug do
   defp build_context(conn) do
     {:ok, %{current_user: Guardian.Plug.current_resource(conn)}}
   end
-
 end
