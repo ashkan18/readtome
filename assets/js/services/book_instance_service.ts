@@ -17,13 +17,17 @@ query bookInstances($lat: Float, $lng: Float, $term: String, $offerings: [String
       id
       title
       tags
-      authors {
-        name
-        id
-        bio
+      authors(first: 10) {
+        edges {
+          node {
+            name
+            id
+            bio
+          }
+        }
       }
-      small_cover_url
-      medium_cover_url
+      smallCoverUrl
+      mediumCoverUrl
     }
     location
   }
@@ -41,10 +45,14 @@ mutation PostBook($lat: Float!, $lng: Float!, $bookId: ID!, $medium: Medium!, $o
       id
       title
       isbn
-      authors{
-        id
-        name
-        bio
+      authors(first: 10) {
+        edges {
+          node {
+            name
+            id
+            bio
+          }
+        }
       }
     }
   } 

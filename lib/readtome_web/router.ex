@@ -13,6 +13,10 @@ defmodule ReadtomeWeb.Router do
     plug(ReadtomeWeb.Auth.Pipeline)
   end
 
+  pipeline :graphql do
+    plug(ReadtomeWeb.GraphQLContextPlug)
+  end
+
   pipeline :api do
     plug(:accepts, ["json"])
   end

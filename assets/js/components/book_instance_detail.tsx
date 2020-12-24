@@ -26,15 +26,13 @@ export default class BookInstanceDetail extends React.Component<Props, State> {
       <Card.Group>
         <Card fluid>
           <Card.Content>
-            {bookInstance.book.medium_cover_url && (<Image
+            {bookInstance.book.mediumCoverUrl && (<Image
               floated="left"
               size="tiny"
-              src={bookInstance.book.medium_cover_url}
+              src={bookInstance.book.mediumCoverUrl}
             />)}
             <Card.Header>{bookInstance.book.title}</Card.Header>
-            <Card.Meta>{bookInstance.book.authors
-                ?.map((author) => author.name)
-                .join(",")}</Card.Meta>
+            <Card.Meta>{bookInstance.book.authors.edges.map( edge => edge.node.name).join(",")}</Card.Meta>
             <Card.Meta>{bookInstance.condition}</Card.Meta>
             <Card.Description>
             {bookInstance.book?.tags.join(",")}

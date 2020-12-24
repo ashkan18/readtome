@@ -17,8 +17,7 @@ defmodule ReadtomeWeb.BookView do
       isbn: book.isbn,
       small_cover_url: book.small_cover_url,
       medium_cover_url: book.medium_cover_url,
-      large_cover_url: book.large_cover_url,
-      authors: if(Ecto.assoc_loaded?(book.authors), do: render_many(book.authors, ReadtomeWeb.AuthorView, "author.json"), else: [])
+      large_cover_url: book.large_cover_url
     }
   end
 

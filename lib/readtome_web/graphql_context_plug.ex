@@ -1,4 +1,4 @@
-defmodule ReadtomeWeb.Auth.GraphQLContextPlug do
+defmodule ReadtomeWeb.GraphQLContextPlug do
   @behaviour Plug
 
   import Plug.Conn
@@ -9,6 +9,7 @@ defmodule ReadtomeWeb.Auth.GraphQLContextPlug do
   def call(conn, _) do
     case build_context(conn) do
       {:ok, context} ->
+        IO.inspect(context, label: "context")
         put_private(conn, :absinthe, %{context: context})
 
       _ ->
