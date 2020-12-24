@@ -17,7 +17,7 @@ export const BookComponent = (props: Props) => {
           <Item.Meta>
             {book.authors?.edges.map( edge => edge.node.name).join(",")}
           </Item.Meta>
-          <Item.Extra>{book?.tags.join(",")}</Item.Extra>
+          <Item.Extra>{book.tags?.join(",")}</Item.Extra>
         </Item.Content>
       </Item>
     </Item.Group>

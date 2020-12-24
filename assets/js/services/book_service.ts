@@ -22,7 +22,7 @@ export const findByISBN = (token: string | null, isbn: string): Promise<Book> =>
                   }
                 }
                 tags
-                small_cover_url
+                smallCoverUrl
               }
             }
           `,
