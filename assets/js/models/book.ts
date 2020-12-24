@@ -10,6 +10,7 @@ export default interface Book {
   title: string
   authors: AuthorConnection
   instances: Array<BookInstance>
+  tags: Array<string>
   genres: Array<string>
   mediumCoverUrl: string
   smallCoverUrl: string
