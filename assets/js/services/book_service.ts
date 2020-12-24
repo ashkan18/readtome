@@ -12,10 +12,14 @@ export const findByISBN = (token: string | null, isbn: string): Promise<Book> =>
               book(isbn: $isbn) {
                 id
                 title
-                authors {
-                  name
-                  id
-                  bio
+                authors(first: 10) {
+                  edges {
+                    node {
+                      name
+                      id
+                      bio
+                    }
+                  }
                 }
                 tags
                 small_cover_url
