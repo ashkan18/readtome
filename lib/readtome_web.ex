@@ -21,7 +21,7 @@ defmodule ReadtomeWeb do
     quote do
       use Phoenix.Controller, namespace: ReadtomeWeb
       import Plug.Conn
-      import ReadtomeWeb.Router.Helpers
+      # import ReadtomeWeb.Router.Helpers
       import ReadtomeWeb.Gettext
     end
   end
