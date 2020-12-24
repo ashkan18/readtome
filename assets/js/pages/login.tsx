@@ -2,7 +2,7 @@ import * as React from "react"
 import { Redirect } from "react-router"
 import { Link } from 'react-router-dom'
 import { Input, Button, InputOnChangeData } from 'semantic-ui-react'
-import AuthService from "../services/auth_service";
+import { login } from "../services/auth_service";
 import { FormEvent, SyntheticEvent } from "react";
 import { Header } from "../components/header";
 import styled from "styled-components";
@@ -11,7 +11,6 @@ import MainLayout from "../components/main_layout";
 
 interface Props{
   authenticate: any
-  authService: AuthService
 }
 
 interface State{
@@ -43,7 +42,7 @@ export default class Login extends React.Component<Props, State> {
   public handleSubmit(e: FormEvent<HTMLFormElement>){
     e.preventDefault()
     this.setState({ loading: true })
-    this.props.authService.login(this.state.userName, this.state.password).then( token => {
+    login(this.state.userName, this.state.password).then( token => {
       this.props.authenticate(token)
       this.setState({isLoggedIn: true, loading: false})
     }).catch( _error => {

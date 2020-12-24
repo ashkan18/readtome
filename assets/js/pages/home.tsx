@@ -3,7 +3,7 @@ import * as React from "react";
 import { Header } from "../components/header";
 import { MapComponent } from "../components/map_component";
 import { Redirect } from "react-router";
-import AuthService from "../services/auth_service";
+import { getToken, getMe } from "../services/auth_service";
 import Reader from "../models/reader";
 import BookInstance from "../models/book_instance";
 import MainLayout from "../components/main_layout";
@@ -13,11 +13,9 @@ import { Input } from "semantic-ui-react";
 import { fetchBooks } from "../services/book_instance_service";
 
 //let defaultCoordinate = {lat: 40.690008, lng: -73.9857765}
-interface Props {
-  authService: AuthService;
-}
 
-export const Home = (props: Props) => {
+
+export const Home = () => {
   const geoLocation = new GeolocateControl({
     positionOptions: {
       enableHighAccuracy: false,
@@ -39,7 +37,7 @@ export const Home = (props: Props) => {
 
   const search = (term: string | null) => {
     const coordination = currentLocation; //|| defaultCoordinate
-    const token = props.authService.getToken();
+    const token = getToken();
     if (token) {
       setSearching(true);
       fetchBooks(token, term, coordination.lat, coordination.lng, offerings)
@@ -66,9 +64,7 @@ export const Home = (props: Props) => {
 
   React.useEffect(() => {
     const fetchData = () => {
-      props.authService
-        .me()
-        .then((me) => setMe(me))
+      getMe().then((me) => setMe(me))
         .catch((_error) => setNeedsLogin(true));
     };
 

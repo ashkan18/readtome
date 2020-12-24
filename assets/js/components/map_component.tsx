@@ -4,7 +4,7 @@ import ReactMapboxGl, { Feature, Layer, Marker, Popup } from "react-mapbox-gl";
 import Coordinate from "../models/coordinate";
 import BookInstance from "../models/book_instance";
 import { GeolocateControl } from "mapbox-gl";
-import BookInstanceDetail from "./book_instance_detail";
+import { BookInstanceDetail } from "./book_instance_detail";
 import { svg } from "./icon";
 
 const Map = ReactMapboxGl({
