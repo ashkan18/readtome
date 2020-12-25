@@ -29,15 +29,6 @@ defmodule ReadtomeWeb.Router do
   end
 
   scope "/api" do
-    pipe_through([:api, :auth])
-
-    resources("/inquiries", ReadtomeWeb.InquiryController, only: [:create])
-    resources("/me", ReadtomeWeb.MeController, only: [:index])
-    get("/me/inquiries", ReadtomeWeb.MeController, :inquiries)
-    post("/me/photos", ReadtomeWeb.MeController, :photos)
-  end
-
-  scope "/api" do
     pipe_through([:api, :auth, :graphql_auth])
 
     forward("/graphiql", Absinthe.Plug.GraphiQL, schema: ReadtomeWeb.Schema)

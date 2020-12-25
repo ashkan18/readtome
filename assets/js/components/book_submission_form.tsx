@@ -14,6 +14,7 @@ export const BookSubmissionForm = (props: Props) => {
   const [read, setRead] = useState(true);
   const [borrow, setBorrow] = useState(true);
   const [medium, setMedium] = useState<string>("PAPERBACK");
+  const [created, setCreated] = useState(false);
   const submit = () => {
     const token = getToken();
     let offers = read ? ["READ"] : []
@@ -27,13 +28,13 @@ export const BookSubmissionForm = (props: Props) => {
       props.currentLocation.lng,
       offers,
       medium
-    );
+    ).then(() => setCreated(true));
   };
 
 
   return (
     <>
-      <Form>
+      {!created && <Form>
         <Form.Group inline>
           <label>What to offer?</label>
           <Form.Field label='Read' control='input' type='checkbox' name="READ" checked={read} onChange={ (e) => setRead(e.target.checked)}/>
@@ -42,7 +43,8 @@ export const BookSubmissionForm = (props: Props) => {
         <FormGroup>
           <Button onClick={() => submit()}>Offer!</Button>
         </FormGroup>
-      </Form>
+      </Form>}
+      {created && <div>Thanks for offering your book!</div>}
     </>
   );
 };

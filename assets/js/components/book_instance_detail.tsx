@@ -1,6 +1,6 @@
 import * as React from "react";
 import BookInstance from "../models/book_instance";
-import { Button, Card, Image, Item } from "semantic-ui-react";
+import { Button, Card, Form, FormGroup, Image, Item } from "semantic-ui-react";
 import { inquiry } from "../services/book_instance_service";
 import { getToken } from "../services/auth_service";
 
@@ -10,13 +10,14 @@ interface Props {
 
 export const BookInstanceDetail = (props: Props) => {
   const [inquired, setInquired] = React.useState(false)
+  const [offer, setOffer] = React.useState("read")
   const [error, setError] = React.useState<string|null>(null)
   const {bookInstance} = props
   const readIt = () => {
     inquiry(
         getToken(),
         bookInstance.id,
-        "random-type"
+        offer
       )
       .then((_inquiry: any) => setInquired(true))
       .catch((error: any) => setError(error));
@@ -51,12 +52,17 @@ export const BookInstanceDetail = (props: Props) => {
         </Card.Description>
       </Card.Content>
       {!inquired && (
-        <Card.Content extra>
-          <div className="ui buttons">
-            <Button basic color="green" onClick={readIt}>
-              I'm Interested!
-            </Button>
-          </div>
+        <Card.Content extra>      
+          <Form>
+            <Form.Group inline>
+              <label>Interested in:</label>
+              <Form.Field label='Read' control='input' type='radio' name="offer" onChange={ (e) => setOffer("read")}/>
+              <Form.Field label='Borrow' control='input' type='radio' name="offer" onChange={ (e) => setOffer("borrow")}/>
+            </Form.Group>
+            <FormGroup>
+              <Button basic color="green" onClick={readIt}>I'm Interested!</Button>
+            </FormGroup>
+          </Form>
         </Card.Content>
       )}
       {inquired && (

@@ -54,5 +54,13 @@ defmodule ReadtomeWeb.Schema do
 
       resolve(&Resolvers.BookInstance.post_book/3)
     end
+
+    @desc "Inquiry for a book"
+    field :show_interest, type: :inquiry do
+      arg(:book_instance_id, non_null(:id))
+      arg(:offering, non_null(:string))
+
+      resolve(&Resolvers.BookInstance.inquiry/3)
+    end
   end
 end

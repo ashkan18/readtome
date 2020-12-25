@@ -3,7 +3,7 @@ defmodule Readtome.Connector.Inquiry do
   import Ecto.Changeset
 
   schema "inquiries" do
-    field(:type, :string)
+    field(:offering, Ecto.Enum, values: [:borrow, :read])
 
     belongs_to(:user, Readtome.Accounts.User)
     belongs_to(:book_instance, Readtome.Books.BookInstance)
@@ -14,8 +14,8 @@ defmodule Readtome.Connector.Inquiry do
   @doc false
   def changeset(inquiry, attrs) do
     inquiry
-    |> cast(attrs, [:type, :book_instance_id, :user_id])
-    |> validate_required([:user_id, :book_instance_id, :type])
+    |> cast(attrs, [:offering, :book_instance_id, :user_id])
+    |> validate_required([:user_id, :book_instance_id, :offering])
     |> assoc_constraint(:user)
     |> assoc_constraint(:book_instance)
   end

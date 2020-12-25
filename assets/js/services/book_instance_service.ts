@@ -59,6 +59,13 @@ mutation PostBook($lat: Float!, $lng: Float!, $bookId: ID!, $medium: Medium!, $o
 }
 `
 
+const SHOW_INTEREST_QUERY = `
+mutation ShowInterest($bookInstanceId: !ID, $offering: Offering) {
+  showInterest(bookInstanceId: $bookInstanceId, offering: $offering) {
+    id
+  } 
+}`
+
 
 export const submitOffering = (token: string | null, bookId: string, lat: number, lng: number, offerings: Array<string>, medium: string): Promise<BookInstance> => {
   return new Promise((resolve, rejected) =>
@@ -100,14 +107,21 @@ export const fetchBooks = (token: string, term: string | null, lat: number, lng:
   )
 }
 
-export const inquiry = (token: string | null, bookInstanceId: string, type: string): Promise<Inquiry> => {
+export const inquiry = (token: string | null, bookInstanceId: string, offering: string): Promise<Inquiry> => {
   return new Promise((resolve, rejected) =>
-    axios.post("/api/inquiries", {book_instance_id: bookInstanceId, type}, { headers: { 'Authorization': `Bearer ${token}`}})
+      axios({
+        url: "/api/graph",
+        method: "post",
+        headers: { 'Authorization': `Bearer ${token}`} ,
+        data: {
+          query: SHOW_INTEREST_QUERY,
+          variables: {bookInstanceId, offering},
+        }})
       .then( response => {
-        return resolve(response.data)
+        return resolve(response.data.data.bookInstances)
       })
       .catch( error => {
         return rejected(error)
       })
-  )
+    )
 }  
