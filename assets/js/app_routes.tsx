@@ -6,6 +6,7 @@ import Login from "./pages/login"
 import {Home} from "./pages/home"
 import Signup from './pages/sign_up';
 import { getToken } from './services/auth_service';
+import { Main } from './pages/main';
 
 interface State{
   token?: any
@@ -26,7 +27,7 @@ export default class AppRoutes extends React.Component<{}, State> {
       <Switch>
         <Route path="/login" render={ () => <Login authenticate={this.authenticate} />} />
         <Route path="/signup" render={ () => <Signup authenticate={this.authenticate}/>} />
-        <Route path='/' render={() => <Home/> }/>
+        <Route path='/' render={() => <Main/> }/>
       </Switch>)
   }
 

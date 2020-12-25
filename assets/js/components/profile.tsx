@@ -42,13 +42,6 @@ export const Profile = (props: Props) => {
 
           <Menu size='small' vertical>
             <Menu.Item
-              name='inbox'
-              active={activeItem == 'inbox'}
-              onClick={handleItemClick}
-            >
-            </Menu.Item>
-
-            <Menu.Item
               name='edit'
               active={activeItem === 'edit'}
               onClick={handleItemClick}

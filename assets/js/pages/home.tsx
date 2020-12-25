@@ -1,43 +1,33 @@
 import * as React from "react";
 
-import { Header } from "../components/header";
 import { MapComponent } from "../components/map_component";
 import { Redirect } from "react-router";
-import { getToken, getMe } from "../services/auth_service";
-import Reader from "../models/reader";
+import { getToken } from "../services/auth_service";
 import BookInstance from "../models/book_instance";
-import MainLayout from "../components/main_layout";
-import { GeolocateControl } from "mapbox-gl";
 import { useDebounce } from "../hooks/debounce";
 import { Input } from "semantic-ui-react";
 import { fetchBooks } from "../services/book_instance_service";
 import Coordinate from "../models/coordinate";
+import { GeolocateControl } from "mapbox-gl";
 
-//let defaultCoordinate = {lat: 40.690008, lng: -73.9857765}
+interface Props {
+  location: Coordinate | null
+  geoLocation: GeolocateControl
+}
 
 
-export const Home = () => {
-  const geoLocation = new GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: false,
-    },
-    trackUserLocation: false,
-  });
+export const Home = (props: Props) => {
 
   const [bookInstances, setBookInstances] = React.useState<BookInstance[]>([]);
   const [searching, setSearching] = React.useState(false);
   const [error, setError] = React.useState<any>();
   const [needsLogin, setNeedsLogin] = React.useState(false);
-  const [me, setMe] = React.useState<Reader | null>(null);
+  
   const [offerings, setOfferings] = React.useState<Array<string> | null>(null);
-  const [currentLocation, setCurrentLocation] = React.useState<any | null>(
-    null
-  );
   const [searchTerm, setSearchTerm] = React.useState<string>();
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const search = (term: string | null, location: Coordinate = currentLocation) => {
-    console.log("--> coords:", location)
+  const search = (term: string | null, location: Coordinate = props.location) => {
     const token = getToken();
     if (token) {
       setSearching(true);
@@ -58,22 +48,6 @@ export const Home = () => {
     [debouncedSearchTerm] // Only call effect if debounced search term changes
   );
 
-  geoLocation.on("geolocate", (data) => {
-    const { latitude, longitude } = data.coords;
-    const coords:Coordinate = { lat: latitude, lng: longitude }
-    setCurrentLocation(coords);
-    setTimeout(() => search(null, coords), 1000)
-  });
-
-  React.useEffect(() => {
-    const fetchData = () => {
-      getMe().then((me) => setMe(me))
-        .catch((_error) => setNeedsLogin(true));
-    };
-
-    fetchData();
-  }, []);
-
   React.useEffect(() => setSearching(false), [bookInstances]);
 
   if (needsLogin) {
@@ -82,11 +56,7 @@ export const Home = () => {
     return <div> Error {error.message} </div>;
   } else {
     return (
-      <MainLayout>
-        <Header
-          me={me}
-          currentLocation={currentLocation}
-        />
+      <>
         <Input
           placeholder="Search By Title, Author..."
           fluid
@@ -96,11 +66,11 @@ export const Home = () => {
         />
 
         <MapComponent
-          center={currentLocation}
+          center={props.location}
           bookInstances={bookInstances}
-          geoLocation={geoLocation}
+          geoLocation={props.geoLocation}
         />
-      </MainLayout>
+      </>
     );
   }
 };

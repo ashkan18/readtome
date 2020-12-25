@@ -19,33 +19,6 @@ export const login = (username: string, pass: string): Promise<string> => {
   )
 }
 
-const ME_QUERY = `
-query Me {
-  me {
-    id
-    name
-    photos
-  }
-}`
-
-
-export const getMe = (): Promise<Reader> => {
-  return new Promise((resolve, rejected) =>
-      axios({
-        url: "/api/graph",
-        method: "post",
-        headers: { 'Authorization': `Bearer ${getToken()}`} ,
-        data: {
-          query: ME_QUERY
-        }})
-      .then( response => {
-        return resolve(response.data.data.me)
-      })
-      .catch( error => {
-        return rejected(error)
-      })
-    )
-}
 
 const setToken = (idToken: string) => {
   // Saves user token to localStorage

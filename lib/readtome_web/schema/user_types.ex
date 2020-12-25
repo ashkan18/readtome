@@ -31,8 +31,13 @@ defmodule ReadtomeWeb.Schema.UserTypes do
   @desc "An Inquiry"
   object :inquiry do
     field(:id, :id)
-    field(:type, :string)
-    field(:user, :reader)
+    field(:offering, :string)
+    field :user, :reader do
+      resolve(fn inquiry, _, _ ->
+        inquiry = Readtome.Helper.populate(inquiry, [:user])
+        {:ok, inquiry.user}
+      end)
+    end
 
     field(:book_instance, :book_instance) do
       resolve(fn inquiry, _, _ ->

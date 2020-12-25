@@ -8,6 +8,7 @@ import { BookSubmission } from "./book_submit";
 interface Props {
   me: Reader | null
   currentLocation?: any
+  switchPage?: (string) => void
 }
 
 
@@ -32,7 +33,7 @@ export const Header = (props: Props) => {
     return(
       <HeaderDiv>
         <LogoSection>
-          <h2>R<span style={{fontSize: 10 }}>ead</span>T<span style={{fontSize: 11 }}>o</span>M<span style={{fontSize: 11 }}>e</span></h2>
+          <h2 onClick={() => props.switchPage("home")}>R<span style={{fontSize: 10 }}>ead</span>T<span style={{fontSize: 11 }}>o</span>M<span style={{fontSize: 11 }}>e</span></h2>
         </LogoSection>
         
         { props.me &&
@@ -45,6 +46,7 @@ export const Header = (props: Props) => {
             }
             position="top center"
             on="click" />
+          <Icon name="mail" size="large" style={{cursor: "pointer"}} onClick={() => props.switchPage("inquiries")}/>
           <Profile me={props.me}/>
         </>
         }
