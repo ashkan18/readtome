@@ -302,10 +302,6 @@ defmodule Readtome.Books do
     end
   end
 
-  def populate(model, attrs) do
-    Repo.preload(model, attrs)
-  end
-
   def data() do
     Dataloader.Ecto.new(Repo)
   end

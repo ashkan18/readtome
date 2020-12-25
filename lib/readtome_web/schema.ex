@@ -5,6 +5,7 @@ defmodule ReadtomeWeb.Schema do
   import_types(ReadtomeWeb.Schema.JSON)
   import_types(ReadtomeWeb.Schema.LocationType)
   import_types(ReadtomeWeb.Schema.BookTypes)
+  import_types(ReadtomeWeb.Schema.UserTypes)
 
   alias ReadtomeWeb.Resolvers
 
@@ -35,6 +36,10 @@ defmodule ReadtomeWeb.Schema do
     field :book, :book do
       arg(:isbn, :string)
       resolve(&Resolvers.Book.find_by_isbn/3)
+    end
+
+    field :me, :reader do
+      resolve(&Resolvers.User.me/3)
     end
   end
 
