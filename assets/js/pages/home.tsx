@@ -11,6 +11,7 @@ import { GeolocateControl } from "mapbox-gl";
 import { useDebounce } from "../hooks/debounce";
 import { Input } from "semantic-ui-react";
 import { fetchBooks } from "../services/book_instance_service";
+import Coordinate from "../models/coordinate";
 
 //let defaultCoordinate = {lat: 40.690008, lng: -73.9857765}
 
@@ -35,12 +36,12 @@ export const Home = () => {
   const [searchTerm, setSearchTerm] = React.useState<string>();
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const search = (term: string | null) => {
-    const coordination = currentLocation; //|| defaultCoordinate
+  const search = (term: string | null, location: Coordinate = currentLocation) => {
+    console.log("--> coords:", location)
     const token = getToken();
     if (token) {
       setSearching(true);
-      fetchBooks(token, term, coordination.lat, coordination.lng, offerings)
+      fetchBooks(token, term, location.lat, location.lng, offerings)
         .then((bookInstances) => setBookInstances(bookInstances))
         .catch((_error) => setNeedsLogin(true));
     }
@@ -59,7 +60,9 @@ export const Home = () => {
 
   geoLocation.on("geolocate", (data) => {
     const { latitude, longitude } = data.coords;
-    setCurrentLocation({ lat: latitude, lng: longitude });
+    const coords:Coordinate = { lat: latitude, lng: longitude }
+    setCurrentLocation(coords);
+    setTimeout(() => search(null, coords), 1000)
   });
 
   React.useEffect(() => {
