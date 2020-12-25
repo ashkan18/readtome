@@ -35,9 +35,7 @@ export const BookInstanceDetail = (props: Props) => {
           <Card.Header>{bookInstance.book.title}</Card.Header>
           <Card.Meta>{bookInstance.book.authors.edges.map( edge => edge.node.name).join(",")}</Card.Meta>
           <Card.Meta>{bookInstance.condition}</Card.Meta>
-          <Card.Description>
-          {bookInstance.book?.tags.join(",")}
-          </Card.Description>
+          <Card.Meta> {bookInstance.book?.tags.join(",")}</Card.Meta>
         </Card.Content>
       <Card.Content extra>
         {bookInstance.reader?.photos?.length > 0 && (<Image
@@ -53,7 +51,7 @@ export const BookInstanceDetail = (props: Props) => {
       </Card.Content>
       {!inquired && (
         <Card.Content extra>      
-          <Form>
+          <Form size={'tiny'}>
             <Form.Group inline>
               <label>Interested in:</label>
               <Form.Field label='Read' control='input' type='radio' name="offer" onChange={ (e) => setOffer("read")}/>
