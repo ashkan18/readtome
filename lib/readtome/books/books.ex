@@ -149,13 +149,14 @@ defmodule Readtome.Books do
       [%BookInstance{}, ...]
 
   """
-  def list_book_instance(%{term: term, lat: lat, lng: lng, offerings: offerings}) do
+  def list_book_instance(%{term: term, lat: lat, lng: lng, offerings: offerings, filter_user_ids: filter_user_ids}) do
     point = %Geo.Point{coordinates: {lng, lat}, srid: 4326}
 
     BookInstance
     |> by_term(term)
     |> by_offerings(offerings)
     |> near(point)
+    |> filter_users(filter_user_ids)
     |> preload(:user)
     |> preload(book: :authors)
     |> Repo.all()
@@ -186,8 +187,16 @@ defmodule Readtome.Books do
   def by_offerings(query, nil), do: query
 
   def by_offerings(query, offerings) do
-    from(book_instance in query,
-      where: fragment("offerings in (?)", ^offerings)
+    from(bi in query,
+      where: bi.offerings in ^offerings
+    )
+  end
+
+  def filter_users(query, nil), do: query
+
+  def filter_users(query, user_ids) do
+    from(bi in query,
+      where: bi.user_id not in ^user_ids
     )
   end
 

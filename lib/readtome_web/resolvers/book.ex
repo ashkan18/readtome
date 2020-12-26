@@ -1,7 +1,11 @@
 defmodule ReadtomeWeb.Resolvers.Book do
-  def find_book_instances(_parent, args, _resolution) do
-    %{lat: lat, lng: lng, term: term} = args
-    {:ok, Readtome.Books.list_book_instance(%{lat: lat, lng: lng, term: term, offerings: args[:offerings]})}
+  def find_book_instances(_parent, args, %{context: %{current_user: user}}) do
+    result =
+      args
+      |> Map.put(:filter_user_ids, [user.id])
+      |> Readtome.Books.list_book_instance()
+
+    {:ok, result}
   end
 
   def find_by_isbn(_parent, %{isbn: isbn}, _res) do
