@@ -11,23 +11,24 @@ import Coordinate from "../models/coordinate";
 import { GeolocateControl } from "mapbox-gl";
 
 interface Props {
-  location: Coordinate | null
-  geoLocation: GeolocateControl
+  location: Coordinate | null;
+  geoLocation: GeolocateControl;
 }
 
-
 export const Home = (props: Props) => {
-
   const [bookInstances, setBookInstances] = React.useState<BookInstance[]>([]);
   const [searching, setSearching] = React.useState(false);
   const [error, setError] = React.useState<any>();
   const [needsLogin, setNeedsLogin] = React.useState(false);
-  
+
   const [offerings, setOfferings] = React.useState<Array<string> | null>(null);
   const [searchTerm, setSearchTerm] = React.useState<string>();
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const search = (term: string | null, location: Coordinate = props.location) => {
+  const search = (
+    term: string | null,
+    location: Coordinate = props.location
+  ) => {
     const token = getToken();
     if (token) {
       setSearching(true);

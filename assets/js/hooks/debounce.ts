@@ -22,4 +22,4 @@ export const useDebounce = (value, delay) => {
   );
 
   return debouncedValue;
-}
+};

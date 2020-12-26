@@ -1,5 +1,4 @@
-
-export default interface Coordinate{
-  lat: number
-  lng: number
+export default interface Coordinate {
+  lat: number;
+  lng: number;
 }

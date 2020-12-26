@@ -15,7 +15,7 @@ export const BookComponent = (props: Props) => {
         <Item.Content>
           <Item.Header as="a">{book.title}</Item.Header>
           <Item.Meta>
-            {book.authors?.edges.map( edge => edge.node.name).join(",")}
+            {book.authors?.edges.map((edge) => edge.node.name).join(",")}
           </Item.Meta>
           <Item.Extra>{book.tags?.join(",")}</Item.Extra>
         </Item.Content>

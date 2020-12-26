@@ -7,34 +7,39 @@ import { findByISBN } from "../services/book_service";
 import { BookComponent } from "./book_detail";
 import { BookSubmissionForm } from "./book_submission_form";
 
-
 interface Props {
-  currentLocation: any
+  currentLocation: any;
 }
 
 export const BookSubmission = (props: Props) => {
-
-  const [isbn, setISBN] = useState<string>()
-  const [book, setBook] = useState<Book>()
+  const [isbn, setISBN] = useState<string>();
+  const [book, setBook] = useState<Book>();
   const findByIsbn = () => {
     if (isbn !== undefined) {
-      findByISBN(getToken(), isbn)
-      .then(book => setBook(book))
+      findByISBN(getToken(), isbn).then((book) => setBook(book));
     }
-  }
-  return(
+  };
+  return (
     <>
       <Form>
         <FormGroup>
-          <Input type="text" placeholder="ISBN" onChange={(_event, data) => setISBN(data.value) }/>
+          <Input
+            type="text"
+            placeholder="ISBN"
+            onChange={(_event, data) => setISBN(data.value)}
+          />
           <Button onClick={() => findByIsbn()}>Find By ISBN</Button>
         </FormGroup>
       </Form>
-      {book && 
+      {book && (
         <>
           <BookComponent book={book} />
-          <BookSubmissionForm book={book} currentLocation={props.currentLocation}/>
-        </>}
+          <BookSubmissionForm
+            book={book}
+            currentLocation={props.currentLocation}
+          />
+        </>
+      )}
     </>
-  )
-}
+  );
+};

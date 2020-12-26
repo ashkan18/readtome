@@ -1,8 +1,7 @@
-const { default: axios } = require('axios');
-import { getToken } from './auth_service'
-import Reader from '../models/reader';
-import Inquiry from '../models/inquiry';
-
+const { default: axios } = require("axios");
+import { getToken } from "./auth_service";
+import Reader from "../models/reader";
+import Inquiry from "../models/inquiry";
 
 const ME_QUERY = `
 query Me {
@@ -11,7 +10,7 @@ query Me {
     name
     photos
   }
-}`
+}`;
 
 const MY_INQUIRIES = `
 query Me {
@@ -38,51 +37,60 @@ query Me {
     }
   }
 }
-`
+`;
 
 export const uploadPhoto = (file: any): Promise<Reader> => {
-  let formData = new FormData()
-  formData.append('file', file);
+  let formData = new FormData();
+  formData.append("file", file);
   return new Promise((resolve, rejected) => {
-    axios.post("/api/me/photos", formData, { headers: { 'Authorization': `Bearer ${getToken()}`, 'Content-Type': 'multipart/form-data'} })
-    .then( response => resolve(response.data))
-    .catch( error => rejected(error))
-  })
-}
-
+    axios
+      .post("/api/me/photos", formData, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => resolve(response.data))
+      .catch((error) => rejected(error));
+  });
+};
 
 export const getMe = (): Promise<Reader> => {
   return new Promise((resolve, rejected) =>
-      axios({
-        url: "/api/graph",
-        method: "post",
-        headers: { 'Authorization': `Bearer ${getToken()}`} ,
-        data: {
-          query: ME_QUERY
-        }})
-      .then( response => {
-        return resolve(response.data.data.me)
+    axios({
+      url: "/api/graph",
+      method: "post",
+      headers: { Authorization: `Bearer ${getToken()}` },
+      data: {
+        query: ME_QUERY,
+      },
+    })
+      .then((response) => {
+        return resolve(response.data.data.me);
       })
-      .catch( error => {
-        return rejected(error)
+      .catch((error) => {
+        return rejected(error);
       })
-    )
-}
+  );
+};
 
 export const myInquiries = (): Promise<Array<Inquiry>> => {
   return new Promise((resolve, rejected) =>
-      axios({
-        url: "/api/graph",
-        method: "post",
-        headers: { 'Authorization': `Bearer ${getToken()}`} ,
-        data: {
-          query: MY_INQUIRIES
-        }})
-      .then( response => {
-        return resolve(response.data.data.me.inquiries.edges.map(edge => edge.node))
+    axios({
+      url: "/api/graph",
+      method: "post",
+      headers: { Authorization: `Bearer ${getToken()}` },
+      data: {
+        query: MY_INQUIRIES,
+      },
+    })
+      .then((response) => {
+        return resolve(
+          response.data.data.me.inquiries.edges.map((edge) => edge.node)
+        );
       })
-      .catch( error => {
-        return rejected(error)
+      .catch((error) => {
+        return rejected(error);
       })
-    )
-}
+  );
+};

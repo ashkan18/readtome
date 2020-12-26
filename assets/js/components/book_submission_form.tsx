@@ -17,9 +17,9 @@ export const BookSubmissionForm = (props: Props) => {
   const [created, setCreated] = useState(false);
   const submit = () => {
     const token = getToken();
-    let offers = read ? ["READ"] : []
+    let offers = read ? ["READ"] : [];
     if (borrow) {
-      offers.push('BORROW')
+      offers.push("BORROW");
     }
     submitOffering(
       token,
@@ -31,19 +31,34 @@ export const BookSubmissionForm = (props: Props) => {
     ).then(() => setCreated(true));
   };
 
-
   return (
     <>
-      {!created && <Form>
-        <Form.Group inline>
-          <label>What to offer?</label>
-          <Form.Field label='Read' control='input' type='checkbox' name="READ" checked={read} onChange={ (e) => setRead(e.target.checked)}/>
-          <Form.Field label='Borrow' control='input' type='checkbox' name="BORROW" checked={borrow} onChange={ (e) => setBorrow(e.target.checked)}/>
-        </Form.Group>
-        <FormGroup>
-          <Button onClick={() => submit()}>Offer!</Button>
-        </FormGroup>
-      </Form>}
+      {!created && (
+        <Form>
+          <Form.Group inline>
+            <label>What to offer?</label>
+            <Form.Field
+              label="Read"
+              control="input"
+              type="checkbox"
+              name="READ"
+              checked={read}
+              onChange={(e) => setRead(e.target.checked)}
+            />
+            <Form.Field
+              label="Borrow"
+              control="input"
+              type="checkbox"
+              name="BORROW"
+              checked={borrow}
+              onChange={(e) => setBorrow(e.target.checked)}
+            />
+          </Form.Group>
+          <FormGroup>
+            <Button onClick={() => submit()}>Offer!</Button>
+          </FormGroup>
+        </Form>
+      )}
       {created && <div>Thanks for offering your book!</div>}
     </>
   );

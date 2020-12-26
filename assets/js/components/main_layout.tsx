@@ -6,6 +6,6 @@ const MainLayout = styled.div`
   width: 100%;
   padding: 10px;
   height: 100%;
-`
+`;
 
-export default MainLayout
+export default MainLayout;

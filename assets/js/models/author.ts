@@ -1,9 +1,7 @@
-
-
 export interface AuthorNode {
-  node: Author
+  node: Author;
 }
-export interface Author{
-  name: string
-  bio: string
+export interface Author {
+  name: string;
+  bio: string;
 }

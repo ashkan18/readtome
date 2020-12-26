@@ -1,13 +1,16 @@
-const { default: axios } = require('axios');
-import Book from '../models/book'
+const { default: axios } = require("axios");
+import Book from "../models/book";
 
-export const findByISBN = (token: string | null, isbn: string): Promise<Book> => {
+export const findByISBN = (
+  token: string | null,
+  isbn: string
+): Promise<Book> => {
   return new Promise((resolve, rejected) =>
-      axios({
-        url: "/api/graph",
-        method: "post",
-        data: {
-          query: `
+    axios({
+      url: "/api/graph",
+      method: "post",
+      data: {
+        query: `
             query bookInstances($isbn: String) {
               book(isbn: $isbn) {
                 id
@@ -26,14 +29,15 @@ export const findByISBN = (token: string | null, isbn: string): Promise<Book> =>
               }
             }
           `,
-          variables: {isbn}
-        },
-        headers: { 'Authorization': `Bearer ${token}`}})
-      .then( response => {
-        return resolve(response.data.data.book)
+        variables: { isbn },
+      },
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return resolve(response.data.data.book);
       })
-      .catch( error => {
-        return rejected(error)
+      .catch((error) => {
+        return rejected(error);
       })
-    )
-  }
+  );
+};

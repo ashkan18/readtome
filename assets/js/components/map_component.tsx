@@ -126,7 +126,6 @@ export const MapComponent = (props: Props) => {
   }, [props.bookInstances]);
 
   return (
-    
     <Map
       style="mapbox://styles/ashkan18/ckhzblkri2mr719n224l706o0"
       containerStyle={mapStyle}
