@@ -8,7 +8,6 @@ import {
   Image,
   List,
   Loader,
-  Segment,
 } from "semantic-ui-react";
 import { myInquiries } from "../services/user_service";
 import Inquiry from "../models/inquiry";

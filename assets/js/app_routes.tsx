@@ -2,7 +2,6 @@ import * as React from "react";
 import { Switch, Route } from "react-router-dom";
 
 import Login from "./pages/login";
-import { Home } from "./pages/home";
 import Signup from "./pages/sign_up";
 import { getToken } from "./services/auth_service";
 import { Main } from "./pages/main";

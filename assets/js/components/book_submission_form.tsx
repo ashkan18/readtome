@@ -1,6 +1,5 @@
-import { GeolocateControl } from "mapbox-gl";
 import React, { useState } from "react";
-import { Button, Checkbox, Form, FormGroup, Input } from "semantic-ui-react";
+import { Button, Form, FormGroup } from "semantic-ui-react";
 import Book from "../models/book";
 import { getToken } from "../services/auth_service";
 import { submitOffering } from "../services/book_instance_service";

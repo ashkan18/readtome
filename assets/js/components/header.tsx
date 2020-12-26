@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Popup,
-  Header as UIHeader,
-  Icon,
-  Menu,
-  Grid,
-  Container,
-} from "semantic-ui-react";
+import { Popup, Header as UIHeader, Icon, Menu } from "semantic-ui-react";
 import Reader from "../models/reader";
 import styled from "styled-components";
 import { Profile } from "./profile";

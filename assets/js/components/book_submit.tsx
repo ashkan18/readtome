@@ -1,4 +1,3 @@
-import { GeolocateControl } from "mapbox-gl";
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Input } from "semantic-ui-react";
 import Book from "../models/book";
