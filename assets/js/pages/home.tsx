@@ -38,6 +38,10 @@ export const Home = (props: Props) => {
     }
   };
 
+  React.useEffect(() => {
+    setTimeout(() => search(null, props.location), 1000);
+  }, [props.location]);
+
   React.useEffect(
     () => {
       if (debouncedSearchTerm) {

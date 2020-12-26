@@ -6,6 +6,7 @@ import BookInstance from "../models/book_instance";
 import { GeolocateControl } from "mapbox-gl";
 import { BookInstanceDetail } from "./book_instance_detail";
 import { svg } from "./icon";
+import { fetchBooks } from "../services/book_instance_service";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -39,8 +40,8 @@ interface Props {
 interface State {
   bookInstance?: BookInstance;
   zoom: number;
-  centerLat: number;
-  centerLng: number;
+  centerLat?: number;
+  centerLng?: number;
 }
 
 interface Action {
@@ -88,8 +89,8 @@ export const MapComponent = (props: Props) => {
   const initialState = {
     bookInstance: undefined,
     zoom: 13,
-    centerLat: 40.690008,
-    centerLng: -73.9857765,
+    // centerLat: 40.690008,
+    // centerLng: -73.9857765,
   };
 
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
@@ -132,8 +133,9 @@ export const MapComponent = (props: Props) => {
       flyToOptions={flyToOptions}
       onStyleLoad={onStyleLoad}
       onDrag={onDrag}
-      center={[state.centerLng, state.centerLat]}
+      center={state.centerLng && [state.centerLng, state.centerLat]}
       zoom={[state.zoom]}
+      movingMethod={"easeTo"}
     >
       <Layer type="symbol" id="marker" layout={layoutLayer} images={images}>
         {props.bookInstances?.map((bi, index) => (
