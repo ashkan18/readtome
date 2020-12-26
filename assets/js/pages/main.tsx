@@ -1,6 +1,7 @@
 import { GeolocateControl } from "mapbox-gl";
 import React from "react";
 import { useState } from "react"
+import { Menu } from "semantic-ui-react";
 import { Header } from "../components/header";
 import MainLayout from "../components/main_layout";
 import Coordinate from "../models/coordinate";

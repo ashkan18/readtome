@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Redirect } from "react-router";
-import { Image, List, Progress } from "semantic-ui-react";
+import { Dimmer, Divider, Header, Image, List, Loader, Segment } from "semantic-ui-react";
 import { myInquiries } from "../services/user_service";
 import Inquiry from "../models/inquiry";
 
@@ -29,12 +29,20 @@ export const Inquiries = () => {
     return <Redirect to="/login" />;
   } else if(inquiries){
     return (
-      <List>
-        {inquiries.map(i => renderInquiry(i))}
-      </List>
+      <>
+        <Header as='h1'>Your Current Inquiries ({inquiries.length})</Header>
+        <Divider/>
+        <List>
+          {inquiries.map(i => renderInquiry(i))}
+        </List>
+      </>
     );
   } else {
-    return(<Progress/>)
+    return(
+      <Dimmer active inverted>
+        <Loader inverted content='Loading' />
+      </Dimmer>
+    )
   }
 };
 

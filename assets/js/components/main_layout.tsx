@@ -6,7 +6,6 @@ const MainLayout = styled.div`
   width: 100%;
   padding: 10px;
   height: 100%;
-  justify-content: space-between;
 `
 
 export default MainLayout
