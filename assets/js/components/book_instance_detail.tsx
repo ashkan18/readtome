@@ -1,8 +1,8 @@
 import * as React from "react";
 import BookInstance from "../models/book_instance";
-import { Button, Card, Form, FormGroup, Image, Item } from "semantic-ui-react";
-import { inquiry } from "../services/book_instance_service";
+import { Button, Card, Form, FormGroup, Image } from "semantic-ui-react";
 import { getToken } from "../services/auth_service";
+import { showInterest } from "../services/connector_service";
 
 interface Props {
   bookInstance: BookInstance;
@@ -14,7 +14,7 @@ export const BookInstanceDetail = (props: Props) => {
   const [error, setError] = React.useState<string | null>(null);
   const { bookInstance } = props;
   const readIt = () => {
-    inquiry(getToken(), bookInstance.id, offer)
+    showInterest(getToken(), bookInstance.id, offer)
       .then((_inquiry: any) => setInquired(true))
       .catch((error: any) => setError(error));
   };

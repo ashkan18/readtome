@@ -132,7 +132,6 @@ defmodule Readtome.Connector do
 
     with {:valid} <- can_respond?(inquiry, user),
          {:ok, updated_inquiry} <- update_inquiry(inquiry, %{status: "accepted"}) do
-      IO.inspect(updated_inquiry)
       {:ok, updated_inquiry}
     else
       {:error, problem} ->
@@ -153,7 +152,6 @@ defmodule Readtome.Connector do
 
     with {:valid} <- can_respond?(inquiry, user),
          {:ok, updated_inquiry} <- update_inquiry(inquiry, %{status: "rejected"}) do
-      IO.inspect(updated_inquiry)
       {:ok, updated_inquiry}
     else
       {:error, problem} ->

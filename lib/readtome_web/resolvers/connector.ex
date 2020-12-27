@@ -7,7 +7,7 @@ defmodule ReadtomeWeb.Resolvers.Connector do
       {:ok, inquiry}
     else
       {:error, %Ecto.Changeset{} = changeset} -> {:error, Helper.convert_changeset_errors(changeset)}
-      _ -> {:error, "Could not create instance"}
+      {:error, error_msg} -> {:error, error_msg}
     end
   end
 
@@ -17,7 +17,7 @@ defmodule ReadtomeWeb.Resolvers.Connector do
       {:ok, inquiry}
     else
       {:error, %Ecto.Changeset{} = changeset} -> {:error, Helper.convert_changeset_errors(changeset)}
-      _ -> {:error, "Could not create instance"}
+      {:error, error_msg} -> {:error, error_msg}
     end
   end
 end
