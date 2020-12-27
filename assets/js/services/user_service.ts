@@ -35,6 +35,27 @@ query Me {
         }
       }
     }
+
+    requests(first: 10) {
+      edges {
+        node {
+          id
+          offering
+          user {
+            name
+          }
+          bookInstance {
+            reader {
+              name
+            }
+            book {
+              title
+              mediumCoverUrl
+            }
+          }
+        }
+      }
+    }
   }
 }
 `;
@@ -74,7 +95,12 @@ export const getMe = (): Promise<Reader> => {
   );
 };
 
-export const myInquiries = (): Promise<Array<Inquiry>> => {
+export interface MyActivityResponse {
+  inquiries: Array<Inquiry>
+  requests: Array<Inquiry>
+}
+
+export const myActivity = (): Promise<MyActivityResponse> => {
   return new Promise((resolve, rejected) =>
     axios({
       url: "/api/graph",
@@ -86,7 +112,10 @@ export const myInquiries = (): Promise<Array<Inquiry>> => {
     })
       .then((response) => {
         return resolve(
-          response.data.data.me.inquiries.edges.map((edge) => edge.node)
+          { 
+            inquiries: response.data.data.me.inquiries.edges.map((edge) => edge.node),
+            requests: response.data.data.me.requests.edges.map((edge) => edge.node)
+          }
         );
       })
       .catch((error) => {

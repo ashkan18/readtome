@@ -4,7 +4,7 @@ defmodule Readtome.Connector do
   """
 
   import Ecto.Query, warn: false
-  alias Readtome.Repo
+  alias Readtome.{Repo, Helper, Books.BookInstance}
 
   alias Readtome.Connector.Inquiry
 
@@ -121,5 +121,51 @@ defmodule Readtome.Connector do
   """
   def change_inquiry(%Inquiry{} = inquiry) do
     Inquiry.changeset(inquiry, %{})
+  end
+
+  def respond(inquiry_id, user, "accept") do
+    # Todo: fix transaction issue
+    inquiry =
+      inquiry_id
+      |> get_inquiry!()
+      |> Helper.populate([:book_instance])
+
+    with {:valid} <- can_respond?(inquiry, user),
+         {:ok, updated_inquiry} <- update_inquiry(inquiry, %{status: "accepted"}) do
+      IO.inspect(updated_inquiry)
+      {:ok, updated_inquiry}
+    else
+      {:error, problem} ->
+        IO.inspect(problem, label: :error)
+        {:error, problem}
+
+      {:invalid_request} ->
+        {:error, :user_cannot_access}
+    end
+  end
+
+  def respond(inquiry_id, user, "reject") do
+    # Todo: fix transaction issue
+    inquiry =
+      inquiry_id
+      |> get_inquiry!()
+      |> Helper.populate([:book_instance])
+
+    with {:valid} <- can_respond?(inquiry, user),
+         {:ok, updated_inquiry} <- update_inquiry(inquiry, %{status: "rejected"}) do
+      IO.inspect(updated_inquiry)
+      {:ok, updated_inquiry}
+    else
+      {:error, problem} ->
+        IO.inspect(problem, label: :error)
+        {:error, problem}
+
+      {:invalid_request} ->
+        {:error, :user_cannot_access}
+    end
+  end
+
+  defp can_respond?(%Inquiry{book_instance: %BookInstance{user_id: offerer_id}}, user) do
+    if offerer_id == user.id, do: {:valid}, else: {:invalid_request}
   end
 end
