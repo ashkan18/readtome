@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { MapComponent } from "../components/map_component";
+import { MapComponent } from "./map_component";
 import { Redirect } from "react-router";
 import { getToken } from "../services/auth_service";
 import BookInstance from "../models/book_instance";

@@ -67,7 +67,6 @@ defmodule Readtome.Accounts do
           }
         ]
         |> Enum.into(user.photos || [])
-        |> IO.inspect()
 
       {:ok, user} = update_user(user, %{photos: all_photos})
       user

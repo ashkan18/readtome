@@ -62,5 +62,19 @@ defmodule ReadtomeWeb.Schema do
 
       resolve(&Resolvers.BookInstance.inquiry/3)
     end
+
+    @desc "Accept an inquiry"
+    field :accept_inquiry, type: :inquiry do
+      arg(:inquiry_id, non_null(:id))
+
+      resolve(&Resolvers.Connector.accept/3)
+    end
+
+    @desc "Reject an inquiry"
+    field :reject_inquiry, type: :inquiry do
+      arg(:inquiry_id, non_null(:id))
+
+      resolve(&Resolvers.Connector.reject/3)
+    end
   end
 end

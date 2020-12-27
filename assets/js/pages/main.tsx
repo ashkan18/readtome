@@ -6,7 +6,7 @@ import MainLayout from "../components/main_layout";
 import Coordinate from "../models/coordinate";
 import Reader from "../models/reader";
 import { getMe } from "../services/user_service";
-import { Home } from "./home";
+import { Home } from "../components/home";
 import { Inquiries } from "./inquiries";
 
 export const Main = () => {
