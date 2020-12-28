@@ -10,7 +10,7 @@ interface Props {
 
 export const BookInstanceDetail = (props: Props) => {
   const [inquired, setInquired] = React.useState(false);
-  const [offer, setOffer] = React.useState("read");
+  const [offer, setOffer] = React.useState("READ");
   const [error, setError] = React.useState<string | null>(null);
   const { bookInstance } = props;
   const readIt = () => {
@@ -18,7 +18,7 @@ export const BookInstanceDetail = (props: Props) => {
       .then((_inquiry: any) => setInquired(true))
       .catch((error: any) => setError(error));
   };
-
+  console.log(bookInstance.id);
   return (
     <Card.Group>
       <Card fluid>
@@ -37,7 +37,7 @@ export const BookInstanceDetail = (props: Props) => {
               .join(",")}
           </Card.Meta>
           <Card.Meta>{bookInstance.condition}</Card.Meta>
-          <Card.Meta> {bookInstance.book?.tags.join(",")}</Card.Meta>
+          <Card.Meta> {bookInstance.book?.tags?.join(",")}</Card.Meta>
         </Card.Content>
         <Card.Content extra>
           {bookInstance.reader?.photos?.length > 0 && (
@@ -63,14 +63,14 @@ export const BookInstanceDetail = (props: Props) => {
                   control="input"
                   type="radio"
                   name="offer"
-                  onChange={(e) => setOffer("read")}
+                  onChange={(e) => setOffer("READ")}
                 />
                 <Form.Field
                   label="Borrow"
                   control="input"
                   type="radio"
                   name="offer"
-                  onChange={(e) => setOffer("borrow")}
+                  onChange={(e) => setOffer("BORROW")}
                 />
               </Form.Group>
               <FormGroup>

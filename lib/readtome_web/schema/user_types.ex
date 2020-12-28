@@ -31,7 +31,7 @@ defmodule ReadtomeWeb.Schema.UserTypes do
   @desc "An Inquiry"
   object :inquiry do
     field(:id, :id)
-    field(:offering, :string)
+    field(:offering, :offering)
     field(:status, :string)
 
     field :user, :reader do
