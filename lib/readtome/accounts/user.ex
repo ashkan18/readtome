@@ -22,6 +22,7 @@ defmodule Readtome.Accounts.User do
     user
     |> cast(attrs, [:name, :email, :sex, :birthdate, :username, :password, :photos])
     |> validate_required([:name, :email, :username, :password])
+    |> unique_constraint(:username)
     |> put_pass_hash()
   end
 
