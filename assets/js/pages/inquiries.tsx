@@ -91,7 +91,7 @@ export const Inquiries = () => {
             <Header.Content>
               {bookInstance.book.title}
               <Header.Subheader>
-                You asked for <b>{offering}</b>
+                You asked for <b>{offering} from {bookInstance.reader.name}</b>
               </Header.Subheader>
             </Header.Content>
           </Header>

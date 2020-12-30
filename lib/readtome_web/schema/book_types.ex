@@ -1,7 +1,7 @@
 defmodule ReadtomeWeb.Schema.BookTypes do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
 
   connection(node_type: :author)
 
@@ -50,8 +50,6 @@ defmodule ReadtomeWeb.Schema.BookTypes do
     field(:medium, :medium)
     field(:offerings, list_of(:offering))
 
-    field :reader, :reader do
-      resolve(fn parent, _, _ -> {:ok, parent.user} end)
-    end
+    field :reader, :reader, resolve: dataloader(User, :user, [])
   end
 end

@@ -90,6 +90,9 @@ export const getMe = (): Promise<Reader> => {
         return resolve(response.data.data.me);
       })
       .catch((error) => {
+        if (error.response) {
+          if(error.response.status === 401) return rejected("unauthorized")
+        }
         return rejected(error);
       })
   );
@@ -112,7 +115,7 @@ export const myActivity = (): Promise<MyActivityResponse> => {
     })
       .then((response) => {
         return resolve(
-          { 
+          {
             inquiries: response.data.data.me.inquiries.edges.map((edge) => edge.node),
             requests: response.data.data.me.requests.edges.map((edge) => edge.node)
           }

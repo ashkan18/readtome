@@ -30,7 +30,7 @@ export const Home = (props: Props) => {
     location: Coordinate = props.location
   ) => {
     const token = getToken();
-    if (token) {
+    if (token && location?.lat) {
       setSearching(true);
       fetchBooks(token, term, location.lat, location.lng, offerings)
         .then((bookInstances) => setBookInstances(bookInstances))

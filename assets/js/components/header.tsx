@@ -15,9 +15,6 @@ const HeaderDiv = styled.div`
   border-bottom: 2px solid orange;
 `;
 
-const LogoSection = styled.div`
-  align-self: flex-start;
-`;
 
 export const Header = (props: Props) => {
   return (
@@ -30,7 +27,7 @@ export const Header = (props: Props) => {
             <span style={{ fontSize: 11 }}>e</span>
           </h2>
         </Menu.Item>
-        <Menu.Menu position={"right"}>
+        {props.me && <Menu.Menu position={"right"}>
           <Menu.Item>
             <Popup
               trigger={
@@ -56,8 +53,8 @@ export const Header = (props: Props) => {
               onClick={() => props.switchPage("inquiries")}
             />
           </Menu.Item>
-          <Menu.Item>{props.me && <Profile me={props.me} />}</Menu.Item>
-        </Menu.Menu>
+          <Menu.Item><Profile me={props.me} /></Menu.Item>
+        </Menu.Menu>}
       </Menu>
     </HeaderDiv>
   );

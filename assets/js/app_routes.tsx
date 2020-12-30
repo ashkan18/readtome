@@ -1,21 +1,14 @@
 import * as React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-import Login from "./pages/login";
+import {Login} from "./pages/login";
 import Signup from "./pages/sign_up";
-import { getToken } from "./services/auth_service";
 import { Main } from "./pages/main";
 
-interface State {
-  token?: any;
-  isLoggedIn: boolean;
-}
 
-export default class AppRoutes extends React.Component<{}, State> {
+export default class AppRoutes extends React.Component<{}, {}> {
   public constructor(props: any, context: any) {
     super(props, context);
-    let token = getToken();
-    this.state = { token, isLoggedIn: token !== null };
     this.authenticate = this.authenticate.bind(this);
   }
 
@@ -24,7 +17,7 @@ export default class AppRoutes extends React.Component<{}, State> {
       <Switch>
         <Route
           path="/login"
-          render={() => <Login authenticate={this.authenticate} />}
+          render={() => <Login />}
         />
         <Route
           path="/signup"

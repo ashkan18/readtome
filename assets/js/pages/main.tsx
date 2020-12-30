@@ -8,6 +8,7 @@ import Reader from "../models/reader";
 import { getMe } from "../services/user_service";
 import { Home } from "../components/home";
 import { Inquiries } from "./inquiries";
+import { Redirect } from "react-router";
 
 export const Main = () => {
   const geoLocation = new GeolocateControl({
@@ -43,6 +44,10 @@ export const Main = () => {
   const switchPage = (newPage: string) => {
     setPageStack(pageStack.concat(newPage));
   };
+
+  if (needsLogin){
+    return(<Redirect to="/login"/>)
+  }
 
   return (
     <MainLayout>
