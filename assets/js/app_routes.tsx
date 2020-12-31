@@ -1,10 +1,9 @@
 import * as React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import {Login} from "./pages/login";
-import Signup from "./pages/sign_up";
+import { Login } from "./pages/login";
+import { Signup } from "./pages/sign_up";
 import { Main } from "./pages/main";
-
 
 export default class AppRoutes extends React.Component<{}, {}> {
   public constructor(props: any, context: any) {
@@ -15,14 +14,8 @@ export default class AppRoutes extends React.Component<{}, {}> {
   public render() {
     return (
       <Switch>
-        <Route
-          path="/login"
-          render={() => <Login />}
-        />
-        <Route
-          path="/signup"
-          render={() => <Signup authenticate={this.authenticate} />}
-        />
+        <Route path="/login" render={() => <Login />} />
+        <Route path="/signup" render={() => <Signup />} />
         <Route path="/" render={() => <Main />} />
       </Switch>
     );
