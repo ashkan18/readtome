@@ -1,14 +1,14 @@
-import { AuthorNode } from "./author";
+import { CreatorNode } from "./creator";
 import BookInstance from "./book_instance";
 
-interface AuthorConnection {
-  edges: Array<AuthorNode>;
+interface CreatorConnection {
+  edges: Array<CreatorNode>;
 }
 
 export default interface Book {
   id: string;
   title: string;
-  authors: AuthorConnection;
+  creators: CreatorConnection;
   instances: Array<BookInstance>;
   tags: Array<string>;
   genres: Array<string>;

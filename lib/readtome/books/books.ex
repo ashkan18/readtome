@@ -6,7 +6,7 @@ defmodule Readtome.Books do
   import Ecto.Query, warn: false
   alias Readtome.Repo
 
-  alias Readtome.Books.{Book, BookAuthor}
+  alias Readtome.Books.{Book, BookCreator}
   alias Readtome.BooksFinder
 
   @doc """
@@ -21,7 +21,7 @@ defmodule Readtome.Books do
   def list_books do
     Repo.all(Book)
     |> Repo.preload(instances: :user)
-    |> Repo.preload(:authors)
+    |> Repo.preload(:creators)
   end
 
   @doc """
@@ -68,10 +68,10 @@ defmodule Readtome.Books do
     create_book(%{isbn: isbn, title: title, tags: tags})
   end
 
-  def populate_with_external(book, %{authors: authors, cover_url: cover_url}) do
-    authors
-    |> Enum.map(fn au -> Readtome.Authors.add_by_name(au) end)
-    |> Enum.map(fn au -> set_book_author(au, book) end)
+  def populate_with_external(book, %{creators: creators, cover_url: cover_url}) do
+    creators
+    |> Enum.map(fn au -> Readtome.Creators.add_by_name(au) end)
+    |> Enum.map(fn au -> set_book_creator(au, book) end)
 
     with {:ok, file} <- Readtome.BookCover.store({cover_url, book}) do
       book
@@ -85,9 +85,9 @@ defmodule Readtome.Books do
     end
   end
 
-  def set_book_author(author, book) do
-    %BookAuthor{}
-    |> BookAuthor.changeset(%{author_id: author.id, book_id: book.id})
+  def set_book_creator(creator, book) do
+    %BookCreator{}
+    |> BookCreator.changeset(%{creator_id: creator.id, book_id: book.id})
     |> Repo.insert()
   end
 
@@ -158,7 +158,7 @@ defmodule Readtome.Books do
     |> near(point)
     |> filter_users(filter_user_ids)
     |> preload(:user)
-    |> preload(book: :authors)
+    |> preload(book: :creators)
     |> Repo.all()
   end
 
@@ -178,8 +178,8 @@ defmodule Readtome.Books do
     from(book_instance in query,
       join: user in assoc(book_instance, :user),
       join: book in assoc(book_instance, :book),
-      join: author in assoc(book, :authors),
-      where: fragment("LOWER(?) % LOWER(?) OR LOWER(?) = LOWER(?) OR LOWER(?) % LOWER(?)", book.title, ^term, user.name, ^term, author.name, ^term),
+      join: creator in assoc(book, :creators),
+      where: fragment("LOWER(?) % LOWER(?) OR LOWER(?) = LOWER(?) OR LOWER(?) % LOWER(?)", book.title, ^term, user.name, ^term, creator.name, ^term),
       order_by: fragment("similarity(LOWER(?), LOWER(?)) DESC", book.title, ^term)
     )
   end
@@ -204,7 +204,7 @@ defmodule Readtome.Books do
     Book
     |> Repo.get_by(isbn: isbn)
     |> Repo.preload(instances: :user)
-    |> Repo.preload(:authors)
+    |> Repo.preload(:creators)
   end
 
   @doc """

@@ -7,6 +7,7 @@ defmodule Readtome.Accounts.UserInterest do
     field(:title, :string)
     field(:type, Ecto.Enum, values: [:read, :watched, :saw, :listened])
     belongs_to(:user, Readtome.Accounts.User)
+    many_to_many(:creators, Readtome.Creators.Creator, join_through: Readtome.Creators.UserInterestCreator)
 
     timestamps()
   end

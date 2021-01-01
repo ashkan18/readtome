@@ -10,7 +10,7 @@ defmodule Readtome.Books.Book do
     field(:medium_cover_url, :string)
     field(:small_cover_url, :string)
 
-    many_to_many(:authors, Readtome.Authors.Author, join_through: Readtome.Books.BookAuthor)
+    many_to_many(:creators, Readtome.Creators.Creator, join_through: Readtome.Books.BookCreator)
     has_many(:instances, Readtome.Books.BookInstance)
 
     timestamps()

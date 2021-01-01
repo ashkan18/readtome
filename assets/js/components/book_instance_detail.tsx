@@ -32,7 +32,7 @@ export const BookInstanceDetail = (props: Props) => {
           )}
           <Card.Header>{bookInstance.book.title}</Card.Header>
           <Card.Meta>
-            {bookInstance.book.authors.edges
+            {bookInstance.book.creators.edges
               .map((edge) => edge.node.name)
               .join(",")}
           </Card.Meta>

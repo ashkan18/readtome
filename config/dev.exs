@@ -61,5 +61,5 @@ config :readtome, Readtome.Repo,
   url: System.get_env("DATABASE_URL"),
   pool_size: 2,
   extensions: [{Geo.PostGIS.Extension, library: Geo}],
-  types: Readtome.PostgresTypes,
-  ssl: true
+  ssl: true,
+  types: Readtome.PostgresTypes

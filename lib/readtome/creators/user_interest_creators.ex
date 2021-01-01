@@ -1,9 +1,9 @@
-defmodule Readtome.Books.BookCreator do
+defmodule Readtome.Creator.UserInterestCreator do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "book_creators" do
-    belongs_to(:book, Readtome.Books.Book)
+  schema "user_interest_creators" do
+    belongs_to(:user_interest, Readtome.Accounts.UserInterest)
     belongs_to(:creator, Readtome.Creators.Creator)
 
     timestamps()
@@ -14,11 +14,11 @@ defmodule Readtome.Books.BookCreator do
   """
   def changeset(book_creator, attrs) do
     book_creator
-    |> cast(attrs, [:book_id, :creator_id])
+    |> cast(attrs, [:user_id, :creator_id])
     |> validate_required([:book_id, :creator_id])
     |> foreign_key_constraint(:book_id)
     |> foreign_key_constraint(:creator_id)
-    |> assoc_constraint(:book)
+    |> assoc_constraint(:user_interest)
     |> assoc_constraint(:creator)
   end
 end

@@ -13,7 +13,7 @@ defmodule ReadtomeWeb.Schema do
   def context(ctx) do
     loader =
       Dataloader.new()
-      |> Dataloader.add_source(Author, Readtome.Authors.data())
+      |> Dataloader.add_source(Creator, Readtome.Creators.data())
       |> Dataloader.add_source(User, Readtome.Accounts.data())
       |> Dataloader.add_source(Book, Readtome.Books.data())
 

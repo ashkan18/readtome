@@ -15,7 +15,7 @@ query bookInstances($lat: Float, $lng: Float, $term: String, $offerings: [String
       id
       title
       tags
-      authors(first: 10) {
+      creators(first: 10) {
         edges {
           node {
             name
@@ -43,7 +43,7 @@ mutation PostBook($lat: Float!, $lng: Float!, $bookId: ID!, $medium: Medium!, $o
       id
       title
       isbn
-      authors(first: 10) {
+      creators(first: 10) {
         edges {
           node {
             name

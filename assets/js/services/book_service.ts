@@ -15,7 +15,7 @@ export const findByISBN = (
               book(isbn: $isbn) {
                 id
                 title
-                authors(first: 10) {
+                creators(first: 10) {
                   edges {
                     node {
                       name

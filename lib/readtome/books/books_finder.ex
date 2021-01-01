@@ -13,7 +13,7 @@ defmodule Readtome.BooksFinder do
          %{
            isbn: isbn,
            title: book["volumeInfo"]["title"],
-           authors: book["volumeInfo"]["authors"],
+           creators: book["volumeInfo"]["creators"],
            tags: book["volumeInfo"]["categories"],
            cover_url: book["volumeInfo"]["imageLinks"]["large"] || book["volumeInfo"]["imageLinks"]["thumbnail"],
            description: book["volumeInfo"]["description"]

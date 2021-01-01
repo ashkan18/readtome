@@ -3,10 +3,10 @@ defmodule ReadtomeWeb.Schema.BookTypes do
   use Absinthe.Relay.Schema.Notation, :modern
   import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
 
-  connection(node_type: :author)
+  connection(node_type: :creator)
 
-  @desc "An Author"
-  object :author do
+  @desc "An Creator"
+  object :creator do
     field(:id, :id)
     field(:name, :string)
     field(:bio, :string)
@@ -22,11 +22,11 @@ defmodule ReadtomeWeb.Schema.BookTypes do
     field(:medium_cover_url, :string)
     field(:small_cover_url, :string)
 
-    connection field(:authors, node_type: :author) do
+    connection field(:creators, node_type: :creator) do
       resolve(fn
         pagination_args, %{source: book} ->
-          book = Readtome.Repo.preload(book, :authors)
-          Absinthe.Relay.Connection.from_list(book.authors, pagination_args)
+          book = Readtome.Repo.preload(book, :creators)
+          Absinthe.Relay.Connection.from_list(book.creators, pagination_args)
       end)
     end
   end
