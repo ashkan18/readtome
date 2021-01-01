@@ -8,6 +8,7 @@ defmodule Readtome.Accounts do
   alias Comeonin.Bcrypt
 
   alias Readtome.Accounts.{User, UserInterest}
+  alias Readtome.Creators
 
   @doc """
   Returns the list of users.
@@ -178,9 +179,15 @@ defmodule Readtome.Accounts do
 
   """
   def create_user_interest(attrs \\ %{}) do
-    %UserInterest{}
-    |> UserInterest.changeset(attrs)
-    |> Repo.insert()
+    with {creator_ids, attrs} <- Map.pop(attrs, :creator_ids),
+         changeset <- UserInterest.changeset(%UserInterest{}, attrs),
+         {:ok, user_interest} <- Repo.insert(changeset),
+         Enum.map(creator_ids, fn creator_id -> Creators.create_user_interest_creator(%{user_interest_id: user_interest.id, creator_id: creator_id}) end) do
+      {:ok, user_interest}
+    else
+      {:error, error = %Ecto.Changeset{}} -> {:error, error}
+      error -> error
+    end
   end
 
   @doc """

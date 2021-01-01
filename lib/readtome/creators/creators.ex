@@ -6,7 +6,7 @@ defmodule Readtome.Creators do
   import Ecto.Query, warn: false
   alias Readtome.Repo
 
-  alias Readtome.Creators.Creator
+  alias Readtome.Creators.{Creator, UserInterestCreator}
 
   @doc """
   Returns the list of creators.
@@ -107,6 +107,12 @@ defmodule Readtome.Creators do
   """
   def change_creator(%Creator{} = creator) do
     Creator.changeset(creator, %{})
+  end
+
+  def create_user_interest_creator(attrs \\ %{}) do
+    %UserInterestCreator{}
+    |> UserInterestCreator.changeset(attrs)
+    |> Repo.insert()
   end
 
   def data() do

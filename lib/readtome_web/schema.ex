@@ -101,6 +101,8 @@ defmodule ReadtomeWeb.Schema do
       arg(:title, non_null(:string))
       arg(:ref, non_null(:string))
       arg(:type, non_null(:interest_type))
+      arg(:creator_ids, list_of(:id))
+      arg(:creator_names, list_of(:string))
 
       resolve(&Resolvers.User.add_interest/3)
     end
