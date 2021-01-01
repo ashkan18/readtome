@@ -76,5 +76,23 @@ defmodule ReadtomeWeb.Schema do
 
       resolve(&Resolvers.Connector.reject/3)
     end
+
+    @desc "Signup"
+    field :signup, type: :auth do
+      arg(:name, non_null(:string))
+      arg(:email, non_null(:string))
+      arg(:username, non_null(:string))
+      arg(:password, non_null(:string))
+
+      resolve(&Resolvers.User.signup/3)
+    end
+
+    @desc "Login"
+    field :login, type: :auth do
+      arg(:username, non_null(:string))
+      arg(:password, non_null(:string))
+
+      resolve(&Resolvers.User.login/3)
+    end
   end
 end

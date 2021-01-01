@@ -51,4 +51,9 @@ defmodule ReadtomeWeb.Schema.UserTypes do
       end)
     end
   end
+
+  @desc "Auth Response"
+  object :auth do
+    field(:token, :string)
+  end
 end

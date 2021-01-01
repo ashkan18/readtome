@@ -21,13 +21,6 @@ defmodule ReadtomeWeb.Router do
     plug(ReadtomeWeb.Auth.GraphQLContextPlug)
   end
 
-  scope "/api", ReadtomeWeb do
-    pipe_through(:api)
-
-    post("/signup", AccountController, :signup)
-    post("/login", AccountController, :login)
-  end
-
   scope "/api" do
     pipe_through([:api, :auth, :graphql_auth])
 

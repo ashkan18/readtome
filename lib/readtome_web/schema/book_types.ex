@@ -50,6 +50,6 @@ defmodule ReadtomeWeb.Schema.BookTypes do
     field(:medium, :medium)
     field(:offerings, list_of(:offering))
 
-    field :reader, :reader, resolve: dataloader(User, :user, [])
+    field(:reader, :reader, resolve: dataloader(User, :user, []))
   end
 end
