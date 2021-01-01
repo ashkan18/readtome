@@ -1,0 +1,21 @@
+defmodule Readtome.Accounts.UserInterest do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  schema "user_interests" do
+    field(:ref, :string)
+    field(:title, :string)
+    field(:type, Ecto.Enum, values: [:read, :watched, :saw, :listened])
+    belongs_to(:user, Readtome.Accounts.User)
+
+    timestamps()
+  end
+
+  @doc false
+  def changeset(user_interest, attrs) do
+    user_interest
+    |> cast(attrs, [:title, :type, :ref, :user_id])
+    |> validate_required([:title, :type, :ref, :user_id])
+    |> assoc_constraint(:user)
+  end
+end

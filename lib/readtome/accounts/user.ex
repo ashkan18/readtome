@@ -13,6 +13,7 @@ defmodule Readtome.Accounts.User do
     field(:photos, {:array, :map})
 
     has_many(:book_instances, Readtome.Books.BookInstance)
+    has_many(:interests, Readtome.Accounts.UserInterest)
 
     timestamps()
   end

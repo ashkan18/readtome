@@ -24,4 +24,14 @@ defmodule ReadtomeWeb.Resolvers.User do
       _ -> {:error, "Could not login"}
     end
   end
+
+  def add_interest(_parent, args, %{context: %{current_user: user}}) do
+    with args <- Map.put(args, :user_id, user.id),
+         {:ok, user_interest} <- Accounts.create_user_interest(args) do
+      {:ok, user_interest}
+    else
+      {:error, %Ecto.Changeset{} = changeset} -> {:error, Helper.convert_changeset_errors(changeset)}
+      _ -> {:error, "Could add user interest"}
+    end
+  end
 end

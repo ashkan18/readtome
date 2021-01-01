@@ -29,9 +29,7 @@ export const login = (username: string, password: string): Promise<string> => {
         variables: { username, password },
       },
     }).then((response) => {
-        console.log("HERE 1")
         if (response.data?.errors?.length > 0) {
-          console.log("HERE 2")
           return rejected(response.data.errors[0].message)
         } else {
           setToken(response.data.data.login.token);

@@ -3,6 +3,7 @@ defmodule ReadtomeWeb.Schema do
   use Absinthe.Relay.Schema, :modern
 
   import_types(ReadtomeWeb.Schema.JSON)
+  import_types(ReadtomeWeb.Schema.EnumTypes)
   import_types(ReadtomeWeb.Schema.LocationType)
   import_types(ReadtomeWeb.Schema.BookTypes)
   import_types(ReadtomeWeb.Schema.UserTypes)
@@ -93,6 +94,15 @@ defmodule ReadtomeWeb.Schema do
       arg(:password, non_null(:string))
 
       resolve(&Resolvers.User.login/3)
+    end
+
+    @desc "Add User Interest"
+    field :add_interest, type: :user_interest do
+      arg(:title, non_null(:string))
+      arg(:ref, non_null(:string))
+      arg(:type, non_null(:interest_type))
+
+      resolve(&Resolvers.User.add_interest/3)
     end
   end
 end

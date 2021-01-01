@@ -31,17 +31,6 @@ defmodule ReadtomeWeb.Schema.BookTypes do
     end
   end
 
-  enum :medium do
-    value(:pdf)
-    value(:paperback)
-    value(:hardcover)
-  end
-
-  enum :offering do
-    value(:read)
-    value(:borrow)
-  end
-
   @desc "A Book Instance"
   object :book_instance do
     field(:id, :id)
