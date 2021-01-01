@@ -39,7 +39,6 @@ defmodule ReadtomeWeb do
       use Phoenix.HTML
 
       import ReadtomeWeb.Router.Helpers
-      import ReadtomeWeb.ErrorHelpers
       import ReadtomeWeb.Gettext
     end
   end
