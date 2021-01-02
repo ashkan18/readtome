@@ -13,6 +13,7 @@ import { GeolocateControl } from "mapbox-gl";
 interface Props {
   location: Coordinate | null;
   geoLocation: GeolocateControl;
+  switchPage?: (any) => void;
 }
 
 export const Home = (props: Props) => {
@@ -74,6 +75,7 @@ export const Home = (props: Props) => {
           center={props.location}
           bookInstances={bookInstances}
           geoLocation={props.geoLocation}
+          switchPage={props.switchPage}
         />
       </>
     );

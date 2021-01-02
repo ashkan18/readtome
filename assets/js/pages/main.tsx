@@ -9,6 +9,12 @@ import { getMe } from "../services/user_service";
 import { Home } from "../components/home";
 import { Inquiries } from "./inquiries";
 import { Redirect } from "react-router";
+import { User } from "./user";
+
+interface Page {
+  ref: string;
+  params?: any;
+}
 
 export const Main = () => {
   const geoLocation = new GeolocateControl({
@@ -17,7 +23,7 @@ export const Main = () => {
     },
     trackUserLocation: false,
   });
-  const [pageStack, setPageStack] = useState<Array<string>>(["home"]);
+  const [pageStack, setPageStack] = useState<Array<Page>>([{ ref: "home" }]);
   const [me, setMe] = React.useState<Reader | null>(null);
   const [needsLogin, setNeedsLogin] = React.useState(false);
   const [currentLocation, setCurrentLocation] = React.useState<any | null>(
@@ -41,12 +47,12 @@ export const Main = () => {
   }, []);
 
   const currentPage = pageStack.slice(-1)[0];
-  const switchPage = (newPage: string) => {
+  const switchPage = (newPage: Page) => {
     setPageStack(pageStack.concat(newPage));
   };
 
-  if (needsLogin){
-    return(<Redirect to="/login"/>)
+  if (needsLogin) {
+    return <Redirect to="/login" />;
   }
 
   return (
@@ -56,10 +62,15 @@ export const Main = () => {
         currentLocation={currentLocation}
         switchPage={switchPage}
       />
-      {currentPage === "home" && (
-        <Home geoLocation={geoLocation} location={currentLocation} />
+      {currentPage.ref === "home" && (
+        <Home
+          geoLocation={geoLocation}
+          location={currentLocation}
+          switchPage={switchPage}
+        />
       )}
-      {currentPage === "inquiries" && <Inquiries />}
+      {currentPage.ref === "inquiries" && <Inquiries />}
+      {currentPage.ref === "user" && <User id={currentPage.params.id} />}
     </MainLayout>
   );
 };

@@ -5,6 +5,10 @@ defmodule ReadtomeWeb.Resolvers.User do
     {:ok, user}
   end
 
+  def find_by_id(_parent, %{id: id}, _context) do
+    {:ok, Accounts.get_user(id)}
+  end
+
   def signup(_parent, args, _context) do
     with {:ok, user} <- Accounts.create_user(args),
          {:ok, token, _claims} <- ReadtomeWeb.Auth.Guardian.encode_and_sign(user) do

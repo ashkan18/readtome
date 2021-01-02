@@ -6,7 +6,6 @@ import BookInstance from "../models/book_instance";
 import { GeolocateControl } from "mapbox-gl";
 import { BookInstanceDetail } from "./book_instance_detail";
 import { svg } from "./icon";
-import { fetchBooks } from "../services/book_instance_service";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -35,6 +34,7 @@ interface Props {
   center: Coordinate;
   onStyleLoad?: (map: any) => any;
   geoLocation: GeolocateControl;
+  switchPage?: (any) => void;
 }
 
 interface State {
@@ -158,7 +158,10 @@ export const MapComponent = (props: Props) => {
           anchor="bottom"
           offset={[0, -15]}
         >
-          <BookInstanceDetail bookInstance={state.bookInstance} />
+          <BookInstanceDetail
+            bookInstance={state.bookInstance}
+            switchPage={props.switchPage}
+          />
         </Popup>
       )}
     </Map>

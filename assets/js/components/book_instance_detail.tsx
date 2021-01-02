@@ -6,6 +6,7 @@ import { showInterest } from "../services/connector_service";
 
 interface Props {
   bookInstance: BookInstance;
+  switchPage?: (any) => void;
 }
 
 export const BookInstanceDetail = (props: Props) => {
@@ -47,7 +48,17 @@ export const BookInstanceDetail = (props: Props) => {
               src={bookInstance.reader.photos?.find(Boolean)?.thumb}
             />
           )}
-          <Card.Header>{bookInstance.reader.name}</Card.Header>
+          <Card.Header
+            as="a"
+            onClick={() =>
+              props.switchPage({
+                ref: "user",
+                params: { id: bookInstance.reader.id },
+              })
+            }
+          >
+            {bookInstance.reader.name}
+          </Card.Header>
           <Card.Description>
             {bookInstance.reader.name} in interested in{" "}
             <strong>musicians</strong>

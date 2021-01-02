@@ -42,6 +42,12 @@ defmodule ReadtomeWeb.Schema do
     field :me, :reader do
       resolve(&Resolvers.User.me/3)
     end
+
+    field :reader, :reader do
+      arg(:id, non_null(:id))
+
+      resolve(&Resolvers.User.find_by_id/3)
+    end
   end
 
   mutation do
