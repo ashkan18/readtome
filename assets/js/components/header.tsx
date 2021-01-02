@@ -4,6 +4,7 @@ import Reader from "../models/reader";
 import styled from "styled-components";
 import { Profile } from "./profile";
 import { BookSubmission } from "./book_submit";
+import { AddSomethingForm } from "./add_something_form";
 
 interface Props {
   me: Reader | null;
@@ -40,6 +41,21 @@ export const Header = (props: Props) => {
                 content={
                   <BookSubmission currentLocation={props.currentLocation} />
                 }
+                position="top center"
+                on="click"
+              />
+            </Menu.Item>
+            <Menu.Item>
+              <Popup
+                trigger={
+                  <Icon
+                    name="plus square outline"
+                    size="large"
+                    style={{ cursor: "pointer" }}
+                  />
+                }
+                header="Add Something"
+                content={<AddSomethingForm />}
                 position="top center"
                 on="click"
               />
