@@ -60,7 +60,7 @@ export const signUp = (name: string, username: string, email: string, password: 
         variables: { name, email, username, password },
       },
     }).then((response) => {
-        if (response.data.errors.length > 0) {
+        if (response.data.errors && response.data.errors.length > 0) {
           return rejected(response.data.errors[0].message)
         }
         return resolve(response.data.data.signup.token);
