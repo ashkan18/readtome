@@ -48,15 +48,7 @@ export const BookInstanceDetail = (props: Props) => {
               src={bookInstance.reader.photos?.find(Boolean)?.thumb}
             />
           )}
-          <Card.Header
-            as="a"
-            onClick={() =>
-              props.switchPage({
-                ref: "user",
-                params: { id: bookInstance.reader.id },
-              })
-            }
-          >
+          <Card.Header as="a" href={`/users/${bookInstance.reader.id}`}>
             {bookInstance.reader.name}
           </Card.Header>
           <Card.Description>

@@ -8,7 +8,6 @@ import { BookSubmission } from "./book_submit";
 interface Props {
   me: Reader | null;
   currentLocation?: any;
-  switchPage?: (any) => void;
 }
 
 const HeaderDiv = styled.div`
@@ -19,8 +18,8 @@ export const Header = (props: Props) => {
   return (
     <HeaderDiv>
       <Menu stackable secondary>
-        <Menu.Item size={"tiny"}>
-          <h2 onClick={() => props.switchPage({ ref: "home" })}>
+        <Menu.Item size={"tiny"} as="a" href="/">
+          <h2>
             R<span style={{ fontSize: 10 }}>ead</span>T
             <span style={{ fontSize: 11 }}>o</span>M
             <span style={{ fontSize: 11 }}>e</span>
@@ -45,13 +44,8 @@ export const Header = (props: Props) => {
                 on="click"
               />
             </Menu.Item>
-            <Menu.Item>
-              <Icon
-                name="mail"
-                size="large"
-                style={{ cursor: "pointer" }}
-                onClick={() => props.switchPage({ ref: "inquiries" })}
-              />
+            <Menu.Item as="a" href={"/inquiries"}>
+              <Icon name="mail" size="large" />
             </Menu.Item>
             <Menu.Item>
               <Profile me={props.me} />

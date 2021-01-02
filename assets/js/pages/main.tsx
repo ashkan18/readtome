@@ -8,7 +8,7 @@ import Reader from "../models/reader";
 import { getMe } from "../services/user_service";
 import { Home } from "../components/home";
 import { Inquiries } from "./inquiries";
-import { Redirect } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
 import { User } from "./user";
 
 interface Page {
@@ -23,7 +23,6 @@ export const Main = () => {
     },
     trackUserLocation: false,
   });
-  const [pageStack, setPageStack] = useState<Array<Page>>([{ ref: "home" }]);
   const [me, setMe] = React.useState<Reader | null>(null);
   const [needsLogin, setNeedsLogin] = React.useState(false);
   const [currentLocation, setCurrentLocation] = React.useState<any | null>(
@@ -42,14 +41,8 @@ export const Main = () => {
         .then((me) => setMe(me))
         .catch((_error) => setNeedsLogin(true));
     };
-
     fetchData();
   }, []);
-
-  const currentPage = pageStack.slice(-1)[0];
-  const switchPage = (newPage: Page) => {
-    setPageStack(pageStack.concat(newPage));
-  };
 
   if (needsLogin) {
     return <Redirect to="/login" />;
@@ -57,20 +50,18 @@ export const Main = () => {
 
   return (
     <MainLayout>
-      <Header
-        me={me}
-        currentLocation={currentLocation}
-        switchPage={switchPage}
-      />
-      {currentPage.ref === "home" && (
-        <Home
-          geoLocation={geoLocation}
-          location={currentLocation}
-          switchPage={switchPage}
-        />
-      )}
-      {currentPage.ref === "inquiries" && <Inquiries />}
-      {currentPage.ref === "user" && <User id={currentPage.params.id} />}
+      <Header me={me} currentLocation={currentLocation} />
+      <Switch>
+        <Route path="/inquiries">
+          <Inquiries />
+        </Route>
+        <Route path="/users/:userId">
+          <User />
+        </Route>
+        <Route path="/">
+          <Home geoLocation={geoLocation} location={currentLocation} />
+        </Route>
+      </Switch>
     </MainLayout>
   );
 };

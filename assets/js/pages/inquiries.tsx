@@ -14,6 +14,7 @@ import { myActivity, MyActivityResponse } from "../services/user_service";
 import Inquiry from "../models/inquiry";
 import { accept, reject } from "../services/connector_service";
 import { getToken } from "../services/auth_service";
+import { Link } from "react-router-dom";
 
 const stateReducer = (state, action) => {
   switch (action.type) {
@@ -91,7 +92,13 @@ export const Inquiries = () => {
             <Header.Content>
               {bookInstance.book.title}
               <Header.Subheader>
-                You asked for <b>{offering} from {bookInstance.reader.name}</b>
+                You asked for{" "}
+                <b>
+                  {offering} from{" "}
+                  <Link to={`/users/${bookInstance.reader.id}`}>
+                    {bookInstance.reader.name}
+                  </Link>
+                </b>
               </Header.Subheader>
             </Header.Content>
           </Header>
@@ -110,7 +117,10 @@ export const Inquiries = () => {
             <Header.Content>
               {bookInstance.book.title}
               <Header.Subheader>
-                <b>{user.name}</b> asked for <b>{offering}</b>
+                <b>
+                  <Link to={`/users/${user.id}`}>{user.name}</Link>
+                </b>{" "}
+                asked for <b>{offering}</b>
               </Header.Subheader>
             </Header.Content>
           </Header>

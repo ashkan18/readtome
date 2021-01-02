@@ -26,6 +26,7 @@ query Me {
           }
           bookInstance {
             reader {
+              id
               name
             }
             book {
@@ -43,10 +44,12 @@ query Me {
           id
           offering
           user {
+            id
             name
           }
           bookInstance {
             reader {
+              id
               name
             }
             book {

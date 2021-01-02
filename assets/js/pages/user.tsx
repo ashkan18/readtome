@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Redirect } from "react-router";
+import { Redirect, useParams } from "react-router";
 import { Dimmer, Divider, Header, Loader, Table } from "semantic-ui-react";
 import { getReader } from "../services/user_service";
 import Reader from "../models/reader";
@@ -36,11 +36,8 @@ interface Action {
   type: string;
 }
 
-interface Props {
-  id: string;
-}
-
-export const User = (props: Props) => {
+export const User = () => {
+  const { userId } = useParams<{ userId: string }>();
   const initialState = {
     user: null,
     loading: true,
@@ -53,7 +50,7 @@ export const User = (props: Props) => {
 
   const fetchData = () => {
     dispatch({ type: "START_LOADING" });
-    getReader(props.id)
+    getReader(userId)
       .then((reader) => dispatch({ type: "DATA_FETCHED", data: reader }))
       .catch((error) => dispatch({ type: "ERROR", error: error }));
   };
