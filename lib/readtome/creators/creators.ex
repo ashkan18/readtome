@@ -37,6 +37,8 @@ defmodule Readtome.Creators do
   """
   def get_creator!(id), do: Repo.get!(Creator, id)
 
+  def get_creator(id), do: Repo.get(Creator, id)
+
   @doc """
   Creates a creator.
 

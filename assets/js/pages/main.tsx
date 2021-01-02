@@ -10,6 +10,7 @@ import { Home } from "../components/home";
 import { Inquiries } from "./inquiries";
 import { Redirect, Route, Switch } from "react-router";
 import { User } from "./user";
+import { CreatorPage } from "./creatorPage";
 
 interface Page {
   ref: string;
@@ -57,6 +58,9 @@ export const Main = () => {
         </Route>
         <Route path="/users/:userId">
           <User />
+        </Route>
+        <Route path="/creators/:creatorId">
+          <CreatorPage />
         </Route>
         <Route path="/">
           <Home geoLocation={geoLocation} location={currentLocation} />

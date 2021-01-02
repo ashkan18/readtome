@@ -1,4 +1,4 @@
-import UserInterest from "./user_interest";
+import {UserInterest} from "./user_interest";
 import {Connection} from "./connection"
 
 export default interface Reader {

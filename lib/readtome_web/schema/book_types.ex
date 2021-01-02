@@ -5,13 +5,6 @@ defmodule ReadtomeWeb.Schema.BookTypes do
 
   connection(node_type: :creator)
 
-  @desc "An Creator"
-  object :creator do
-    field(:id, :id)
-    field(:name, :string)
-    field(:bio, :string)
-  end
-
   @desc "A Book"
   object :book do
     field(:id, :id)

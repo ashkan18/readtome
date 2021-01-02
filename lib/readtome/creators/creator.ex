@@ -7,7 +7,7 @@ defmodule Readtome.Creators.Creator do
     field(:name, :string)
 
     many_to_many(:books, Readtome.Books.Book, join_through: Readtome.Books.BookCreator)
-    many_to_many(:user_interests, Readtome.Accounts.UserInterest, join_through: Readtome.Creators.CreatorUserInterest)
+    many_to_many(:user_interests, Readtome.Accounts.UserInterest, join_through: Readtome.Creators.UserInterestCreator)
     timestamps()
   end
 

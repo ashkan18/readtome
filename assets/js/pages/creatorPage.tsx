@@ -2,10 +2,9 @@ import * as React from "react";
 
 import { Redirect, useParams } from "react-router";
 import { Dimmer, Divider, Feed, Header, Icon, Loader } from "semantic-ui-react";
-import { getReader } from "../services/user_service";
-import Reader from "../models/reader";
 import { UserInterest } from "../models/user_interest";
-import { Connection } from "../models/connection";
+import { Creator } from "../models/creator";
+import { getCreator } from "../services/creator_service";
 
 const stateReducer = (state, action) => {
   switch (action.type) {
@@ -17,7 +16,7 @@ const stateReducer = (state, action) => {
     case "DATA_FETCHED":
       return {
         ...state,
-        user: action.data,
+        creator: action.data,
         loading: false,
       };
     default:
@@ -26,21 +25,21 @@ const stateReducer = (state, action) => {
 };
 
 interface State {
-  user: Reader;
+  creator: Creator;
   loading: boolean;
   error?: string;
 }
 
 interface Action {
-  data?: Reader;
+  data?: Creator;
   error?: string;
   type: string;
 }
 
-export const User = () => {
-  const { userId } = useParams<{ userId: string }>();
+export const CreatorPage = () => {
+  const { creatorId } = useParams<{ creatorId: string }>();
   const initialState = {
-    user: null,
+    creator: null,
     loading: true,
     error: null,
   };
@@ -51,8 +50,8 @@ export const User = () => {
 
   const fetchData = () => {
     dispatch({ type: "START_LOADING" });
-    getReader(userId)
-      .then((reader) => dispatch({ type: "DATA_FETCHED", data: reader }))
+    getCreator(creatorId)
+      .then((creator) => dispatch({ type: "DATA_FETCHED", data: creator }))
       .catch((error) => dispatch({ type: "ERROR", error: error }));
   };
 
@@ -89,7 +88,6 @@ export const User = () => {
         );
     }
   };
-
   const renderInterest = (interest: UserInterest) => {
     return (
       <Feed.Event>
@@ -99,12 +97,7 @@ export const User = () => {
             <Feed.User as="a" href={interest.ref}>
               <i>{interest.title}</i>
             </Feed.User>{" "}
-            by{" "}
-            {interest.creators.edges
-              .map<React.ReactNode>((i_edge) => (
-                <a href={`/creators/${i_edge.node.id}`}> {i_edge.node.name} </a>
-              ))
-              .reduce((prev, curr) => [prev, ", ", curr])}
+            by {interest.user.name}
             <Feed.Date>1 Hour Ago</Feed.Date>
           </Feed.Summary>
           <Feed.Meta>
@@ -119,7 +112,7 @@ export const User = () => {
 
   if (state.error) {
     return <Redirect to="/login" />;
-  } else if (state.user) {
+  } else if (state.creator) {
     return (
       <>
         {state.loading && (
@@ -127,14 +120,15 @@ export const User = () => {
             <Loader inverted content="Loading" />
           </Dimmer>
         )}
-        {state.user.interests && (
+        {state.creator && (
           <>
             <Header as="h1">
-              {state.user.name}'s things ({state.user.interests.edges.length})
+              {state.creator.name}'s things (
+              {state.creator.userInterests.edges.length})
             </Header>
             <Divider />
             <Feed>
-              {state.user.interests.edges.map((i_edge) =>
+              {state.creator.userInterests.edges.map((i_edge) =>
                 renderInterest(i_edge.node)
               )}
             </Feed>

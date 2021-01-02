@@ -5,6 +5,7 @@ defmodule ReadtomeWeb.Schema do
   import_types(ReadtomeWeb.Schema.JSON)
   import_types(ReadtomeWeb.Schema.EnumTypes)
   import_types(ReadtomeWeb.Schema.LocationType)
+  import_types(ReadtomeWeb.Schema.CreatorTypes)
   import_types(ReadtomeWeb.Schema.BookTypes)
   import_types(ReadtomeWeb.Schema.UserTypes)
 
@@ -47,6 +48,12 @@ defmodule ReadtomeWeb.Schema do
       arg(:id, non_null(:id))
 
       resolve(&Resolvers.User.find_by_id/3)
+    end
+
+    field :creator, :creator do
+      arg(:id, non_null(:id))
+
+      resolve(&Resolvers.Creator.find_by_id/3)
     end
   end
 

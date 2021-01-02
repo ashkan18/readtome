@@ -2,7 +2,7 @@ const { default: axios } = require("axios");
 import { getToken } from "./auth_service";
 import Reader from "../models/reader";
 import Inquiry from "../models/inquiry";
-import UserInterest from "../models/user_interest";
+import {UserInterest} from "../models/user_interest";
 
 const ME_QUERY = `
 query Me {

@@ -1,10 +1,13 @@
 import BookInstance from "./book_instance";
+import { Connection } from "./connection";
 import { Creator } from "./creator";
+import Reader from "./reader";
 
-export default interface UserInterest {
+export interface UserInterest {
   id: string;
   title: string;
   type: string;
   ref: string;
-  creators: Array<Creator>;
+  user: Reader;
+  creators: Connection<Creator>;
 }
