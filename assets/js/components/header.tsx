@@ -1,5 +1,11 @@
 import * as React from "react";
-import { Popup, Header as UIHeader, Icon, Menu } from "semantic-ui-react";
+import {
+  Popup,
+  Header as UIHeader,
+  Icon,
+  Menu,
+  Divider,
+} from "semantic-ui-react";
 import Reader from "../models/reader";
 import styled from "styled-components";
 import { Profile } from "./profile";
@@ -31,13 +37,17 @@ export const Header = (props: Props) => {
             <Menu.Item>
               <Popup
                 trigger={
-                  <Icon
-                    name="plus square outline"
-                    size="large"
-                    style={{ cursor: "pointer" }}
-                  />
+                  <Icon.Group size="large" style={{ cursor: "pointer" }}>
+                    <Icon name="book" />
+                    <Icon corner name="add" />
+                  </Icon.Group>
                 }
-                header="Add New Book"
+                header={
+                  <>
+                    <h2>Add New Book</h2>
+                    <Divider />
+                  </>
+                }
                 content={
                   <BookSubmission currentLocation={props.currentLocation} />
                 }
@@ -48,13 +58,17 @@ export const Header = (props: Props) => {
             <Menu.Item>
               <Popup
                 trigger={
-                  <Icon
-                    name="plus square outline"
-                    size="large"
-                    style={{ cursor: "pointer" }}
-                  />
+                  <Icon.Group size="large" style={{ cursor: "pointer" }}>
+                    <Icon name="heart" />
+                    <Icon corner name="add" />
+                  </Icon.Group>
                 }
-                header="Add Something"
+                header={
+                  <>
+                    <h2>Add Something</h2>
+                    <Divider />
+                  </>
+                }
                 content={<AddSomethingForm />}
                 position="top center"
                 on="click"

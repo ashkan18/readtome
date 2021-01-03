@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, FormGroup } from "semantic-ui-react";
-import Book from "../models/book";
 import { getToken } from "../services/auth_service";
-import { submitOffering } from "../services/book_instance_service";
 import { addInterest } from "../services/interest_service";
 
 export const AddSomethingForm = () => {
@@ -24,7 +22,6 @@ export const AddSomethingForm = () => {
       {!created && (
         <Form>
           <Form.Group inline>
-            <label>What did you do?</label>
             <Form.Field
               label="Read"
               control="input"
