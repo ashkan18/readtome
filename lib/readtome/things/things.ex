@@ -9,8 +9,8 @@ defmodule Readtome.Things do
         IO.inspect(data)
         unfurl_json_ld(data)
 
-      {:ok, %Furlex{twitter: data}} when not is_nil(data) ->
-        IO.inspect(data)
+      {:ok, a = %Furlex{twitter: data}} when not is_nil(data) ->
+        IO.inspect(a)
         unfurl_twitter(data)
 
       error ->
@@ -28,10 +28,11 @@ defmodule Readtome.Things do
   end
 
   defp unfurl_twitter(data) do
-    {:ok, %{thumbnail: data["twitter:image"], type: map_types(data["twitter:creator"]), title: data["twitter:title"]}}
+    {:ok, %{thumbnail: data["twitter:image"], type: map_types(data["twitter:creator"] || data["twitter:site"]), title: data["twitter:title"]}}
   end
 
   defp map_types("MusicRecording"), do: :listened
   defp map_types("@Criterion"), do: :watched
+  defp map_types("@goodreads"), do: :read
   defp map_types(something), do: something
 end

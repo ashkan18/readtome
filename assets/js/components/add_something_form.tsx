@@ -116,6 +116,7 @@ export const AddSomethingForm = () => {
               type="text"
               label="Link"
               placeholder="Link"
+              disabled={state.unfurling || state.loading}
               onChange={(event) =>
                 dispatch({ type: "LINK_CHANGED", value: event.target.value })
               }
@@ -132,6 +133,7 @@ export const AddSomethingForm = () => {
               control="input"
               type="radio"
               name="type"
+              disabled={state.unfurling || state.loading}
               checked={state.type === "READ"}
               onChange={(event) =>
                 dispatch({ type: "TYPE_CHANGED", value: "READ" })
@@ -142,6 +144,7 @@ export const AddSomethingForm = () => {
               control="input"
               type="radio"
               name="type"
+              disabled={state.unfurling || state.loading}
               checked={state.type === "LISTENED"}
               onChange={(event) =>
                 dispatch({ type: "TYPE_CHANGED", value: "LISTENED" })
@@ -152,6 +155,7 @@ export const AddSomethingForm = () => {
               control="input"
               type="radio"
               name="type"
+              disabled={state.unfurling || state.loading}
               checked={state.type === "WATCHED"}
               onChange={(event) =>
                 dispatch({ type: "TYPE_CHANGED", value: "WATCHED" })
@@ -162,6 +166,7 @@ export const AddSomethingForm = () => {
               control="input"
               type="radio"
               name="type"
+              disabled={state.unfurling || state.loading}
               checked={state.type === "SAW"}
               onChange={(event) =>
                 dispatch({ type: "TYPE_CHANGED", value: "SAW" })
@@ -174,6 +179,7 @@ export const AddSomethingForm = () => {
               label="Title"
               placeholder="Title"
               value={state.title}
+              disabled={state.unfurling || state.loading}
               onChange={(event) =>
                 dispatch({ type: "TITLE_CHANGED", value: event.target.value })
               }
@@ -184,6 +190,7 @@ export const AddSomethingForm = () => {
               type="text"
               label="By Who?"
               value={state.creatorNames}
+              disabled={state.unfurling || state.loading}
               placeholder="List creator names comma separated"
               onChange={(event) =>
                 dispatch({
@@ -194,7 +201,9 @@ export const AddSomethingForm = () => {
             />
           </Form.Field>
           <FormGroup>
-            <Button onClick={() => submit()}>Offer!</Button>
+            <Button basic color="orange" onClick={() => submit()}>
+              Add!
+            </Button>
           </FormGroup>
         </Form>
       )}
