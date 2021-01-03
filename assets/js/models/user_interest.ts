@@ -9,5 +9,13 @@ export interface UserInterest {
   type: string;
   ref: string;
   user: Reader;
+  thumbnail: string;
   creators: Connection<Creator>;
+}
+
+export interface UnfurledLink {
+  title: string
+  type: string
+  authorName: string
+  thumbnail: string
 }

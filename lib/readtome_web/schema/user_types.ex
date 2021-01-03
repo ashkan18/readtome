@@ -68,6 +68,7 @@ defmodule ReadtomeWeb.Schema.UserTypes do
     field(:type, :interest_type)
     field(:ref, :string)
     field(:title, :string)
+    field(:thumbnail, :string)
 
     field(:user, :reader, resolve: dataloader(User, :user, []))
 

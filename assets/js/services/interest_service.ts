@@ -1,5 +1,5 @@
 const { default: axios } = require("axios");
-import { UserInterest } from "../models/user_interest";
+import { UnfurledLink, UserInterest } from "../models/user_interest";
 
 export const addInterest = (
   token: string | null,
@@ -35,6 +35,39 @@ export const addInterest = (
     })
       .then((response) => {
         return resolve(response.data.data.addInterest);
+      })
+      .catch((error) => {
+        return rejected(error);
+      })
+  );
+};
+
+
+export const unfurlLink = (
+  token: string | null,
+  url: string
+): Promise<UnfurledLink> => {
+  return new Promise((resolve, rejected) =>
+    axios({
+      url: "/api/graph",
+      method: "post",
+      data: {
+        query: `
+            query Unfurl($url: String!) {
+              unfurl(url: $url) {
+                title
+                type
+                authorName
+                thumbnail
+              }
+            }
+          `,
+        variables: { url },
+      },
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return resolve(response.data.data.unfurl);
       })
       .catch((error) => {
         return rejected(error);

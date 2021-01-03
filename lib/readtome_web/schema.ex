@@ -4,6 +4,7 @@ defmodule ReadtomeWeb.Schema do
 
   import_types(ReadtomeWeb.Schema.JSON)
   import_types(ReadtomeWeb.Schema.EnumTypes)
+  import_types(ReadtomeWeb.Schema.ThingTypes)
   import_types(ReadtomeWeb.Schema.LocationType)
   import_types(ReadtomeWeb.Schema.CreatorTypes)
   import_types(ReadtomeWeb.Schema.BookTypes)
@@ -54,6 +55,12 @@ defmodule ReadtomeWeb.Schema do
       arg(:id, non_null(:id))
 
       resolve(&Resolvers.Creator.find_by_id/3)
+    end
+
+    field :unfurl, :unfurled_link do
+      arg(:url, non_null(:string))
+
+      resolve(&Resolvers.Creator.unfurl/3)
     end
   end
 

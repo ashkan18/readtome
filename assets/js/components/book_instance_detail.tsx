@@ -19,7 +19,6 @@ export const BookInstanceDetail = (props: Props) => {
       .then((_inquiry: any) => setInquired(true))
       .catch((error: any) => setError(error));
   };
-  console.log(bookInstance.id);
   return (
     <Card.Group>
       <Card fluid>
