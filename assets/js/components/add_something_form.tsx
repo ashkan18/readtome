@@ -39,6 +39,15 @@ const stateReducer = (state: State, action: Action) => {
         creatorNames: data.authorName,
         thumbnail: data.thumbnail,
       };
+    case "UNFURL_FAILED":
+      return {
+        ...state,
+        unfurling: false,
+        title: undefined,
+        type: undefined,
+        creatorNames: undefined,
+        thumbnail: undefined,
+      };
     case "TITLE_CHANGED":
       return {
         ...state,
@@ -104,7 +113,7 @@ export const AddSomethingForm = () => {
       .then((data) => {
         dispatch({ type: "UNFURLED", data: data });
       })
-      .catch((error) => console.error(error));
+      .catch((error) => dispatch({ type: "UNFURL_FAILED" }));
   };
 
   return (

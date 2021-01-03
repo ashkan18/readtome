@@ -67,6 +67,9 @@ export const unfurlLink = (
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => {
+        if (response.data.errors) {
+          return rejected(response.data.errors[0].message)
+        }
         return resolve(response.data.data.unfurl);
       })
       .catch((error) => {
