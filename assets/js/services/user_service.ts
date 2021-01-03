@@ -3,6 +3,7 @@ import { getToken } from "./auth_service";
 import Reader from "../models/reader";
 import Inquiry from "../models/inquiry";
 import {UserInterest} from "../models/user_interest";
+import { Connection } from "../models/connection";
 
 const ME_QUERY = `
 query Me {
@@ -148,13 +149,13 @@ export const getMe = (): Promise<Reader> => {
   );
 };
 
-export interface MyActivityResponse {
-  inquiries: Array<Inquiry>
-  requests: Array<Inquiry>
-  interests: Array<UserInterest>
+export interface MeResponse {
+  inquiries: Connection<Inquiry>
+  requests: Connection<Inquiry>
+  interests: Connection<UserInterest>
 }
 
-export const myActivity = (): Promise<MyActivityResponse> => {
+export const myActivity = (): Promise<MeResponse> => {
   return new Promise((resolve, rejected) =>
     axios({
       url: "/api/graph",
@@ -165,13 +166,7 @@ export const myActivity = (): Promise<MyActivityResponse> => {
       },
     })
       .then((response) => {
-        return resolve(
-          {
-            inquiries: response.data.data.me.inquiries.edges.map((edge) => edge.node),
-            requests: response.data.data.me.requests.edges.map((edge) => edge.node),
-            interests: response.data.data.me.interests.edges.map((edge) => edge.node)
-          }
-        );
+        return resolve(response.data.data.me)
       })
       .catch((error) => {
         return rejected(error);

@@ -10,7 +10,7 @@ import {
   Loader,
   Table,
 } from "semantic-ui-react";
-import { myActivity, MyActivityResponse } from "../services/user_service";
+import { myActivity, MeResponse } from "../services/user_service";
 import Inquiry from "../models/inquiry";
 import { accept, reject } from "../services/connector_service";
 import { getToken } from "../services/auth_service";
@@ -26,7 +26,7 @@ const stateReducer = (state, action) => {
     case "DATA_FETCHED":
       return {
         ...state,
-        activities: action.data,
+        me: action.data,
         loading: false,
       };
     default:
@@ -35,20 +35,20 @@ const stateReducer = (state, action) => {
 };
 
 interface State {
-  activities: MyActivityResponse | null;
+  me: MeResponse;
   loading: boolean;
   error?: string;
 }
 
 interface Action {
-  data?: MyActivityResponse;
+  data?: MeResponse;
   error?: string;
   type: string;
 }
 
 export const Inquiries = () => {
   const initialState = {
-    activities: null,
+    me: null,
     loading: true,
     error: null,
   };
@@ -140,7 +140,7 @@ export const Inquiries = () => {
 
   if (state.error) {
     return <Redirect to="/login" />;
-  } else if (state.activities) {
+  } else if (state.me) {
     return (
       <>
         {state.loading && (
@@ -149,21 +149,21 @@ export const Inquiries = () => {
           </Dimmer>
         )}
         <Header as="h1">
-          Your Current Requests ({state.activities.requests.length})
+          Your Current Requests ({state.me.requests.edges.length})
         </Header>
         <Divider />
         <Table basic="very" celled collapsing>
           <Table.Body>
-            {state.activities.requests.map((i) => renderRequest(i))}
+            {state.me.requests.edges.map((i) => renderRequest(i.node))}
           </Table.Body>
         </Table>
         <Divider />
         <Header as="h1">
-          Your Current Inquiries ({state.activities.inquiries.length})
+          Your Current Inquiries ({state.me.inquiries.edges.length})
         </Header>
         <Divider />
         <Table basic="very" celled collapsing>
-          {state.activities.inquiries.map((i) => renderInquiry(i))}
+          {state.me.inquiries.edges.map((i) => renderInquiry(i.node))}
         </Table>
       </>
     );
