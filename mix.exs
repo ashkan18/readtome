@@ -43,7 +43,7 @@ defmodule Readtome.Mixfile do
       {:ecto_sql, "~> 3.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:ex_aws, "~> 2.1.0"},
-      {:furlex, "~> 0.4.3"},
+      {:furlex, git: "https://github.com/ashkan18/furlex.git", branch: "master"},
       {:geo_postgis, "~> 3.1"},
       {:gettext, "~> 0.11"},
       {:guardian, "~> 1.0"},
