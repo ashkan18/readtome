@@ -20,7 +20,7 @@ defmodule Readtome.Things do
   end
 
   defp unfurl_json_ld([data | _]) do
-    {:ok, %{type: map_types(data["@type"]), title: data["name"]}}
+    {:ok, %{type: map_types(data["@type"]), title: data["name"], thumbnail: data["image"]}}
   end
 
   defp unfurl_oembed(data) do
@@ -34,6 +34,7 @@ defmodule Readtome.Things do
   defp map_types("MusicRecording"), do: :listened
   defp map_types("@Criterion"), do: :watched
   defp map_types("@goodreads"), do: :read
+  defp map_types("Product"), do: :read
   defp map_types("rich"), do: :read
   defp map_types(something), do: something
 
