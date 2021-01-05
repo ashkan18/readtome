@@ -1,5 +1,5 @@
 import { FileUploader } from "./file_uploader";
-import { Popup, Image, Button, Menu, Label } from "semantic-ui-react";
+import { Popup, Image, Menu } from "semantic-ui-react";
 import React, { useState } from "react";
 import Reader from "../models/reader";
 import { uploadPhoto } from "../services/user_service";

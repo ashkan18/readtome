@@ -7,7 +7,7 @@ import BookInstance from "../models/book_instance";
 import { useDebounce } from "../hooks/debounce";
 import { Input } from "semantic-ui-react";
 import { fetchBooks } from "../services/book_instance_service";
-import Coordinate from "../models/coordinate";
+import { Coordinate } from "../models/coordinate";
 import { GeolocateControl } from "mapbox-gl";
 
 interface Props {

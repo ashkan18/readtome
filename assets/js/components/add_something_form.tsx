@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Form, FormGroup, Image } from "semantic-ui-react";
 import { UnfurledLink } from "../models/user_interest";
 import { getToken } from "../services/auth_service";

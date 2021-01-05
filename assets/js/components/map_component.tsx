@@ -1,7 +1,7 @@
 import * as React from "react";
 import ReactMapboxGl, { Feature, Layer, Popup } from "react-mapbox-gl";
 
-import Coordinate from "../models/coordinate";
+import { Coordinate } from "../models/coordinate";
 import BookInstance from "../models/book_instance";
 import { GeolocateControl } from "mapbox-gl";
 import { BookInstanceDetail } from "./book_instance_detail";

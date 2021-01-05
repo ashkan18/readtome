@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Header } from "../components/header";
 import MainLayout from "../components/main_layout";
-import Coordinate from "../models/coordinate";
+import { Coordinate } from "../models/coordinate";
 import Reader from "../models/reader";
 import { getMe } from "../services/user_service";
 import { Home } from "../components/home";
