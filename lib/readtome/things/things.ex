@@ -36,6 +36,7 @@ defmodule Readtome.Things do
   defp map_types("@goodreads"), do: :read
   defp map_types("Product"), do: :read
   defp map_types("rich"), do: :read
+  defp map_types("CreativeWork"), do: :saw
   defp map_types(something), do: something
 
   defp cleanup_author_name(name) do

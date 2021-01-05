@@ -1,11 +1,18 @@
 import * as React from "react";
 
 import { Redirect, useParams } from "react-router";
-import { Dimmer, Divider, Feed, Header, Icon, Loader } from "semantic-ui-react";
+import {
+  Dimmer,
+  Divider,
+  Feed,
+  Header,
+  Icon,
+  Loader,
+  Image,
+} from "semantic-ui-react";
 import { getReader } from "../services/user_service";
 import Reader from "../models/reader";
 import { UserInterest } from "../models/user_interest";
-import { Connection } from "../models/connection";
 
 const stateReducer = (state, action) => {
   switch (action.type) {
@@ -107,11 +114,11 @@ export const User = () => {
               .reduce((prev, curr) => [prev, ", ", curr])}
             <Feed.Date>1 Hour Ago</Feed.Date>
           </Feed.Summary>
-          <Feed.Meta>
-            <Feed.Like>
-              <Icon name="like" />4 Likes
-            </Feed.Like>
-          </Feed.Meta>
+          {interest.thumbnail && (
+            <Feed.Extra images>
+              <Image src={interest.thumbnail} size={"tiny"} />
+            </Feed.Extra>
+          )}
         </Feed.Content>
       </Feed.Event>
     );

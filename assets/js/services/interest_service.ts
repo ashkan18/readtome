@@ -6,7 +6,8 @@ export const addInterest = (
   title: string,
   ref: string,
   type: string,
-  creatorNames: Array<string>
+  creatorNames: Array<string>,
+  thumbnail: string
 ): Promise<UserInterest> => {
   return new Promise((resolve, rejected) =>
     axios({
@@ -14,8 +15,8 @@ export const addInterest = (
       method: "post",
       data: {
         query: `
-            mutation AddInterest($title: String, $ref: String, $creatorNames: [String], $type: InterestType!) {
-              addInterest(title: $title, ref: $ref, creatorNames: $creatorNames, type: $type) {
+            mutation AddInterest($title: String, $ref: String, $creatorNames: [String], $type: InterestType!, $thumbnail: String) {
+              addInterest(title: $title, ref: $ref, creatorNames: $creatorNames, type: $type, thumbnail: $thumbnail) {
                 id
                 title
                 creators(first: 10) {
@@ -29,7 +30,7 @@ export const addInterest = (
               }
             }
           `,
-        variables: { title, ref, creatorNames, type },
+        variables: { title, ref, creatorNames, type, thumbnail },
       },
       headers: { Authorization: `Bearer ${token}` },
     })

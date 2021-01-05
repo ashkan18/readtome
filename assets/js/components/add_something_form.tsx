@@ -103,7 +103,8 @@ export const AddSomethingForm = () => {
       state.title,
       state.link,
       state.type,
-      state.creatorNames.split(",")
+      state.creatorNames.split(","),
+      state.thumbnail
     ).then(() => dispatch({ type: "SUBMITTED" }));
   };
 

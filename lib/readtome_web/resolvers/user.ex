@@ -35,7 +35,6 @@ defmodule ReadtomeWeb.Resolvers.User do
       |> Enum.map(&Creators.add_by_name/1)
       |> Enum.reject(&is_nil/1)
       |> Enum.map(fn c -> c.id end)
-      |> IO.inspect(label: "------>")
 
     args =
       args

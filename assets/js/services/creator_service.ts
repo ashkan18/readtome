@@ -16,6 +16,7 @@ query Creator($id: ID!) {
           title
           type
           ref
+          thumbnail
           user {
             id
             name

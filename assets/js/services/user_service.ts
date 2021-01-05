@@ -89,13 +89,14 @@ const READER_QUERY = `
 query Reader($id: ID!) {
   reader(id: $id) {
     name
-    interests(first: 10) {
+    interests(first: 20) {
       edges {
         node {
           id
           title
           type
           ref
+          thumbnail
           creators(first: 3){
             edges {
               node {
