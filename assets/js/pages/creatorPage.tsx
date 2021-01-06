@@ -68,51 +68,33 @@ export const CreatorPage = () => {
     fetchData();
   }, []);
 
-  const renderIcon = (type: string) => {
+  const renderType = (type: string) => {
     switch (type) {
       case "LISTENED":
-        return (
-          <Feed.Label>
-            <Icon name="headphones" />
-          </Feed.Label>
-        );
+        return <b> listened to </b>;
       case "WATCHED":
-        return (
-          <Feed.Label>
-            <Icon name="tv" />
-          </Feed.Label>
-        );
+        return <b> watched </b>;
       case "SAW":
-        return (
-          <Feed.Label>
-            <Icon name="pallet" />
-          </Feed.Label>
-        );
+        return <b> saw </b>;
       case "READ":
-        return (
-          <Feed.Label>
-            <Icon name="newspaper" />
-          </Feed.Label>
-        );
+        return <b> read </b>;
     }
   };
   const renderInterest = (interest: UserInterest) => {
     return (
       <Feed.Event>
-        {renderIcon(interest.type)}
         <Feed.Content>
           <Feed.Summary>
+            {interest.thumbnail && (
+              <Image src={interest.thumbnail} size={"tiny"} />
+            )}
+            <a href={`/users/${interest.user.id}`}>{interest.user.name}</a>
+            {renderType(interest.type)}
             <Feed.User as="a" href={interest.ref}>
               <i>{interest.title}</i>
             </Feed.User>{" "}
-            by {interest.user.name}
             <Feed.Date>1 Hour Ago</Feed.Date>
           </Feed.Summary>
-          {interest.thumbnail && (
-            <Feed.Extra images>
-              <Image src={interest.thumbnail} size={"tiny"} />
-            </Feed.Extra>
-          )}
         </Feed.Content>
       </Feed.Event>
     );
