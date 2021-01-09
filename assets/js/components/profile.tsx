@@ -3,6 +3,7 @@ import { Popup, Image, Menu } from "semantic-ui-react";
 import React, { useState } from "react";
 import Reader from "../models/reader";
 import { uploadPhoto } from "../services/user_service";
+import { Link } from "react-router-dom";
 
 interface Props {
   me: Reader;
@@ -16,7 +17,7 @@ export const Profile = (props: Props) => {
     uploadPhoto(file).then((user) => setPhotos(user.photos));
   };
 
-  const handleItemClick = (e, { name }) => setActiveItem(name);
+  const handleEdit = (e, { name }) => setActiveItem(name);
 
   return (
     <Popup
@@ -35,11 +36,10 @@ export const Profile = (props: Props) => {
       content={
         <>
           <Menu size="small" vertical>
-            <Menu.Item
-              name="edit"
-              active={activeItem === "edit"}
-              onClick={handleItemClick}
-            ></Menu.Item>
+            <Menu.Item name="Edit" onClick={handleEdit} />
+            <Menu.Item name="feed">
+              <Link to={`/users/${props.me.id}`}>My Feed</Link>
+            </Menu.Item>
           </Menu>
           {activeItem === "edit" && (
             <FileUploader onSelect={uploadProfilePhoto} />

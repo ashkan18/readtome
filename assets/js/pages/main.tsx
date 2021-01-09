@@ -1,6 +1,5 @@
 import { GeolocateControl } from "mapbox-gl";
 import React from "react";
-import { useState } from "react";
 import { Header } from "../components/header";
 import MainLayout from "../components/main_layout";
 import { Coordinate } from "../models/coordinate";
@@ -10,7 +9,7 @@ import { Home } from "../components/home";
 import { Inquiries } from "./inquiries";
 import { Redirect, Route, Switch } from "react-router";
 import { User } from "./user";
-import { CreatorPage } from "./creatorPage";
+import { CreatorPage } from "./creator_page";
 
 interface Page {
   ref: string;
