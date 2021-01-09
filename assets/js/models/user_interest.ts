@@ -10,6 +10,7 @@ export interface UserInterest {
   ref: string;
   user: Reader;
   thumbnail: string;
+  insertedAt: string;
   creators: Connection<Creator>;
 }
 

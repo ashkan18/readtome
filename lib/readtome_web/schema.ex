@@ -9,6 +9,7 @@ defmodule ReadtomeWeb.Schema do
   import_types(ReadtomeWeb.Schema.CreatorTypes)
   import_types(ReadtomeWeb.Schema.BookTypes)
   import_types(ReadtomeWeb.Schema.UserTypes)
+  import_types(Absinthe.Type.Custom)
 
   alias ReadtomeWeb.Resolvers
 

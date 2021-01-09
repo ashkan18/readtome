@@ -72,6 +72,7 @@ defmodule ReadtomeWeb.Schema.UserTypes do
     field(:ref, :string)
     field(:title, :string)
     field(:thumbnail, :string)
+    field(:inserted_at, :naive_datetime)
 
     field(:user, :reader, resolve: dataloader(User, :user, []))
 

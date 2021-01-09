@@ -10,6 +10,7 @@ import {
   Loader,
   Image,
 } from "semantic-ui-react";
+import { DateTime } from "luxon";
 import { getReader } from "../services/user_service";
 import Reader from "../models/reader";
 import { UserInterest } from "../models/user_interest";
@@ -126,7 +127,11 @@ export const User = () => {
                 <a href={`/creators/${i_edge.node.id}`}> {i_edge.node.name} </a>
               ))
               .reduce((prev, curr) => [prev, ", ", curr])}
-            <Feed.Date>1 Hour Ago</Feed.Date>
+            <Feed.Date>
+              {DateTime.fromISO(interest.insertedAt, {
+                zone: "utc",
+              }).toRelative()}
+            </Feed.Date>
           </Feed.Summary>
 
           {interest.thumbnail && (

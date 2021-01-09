@@ -97,6 +97,7 @@ query Reader($id: ID!) {
           type
           ref
           thumbnail
+          insertedAt
           creators(first: 3){
             edges {
               node {

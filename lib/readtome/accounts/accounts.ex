@@ -244,6 +244,7 @@ defmodule Readtome.Accounts do
       where: ui.user_id == ^user_id
     )
     |> filter_user_interests_by_type(args)
+    |> sort_interests(args)
     |> Repo.all()
   end
 
@@ -254,6 +255,15 @@ defmodule Readtome.Accounts do
   end
 
   def filter_user_interests_by_type(query, _), do: query
+
+  def sort_interests(query, args) do
+    sort_by = case args do
+      %{sort_by: :created_desc} -> [desc: :inserted_at]
+      _ ->  [desc: :inserted_at]
+    end
+    query
+    |> order_by(^sort_by)
+  end
 
   def data() do
     Dataloader.Ecto.new(Repo)
