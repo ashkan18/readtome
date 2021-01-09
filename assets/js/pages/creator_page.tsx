@@ -83,11 +83,13 @@ export const CreatorPage = () => {
   const renderInterest = (interest: UserInterest) => {
     return (
       <Feed.Event>
+        <Feed.Label>
+          {interest.user?.photos?.length > 0 && (
+            <Image src={interest.user.photos[0].thumb} />
+          )}
+        </Feed.Label>
         <Feed.Content>
           <Feed.Summary>
-            {interest.thumbnail && (
-              <Image src={interest.thumbnail} size={"tiny"} />
-            )}
             <a href={`/users/${interest.user.id}`}>{interest.user.name}</a>
             {renderType(interest.type)}
             <Feed.User as="a" href={interest.ref}>
@@ -95,6 +97,15 @@ export const CreatorPage = () => {
             </Feed.User>{" "}
             <Feed.Date>1 Hour Ago</Feed.Date>
           </Feed.Summary>
+          {interest.thumbnail && (
+            <Feed.Extra images>
+              <Image
+                src={interest.thumbnail}
+                size="mini"
+                style={{ width: "100px" }}
+              />
+            </Feed.Extra>
+          )}
         </Feed.Content>
       </Feed.Event>
     );

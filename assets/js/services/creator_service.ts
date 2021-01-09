@@ -20,6 +20,7 @@ query Creator($id: ID!) {
           user {
             id
             name
+            photos
           }
         }
       }

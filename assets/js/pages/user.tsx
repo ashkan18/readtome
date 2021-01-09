@@ -85,7 +85,7 @@ export const User = () => {
     switch (type) {
       case "LISTENED":
         return (
-          <Feed.Label style={{ width: "90px", height: "80px" }}>
+          <Feed.Label>
             <Icon name="headphones" />
           </Feed.Label>
         );
@@ -103,7 +103,7 @@ export const User = () => {
         );
       case "READ":
         return (
-          <Feed.Label style={{ width: "90px" }}>
+          <Feed.Label>
             <Icon name="newspaper" />
           </Feed.Label>
         );
@@ -113,16 +113,9 @@ export const User = () => {
   const renderInterest = (interest: UserInterest) => {
     return (
       <Feed.Event>
-        {!interest.thumbnail && renderIcon(interest.type)}
+        {renderIcon(interest.type)}
         <Feed.Content>
           <Feed.Summary>
-            {interest.thumbnail && (
-              <Image
-                src={interest.thumbnail}
-                size="mini"
-                style={{ width: "100px" }}
-              />
-            )}
             {renderType(interest.type)}
             <Feed.User as="a" href={interest.ref}>
               <i>{interest.title}</i>
@@ -135,6 +128,16 @@ export const User = () => {
               .reduce((prev, curr) => [prev, ", ", curr])}
             <Feed.Date>1 Hour Ago</Feed.Date>
           </Feed.Summary>
+
+          {interest.thumbnail && (
+            <Feed.Extra images>
+              <Image
+                src={interest.thumbnail}
+                size="mini"
+                style={{ width: "100px" }}
+              />
+            </Feed.Extra>
+          )}
         </Feed.Content>
       </Feed.Event>
     );
