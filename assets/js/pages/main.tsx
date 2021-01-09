@@ -11,11 +11,6 @@ import { Redirect, Route, Switch } from "react-router";
 import { User } from "./user";
 import { CreatorPage } from "./creator_page";
 
-interface Page {
-  ref: string;
-  params?: any;
-}
-
 export const Main = () => {
   const geoLocation = new GeolocateControl({
     positionOptions: {

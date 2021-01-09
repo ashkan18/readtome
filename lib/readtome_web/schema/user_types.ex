@@ -1,5 +1,5 @@
 defmodule ReadtomeWeb.Schema.UserTypes do
-  alias Readtome.{Connector, Helper}
+  alias Readtome.{Connector, Helper, Accounts}
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
   import Absinthe.Resolution.Helpers, only: [dataloader: 3]
@@ -30,10 +30,13 @@ defmodule ReadtomeWeb.Schema.UserTypes do
     end
 
     connection field(:interests, node_type: :user_interest) do
+      arg(:interest_types, list_of(:interest_type))
+
       resolve(fn
-        pagination_args, %{source: user} ->
-          user = Helper.populate(user, [:interests])
-          Absinthe.Relay.Connection.from_list(user.interests, pagination_args)
+        args, %{source: user} ->
+          user
+          |> Accounts.user_interests(args)
+          |> Absinthe.Relay.Connection.from_list(args)
       end)
     end
   end

@@ -239,6 +239,22 @@ defmodule Readtome.Accounts do
     UserInterest.changeset(user_interest, attrs)
   end
 
+  def user_interests(%User{id: user_id}, args \\ %{}) do
+    from(ui in UserInterest,
+      where: ui.user_id == ^user_id
+    )
+    |> filter_user_interests_by_type(args)
+    |> Repo.all()
+  end
+
+  def filter_user_interests_by_type(query, %{interest_types: interest_types}) do
+    from(ui in query,
+      where: ui.type in ^interest_types
+    )
+  end
+
+  def filter_user_interests_by_type(query, _), do: query
+
   def data() do
     Dataloader.Ecto.new(Repo)
   end
