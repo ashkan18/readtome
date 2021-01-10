@@ -130,17 +130,7 @@ export const ProfilePage = () => {
   return (
     <Segment basic>
       <Grid columns={2} relaxed="very">
-        <Grid.Column width="3">
-          <Image as="div" src={state?.me?.photos[2]?.thumb} size="medium" />
-          <Input
-            multiple
-            type="file"
-            accept="image/png, image/jpeg"
-            onChange={(e) => uploadProfilePhoto(e.target.files[0])}
-            loading={state.uploading}
-          />
-        </Grid.Column>
-        <Grid.Column>
+        <Grid.Column width="12">
           <SignUpForm>
             <Form
               onSubmit={() => attemptUpdate()}
@@ -214,6 +204,21 @@ export const ProfilePage = () => {
               />
             </Form>
           </SignUpForm>
+        </Grid.Column>
+        <Grid.Column width="2">
+          <Image
+            as="div"
+            src={state?.me?.photos[0]?.thumb}
+            size="medium"
+            circular
+          />
+          <Input
+            multiple
+            type="file"
+            accept="image/png, image/jpeg"
+            onChange={(e) => uploadProfilePhoto(e.target.files[0])}
+            loading={state.uploading}
+          />
         </Grid.Column>
       </Grid>
     </Segment>

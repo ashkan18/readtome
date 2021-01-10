@@ -127,7 +127,6 @@ const UPDATE_PROFILE = `
 
 export const uploadPhoto = (token: string, photoFile: any): Promise<Reader> => {
   let formData = new FormData();
-  console.log(photoFile)
   formData.append("photoFile", photoFile);
   formData.append("query", UPDATE_PROFILE)
   formData.append("variables", JSON.stringify({photo: "photoFile"}))
