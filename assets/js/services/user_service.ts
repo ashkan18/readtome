@@ -10,6 +10,7 @@ query Me {
   me {
     id
     name
+    email
     photos
   }
 }`;
@@ -113,18 +114,31 @@ query Reader($id: ID!) {
 }
 `;
 
-export const uploadPhoto = (file: any): Promise<Reader> => {
+const UPDATE_PROFILE = `
+  mutation UpdateProfile($photo: Upload){
+    updateProfile(photo: $photo){
+      id
+      name
+      email
+      photos
+    }
+  }
+`
+
+export const uploadPhoto = (token: string, photoFile: any): Promise<Reader> => {
   let formData = new FormData();
-  formData.append("file", file);
+  formData.append("photoFile", photoFile);
+  formData.append("query", UPDATE_PROFILE)
+  formData.append("variables", JSON.stringify({photo: "photoFile"}))
   return new Promise((resolve, rejected) => {
     axios
-      .post("/api/me/photos", formData, {
+      .post("/api/graph", formData, {
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => resolve(response.data))
+      .then((response) => resolve(response.data.data.updateProfile))
       .catch((error) => rejected(error));
   });
 };

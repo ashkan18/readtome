@@ -54,4 +54,11 @@ defmodule ReadtomeWeb.Resolvers.User do
       _ -> {:error, "Could add user interest"}
     end
   end
+
+  def update_profile(_, args, %{context: %{current_user: user}}) do
+    case Accounts.add_user_profile_photo(user, args.photo) do
+      {:ok, user} -> {:ok, user}
+      _ -> {:error, "Couldn't upload"}
+    end
+  end
 end

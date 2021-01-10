@@ -11,6 +11,7 @@ defmodule ReadtomeWeb.Schema.UserTypes do
   object :reader do
     field(:id, :id)
     field(:name, :string)
+    field(:email, :string)
     field(:photos, :json)
 
     connection field(:inquiries, node_type: :inquiry) do
