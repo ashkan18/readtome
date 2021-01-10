@@ -10,6 +10,7 @@ defmodule ReadtomeWeb.Schema do
   import_types(ReadtomeWeb.Schema.BookTypes)
   import_types(ReadtomeWeb.Schema.UserTypes)
   import_types(Absinthe.Type.Custom)
+  import_types(Absinthe.Plug.Types)
 
   alias ReadtomeWeb.Resolvers
 
@@ -127,6 +128,14 @@ defmodule ReadtomeWeb.Schema do
       arg(:thumbnail, :string)
 
       resolve(&Resolvers.User.add_interest/3)
+    end
+
+    field :update_profile, :reader do
+      arg(:name, :string)
+      arg(:email, :string)
+      arg(:photo, :upload)
+
+      resolve(&Resolvers.User.update_profile/3)
     end
   end
 end

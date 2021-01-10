@@ -71,8 +71,7 @@ defmodule Readtome.Accounts do
         ]
         |> Enum.into(user.photos || [])
 
-      {:ok, user} = update_user(user, %{photos: all_photos})
-      user
+      update_user(user, %{photos: all_photos})
     else
       error -> IO.inspect(error)
     end

@@ -1,4 +1,3 @@
-import { FileUploader } from "./file_uploader";
 import { Popup, Image, Menu } from "semantic-ui-react";
 import React, { useState } from "react";
 import Reader from "../models/reader";

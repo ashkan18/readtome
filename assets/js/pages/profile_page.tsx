@@ -11,6 +11,7 @@ import {
 import styled from "styled-components";
 import { getMe, uploadPhoto } from "../services/user_service";
 import Reader from "../models/reader";
+import { getToken } from "../services/auth_service";
 
 const SignUpForm = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ interface State {
   emailConfirmation?: string;
   loading: boolean;
   updated: boolean;
+  uploading: boolean;
   me?: Reader;
   error?: string;
 }
@@ -67,6 +69,12 @@ const reducer = (state: State, action: Action) => {
         ...state,
         me: action.me,
       };
+    case "PHOTO_UPLOADED":
+      return {
+        ...state,
+        uploading: false,
+        me: action.me,
+      };
     default:
       return state;
   }
@@ -76,6 +84,7 @@ export const ProfilePage = () => {
   const initialState: State = {
     loading: false,
     updated: false,
+    uploading: false,
   };
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
     reducer,
@@ -112,15 +121,24 @@ export const ProfilePage = () => {
   };
 
   const uploadProfilePhoto = (file: any) => {
-    // uploadPhoto(file).then((user) => setPhotos(user.photos));
+    dispatch({ type: "UPLOADING_PHOTO" });
+    uploadPhoto(getToken(), file).then((user) =>
+      dispatch({ type: "PHOTO_UPLOADED", me: user })
+    );
   };
 
   return (
     <Segment basic>
       <Grid columns={2} relaxed="very">
         <Grid.Column width="3">
-          <Image as="div" src={state?.me?.photos[0]?.thumb} size="medium" />
-          <Input multiple type="file" accept="image/png, image/jpeg" />
+          <Image as="div" src={state?.me?.photos[2]?.thumb} size="medium" />
+          <Input
+            multiple
+            type="file"
+            accept="image/png, image/jpeg"
+            onChange={(e) => uploadProfilePhoto(e.target.files[0])}
+            loading={state.uploading}
+          />
         </Grid.Column>
         <Grid.Column>
           <SignUpForm>
