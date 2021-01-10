@@ -1,14 +1,5 @@
 import * as React from "react";
-import { Redirect } from "react-router";
-import axios from "axios";
-import {
-  Input,
-  Button,
-  InputOnChangeData,
-  Form,
-  Message,
-} from "semantic-ui-react";
-import { SyntheticEvent, FormEvent } from "react";
+import { Button, Form, Message } from "semantic-ui-react";
 import MainLayout from "../components/main_layout";
 import { Header } from "../components/header";
 import styled from "styled-components";

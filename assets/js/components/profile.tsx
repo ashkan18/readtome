@@ -10,21 +10,18 @@ interface Props {
 }
 
 export const Profile = (props: Props) => {
-  const [photos, setPhotos] = useState((props.me && props.me.photos) || []);
-  const [activeItem, setActiveItem] = useState<string>();
-
-  const uploadProfilePhoto = (file: any) => {
-    uploadPhoto(file).then((user) => setPhotos(user.photos));
-  };
-
-  const handleEdit = (e, { name }) => setActiveItem(name);
-
+  const { me } = props;
   return (
     <Popup
-      key={props.me.name}
+      key={me.name}
       trigger={
-        photos && photos.length > 0 ? (
-          <Image src={photos[0].thumb} size="mini" style={{ padding: 0 }} />
+        me.photos.length > 0 ? (
+          <Image
+            circular
+            src={me.photos[0].thumb}
+            size="mini"
+            style={{ padding: 0 }}
+          />
         ) : (
           <Image
             src="https://react.semantic-ui.com/images/avatar/small/elliot.jpg"
@@ -32,18 +29,13 @@ export const Profile = (props: Props) => {
           />
         )
       }
-      header={`Welcome ${props.me.name}`}
+      header={`Welcome ${me.name}`}
       content={
         <>
           <Menu size="small" vertical>
-            <Menu.Item name="Edit" onClick={handleEdit} />
-            <Menu.Item name="feed">
-              <Link to={`/users/${props.me.id}`}>My Feed</Link>
-            </Menu.Item>
+            <Menu.Item as="a" name="Edit" href="/profile" />
+            <Menu.Item as="a" name="feed" href={`/users/${me.id}`} />
           </Menu>
-          {activeItem === "edit" && (
-            <FileUploader onSelect={uploadProfilePhoto} />
-          )}
         </>
       }
       position="top right"

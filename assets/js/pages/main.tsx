@@ -10,6 +10,7 @@ import { Inquiries } from "./inquiries";
 import { Redirect, Route, Switch } from "react-router";
 import { User } from "./user";
 import { CreatorPage } from "./creator_page";
+import { ProfilePage } from "./profile_page";
 
 export const Main = () => {
   const geoLocation = new GeolocateControl({
@@ -55,6 +56,9 @@ export const Main = () => {
         </Route>
         <Route path="/creators/:creatorId">
           <CreatorPage />
+        </Route>
+        <Route path="/profile">
+          <ProfilePage />
         </Route>
         <Route path="/">
           <Home geoLocation={geoLocation} location={currentLocation} />

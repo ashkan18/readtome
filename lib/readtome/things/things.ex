@@ -19,7 +19,6 @@ defmodule Readtome.Things do
     end
   end
 
-
   defp unfurl_oembed(data) do
     {:ok, %{author_name: cleanup_author_name(data["author_name"]), thumbnail: data["thumbnail_url"], type: map_types(data["type"]), title: data["title"]}}
   end
@@ -37,15 +36,13 @@ defmodule Readtome.Things do
   defp map_types("CreativeWork"), do: :saw
   defp map_types(something), do: something
 
-
-  defp unfurl_json_ld([data = %{"@type" => "Movie"}| _]) do
+  defp unfurl_json_ld([data = %{"@type" => "Movie"} | _]) do
     {:ok, %{type: :watched, title: data["name"], thumbnail: data["image"], author_name: fetch_json_ld_person(data["director"])}}
   end
 
-  defp unfurl_json_ld([data| _]) do
+  defp unfurl_json_ld([data | _]) do
     {:ok, %{type: map_types(data["@type"]), title: data["name"], thumbnail: data["image"], author_name: fetch_json_ld_person(data["author"])}}
   end
-
 
   defp fetch_json_ld_person(authors) when is_list(authors) do
     authors
@@ -58,6 +55,7 @@ defmodule Readtome.Things do
     |> Enum.reject(&is_nil/1)
     |> Enum.join(",")
   end
+
   defp fetch_json_ld_person(_), do: ""
 
   defp cleanup_author_name(name) do

@@ -6,5 +6,6 @@ export default interface Reader {
   name: string;
   sex: string;
   photos: Array<any>;
+  email: string;
   interests: Connection<UserInterest>
 }

@@ -257,10 +257,12 @@ defmodule Readtome.Accounts do
   def filter_user_interests_by_type(query, _), do: query
 
   def sort_interests(query, args) do
-    sort_by = case args do
-      %{sort_by: :created_desc} -> [desc: :inserted_at]
-      _ ->  [desc: :inserted_at]
-    end
+    sort_by =
+      case args do
+        %{sort_by: :created_desc} -> [desc: :inserted_at]
+        _ -> [desc: :inserted_at]
+      end
+
     query
     |> order_by(^sort_by)
   end

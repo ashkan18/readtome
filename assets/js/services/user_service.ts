@@ -10,6 +10,7 @@ query Me {
   me {
     id
     name
+    email
     photos
   }
 }`;
