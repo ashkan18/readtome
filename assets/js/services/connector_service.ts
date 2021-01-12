@@ -24,6 +24,14 @@ mutation RejectInquiry($inquiryId: ID!) {
 }`;
 
 
+const FOLLOW_QUERY = `
+mutation Follow($userId: ID!) {
+  follow(userId: $userId) {
+    id
+  } 
+}`;
+
+
 export const showInterest = (
   token: string | null,
   bookInstanceId: string,
@@ -47,7 +55,6 @@ export const showInterest = (
       })
   );
 };
-
 
 
 export const accept = (
@@ -90,6 +97,30 @@ export const reject = (
     })
       .then((response) => {
         return resolve(response.data.data.rejectInquiry);
+      })
+      .catch((error) => {
+        return rejected(error);
+      })
+  );
+};
+
+
+export const follow = (
+  token: string | null,
+  userId: string
+): Promise<Inquiry> => {
+  return new Promise((resolve, rejected) =>
+    axios({
+      url: "/api/graph",
+      method: "post",
+      headers: { Authorization: `Bearer ${token}` },
+      data: {
+        query: FOLLOW_QUERY,
+        variables: { userId },
+      },
+    })
+      .then((response) => {
+        return resolve(response.data.data.follow);
       })
       .catch((error) => {
         return rejected(error);

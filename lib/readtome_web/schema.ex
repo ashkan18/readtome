@@ -141,7 +141,7 @@ defmodule ReadtomeWeb.Schema do
 
     @desc "Follow someone interesting"
     field :follow, :follow do
-      arg(:follower_id, non_null(:id))
+      arg(:user_id, non_null(:id))
 
       resolve(&Resolvers.User.follow/3)
     end

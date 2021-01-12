@@ -62,8 +62,8 @@ defmodule ReadtomeWeb.Resolvers.User do
     end
   end
 
-  def follow(_, %{follower_id: follower_id}, %{context: %{current_user: user}}) do
-    case Connector.follow(%{follower_id: user.id, user_id: follower_id}) do
+  def follow(_, %{user_id: user_id}, %{context: %{current_user: user}}) do
+    case Connector.follow(%{follower_id: user.id, user_id: user_id}) do
       {:ok, follow} -> {:ok, follow}
       {:error, %Ecto.Changeset{} = changeset} -> {:error, Helper.convert_changeset_errors(changeset)}
       _ -> {:error, "Could not follow"}
