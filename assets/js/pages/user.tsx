@@ -9,11 +9,14 @@ import {
   Icon,
   Loader,
   Image,
+  Button,
 } from "semantic-ui-react";
 import { DateTime } from "luxon";
 import { getReader } from "../services/user_service";
 import Reader from "../models/reader";
 import { UserInterest } from "../models/user_interest";
+import { follow } from "../services/connector_service";
+import { getToken } from "../services/auth_service";
 
 const stateReducer = (state, action) => {
   switch (action.type) {
@@ -28,6 +31,12 @@ const stateReducer = (state, action) => {
         user: action.data,
         loading: false,
       };
+    case "NOW_FOLLOWING":
+      return {
+        ...state,
+        loading: false,
+        following: true,
+      };
     default:
       return state;
   }
@@ -36,6 +45,7 @@ const stateReducer = (state, action) => {
 interface State {
   user: Reader;
   loading: boolean;
+  following: boolean;
   error?: string;
 }
 
@@ -50,6 +60,7 @@ export const User = () => {
   const initialState = {
     user: null,
     loading: true,
+    following: false,
     error: null,
   };
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
@@ -68,6 +79,15 @@ export const User = () => {
   React.useEffect(() => {
     fetchData();
   }, []);
+
+  const followUser = () => {
+    dispatch({ type: "START_LOADING" });
+    follow(getToken(), userId)
+      .then((_follow) => dispatch({ type: "NOW_FOLLOWING" }))
+      .catch((_error) =>
+        dispatch({ type: "ERROR", error: "Could not follow" })
+      );
+  };
 
   const renderType = (type: string) => {
     switch (type) {
@@ -162,6 +182,12 @@ export const User = () => {
           <>
             <Header as="h1">
               {state.user.name}'s things ({state.user.interests.edges.length})
+              {!state.user.amIFollowing && !state.following && (
+                <Button basic color="orange" onClick={() => followUser()}>
+                  Follow
+                </Button>
+              )}
+              {(state.user.amIFollowing || state.following) && <>✅</>}
             </Header>
             <Divider />
             <Feed>

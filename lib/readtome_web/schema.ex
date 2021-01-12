@@ -43,7 +43,7 @@ defmodule ReadtomeWeb.Schema do
       resolve(&Resolvers.Book.find_by_isbn/3)
     end
 
-    field :me, :reader do
+    field :me, :me do
       resolve(&Resolvers.User.me/3)
     end
 

@@ -13,6 +13,7 @@ defmodule ReadtomeWeb.Schema.ThingTypes do
 
   @desc "A Follow Object"
   object :follow do
+    field(:id, non_null(:id))
     field(:user, :reader, resolve: dataloader(User, :user, []))
     field(:follower, :reader, resolve: dataloader(User, :follower, []))
     field(:inserted_at, :naive_datetime)

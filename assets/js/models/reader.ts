@@ -7,5 +7,7 @@ export default interface Reader {
   sex: string;
   photos: Array<any>;
   email: string;
+  username: string;
+  amIFollowing: boolean;
   interests: Connection<UserInterest>
 }

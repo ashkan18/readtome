@@ -168,7 +168,6 @@ defmodule Readtome.Connector do
     if offerer_id == user.id, do: {:valid}, else: {:invalid_request}
   end
 
-
   def follow(attrs \\ %{}) do
     %Follow{}
     |> Follow.changeset(attrs)
@@ -177,10 +176,17 @@ defmodule Readtome.Connector do
 
   def my_feed(user) do
     from(ui in UserInterest,
-    join: f in Follow,
-    on: f.user_id == ui.user_id,
-    where: f.follower_id == ^user.id)
+      join: f in Follow,
+      on: f.user_id == ui.user_id,
+      where: f.follower_id == ^user.id
+    )
     |> Repo.all()
   end
 
+  def follows?(user1, user2) do
+    from(f in Follow,
+      where: f.follower_id == ^user1.id and f.user_id == ^user2.id
+    )
+    |> Repo.exists?()
+  end
 end

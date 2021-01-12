@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Follow } from "../models/follow";
 import Inquiry from "../models/inquiry";
 
 const SHOW_INTEREST_QUERY = `
@@ -108,7 +109,7 @@ export const reject = (
 export const follow = (
   token: string | null,
   userId: string
-): Promise<Inquiry> => {
+): Promise<Follow> => {
   return new Promise((resolve, rejected) =>
     axios({
       url: "/api/graph",

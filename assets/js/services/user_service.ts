@@ -122,6 +122,8 @@ const READER_QUERY = `
 query Reader($id: ID!) {
   reader(id: $id) {
     name
+    username
+    amIFollowing
     interests(first: 20) {
       edges {
         node {
