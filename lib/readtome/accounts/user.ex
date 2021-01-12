@@ -14,6 +14,8 @@ defmodule Readtome.Accounts.User do
 
     has_many(:book_instances, Readtome.Books.BookInstance)
     has_many(:interests, Readtome.Accounts.UserInterest)
+    has_many(:follows, Readtome.Connector.Follow, foreign_key: :follower_id)
+    has_many(:followers, Readtome.Connector.Follow)
 
     timestamps()
   end

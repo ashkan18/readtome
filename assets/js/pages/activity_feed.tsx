@@ -9,14 +9,11 @@ import {
   Icon,
   Loader,
   Image,
-  Button,
 } from "semantic-ui-react";
 import { DateTime } from "luxon";
-import { getReader } from "../services/user_service";
-import Reader from "../models/reader";
+import { myFeed } from "../services/user_service";
 import { UserInterest } from "../models/user_interest";
-import { follow } from "../services/connector_service";
-import { getToken } from "../services/auth_service";
+import { Connection } from "../models/connection";
 
 const stateReducer = (state, action) => {
   switch (action.type) {
@@ -28,14 +25,8 @@ const stateReducer = (state, action) => {
     case "DATA_FETCHED":
       return {
         ...state,
-        user: action.data,
+        feed: action.data,
         loading: false,
-      };
-    case "NOW_FOLLOWING":
-      return {
-        ...state,
-        loading: false,
-        following: true,
       };
     default:
       return state;
@@ -43,24 +34,21 @@ const stateReducer = (state, action) => {
 };
 
 interface State {
-  user: Reader;
+  feed: Connection<UserInterest>;
   loading: boolean;
-  following: boolean;
   error?: string;
 }
 
 interface Action {
-  data?: Reader;
+  data?: Connection<UserInterest>;
   error?: string;
   type: string;
 }
 
-export const User = () => {
-  const { userId } = useParams<{ userId: string }>();
+export const MyFeed = () => {
   const initialState = {
-    user: null,
+    feed: null,
     loading: true,
-    following: false,
     error: null,
   };
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
@@ -70,8 +58,8 @@ export const User = () => {
 
   const fetchData = () => {
     dispatch({ type: "START_LOADING" });
-    getReader(userId)
-      .then((reader) => dispatch({ type: "DATA_FETCHED", data: reader }))
+    myFeed()
+      .then((feed) => dispatch({ type: "DATA_FETCHED", data: feed }))
       .catch((error) => dispatch({ type: "ERROR", error: error }));
   };
 
@@ -79,15 +67,6 @@ export const User = () => {
   React.useEffect(() => {
     fetchData();
   }, []);
-
-  const followUser = () => {
-    dispatch({ type: "START_LOADING" });
-    follow(getToken(), userId)
-      .then((_follow) => dispatch({ type: "NOW_FOLLOWING" }))
-      .catch((_error) =>
-        dispatch({ type: "ERROR", error: "Could not follow" })
-      );
-  };
 
   const renderType = (type: string) => {
     switch (type) {
@@ -170,7 +149,7 @@ export const User = () => {
 
   if (state.error) {
     return <Redirect to="/login" />;
-  } else if (state.user) {
+  } else if (state.feed) {
     return (
       <>
         {state.loading && (
@@ -178,22 +157,12 @@ export const User = () => {
             <Loader inverted content="Loading" />
           </Dimmer>
         )}
-        {state.user.interests && (
+        {state.feed && (
           <>
-            <Header as="h1">
-              {state.user.name}'s things ({state.user.interests.edges.length})
-              {!state.user.amIFollowing && !state.following && (
-                <Button basic color="orange" onClick={() => followUser()}>
-                  Follow
-                </Button>
-              )}
-              {(state.user.amIFollowing || state.following) && <>✅</>}
-            </Header>
+            <Header as="h1">What's up?</Header>
             <Divider />
             <Feed>
-              {state.user.interests.edges.map((i_edge) =>
-                renderInterest(i_edge.node)
-              )}
+              {state.feed.edges.map((i_edge) => renderInterest(i_edge.node))}
             </Feed>
           </>
         )}

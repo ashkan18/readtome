@@ -6,7 +6,8 @@ defmodule Readtome.Connector do
   import Ecto.Query, warn: false
   alias Readtome.{Repo, Helper, Books.BookInstance}
 
-  alias Readtome.Connector.Inquiry
+  alias Readtome.Connector.{Inquiry, Follow}
+  alias Readtome.Accounts.UserInterest
 
   @doc """
   Returns the list of inquiries.
@@ -165,5 +166,27 @@ defmodule Readtome.Connector do
 
   defp can_respond?(%Inquiry{book_instance: %BookInstance{user_id: offerer_id}}, user) do
     if offerer_id == user.id, do: {:valid}, else: {:invalid_request}
+  end
+
+  def follow(attrs \\ %{}) do
+    %Follow{}
+    |> Follow.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def my_feed(user) do
+    from(ui in UserInterest,
+      join: f in Follow,
+      on: f.user_id == ui.user_id,
+      where: f.follower_id == ^user.id
+    )
+    |> Repo.all()
+  end
+
+  def follows?(user1, user2) do
+    from(f in Follow,
+      where: f.follower_id == ^user1.id and f.user_id == ^user2.id
+    )
+    |> Repo.exists?()
   end
 end

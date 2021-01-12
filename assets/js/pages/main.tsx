@@ -11,6 +11,7 @@ import { Redirect, Route, Switch } from "react-router";
 import { User } from "./user";
 import { CreatorPage } from "./creator_page";
 import { ProfilePage } from "./profile_page";
+import { MyFeed } from "./activity_feed";
 
 export const Main = () => {
   const geoLocation = new GeolocateControl({
@@ -50,6 +51,9 @@ export const Main = () => {
       <Switch>
         <Route path="/inquiries">
           <Inquiries />
+        </Route>
+        <Route path="/feed">
+          <MyFeed />
         </Route>
         <Route path="/users/:userId">
           <User />

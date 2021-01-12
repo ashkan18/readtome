@@ -15,6 +15,38 @@ query Me {
   }
 }`;
 
+const MY_FEED_QUERY = `
+query Me {
+  me {
+    id
+    feed(first:100) {
+      edges{
+        node {
+          id
+          title
+          ref
+          type
+          thumbnail
+          insertedAt
+          user {
+            id
+            name
+            username
+          }
+          creators(first: 3){
+            edges {
+              node {
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
 const MY_INQUIRIES = `
 query Me {
   me {
@@ -90,6 +122,8 @@ const READER_QUERY = `
 query Reader($id: ID!) {
   reader(id: $id) {
     name
+    username
+    amIFollowing
     interests(first: 20) {
       edges {
         node {
@@ -164,6 +198,28 @@ export const getMe = (): Promise<Reader> => {
       })
   );
 };
+
+export const myFeed = (): Promise<Connection<UserInterest>> => {
+  return new Promise((resolve, rejected) =>
+    axios({
+      url: "/api/graph",
+      method: "post",
+      headers: { Authorization: `Bearer ${getToken()}` },
+      data: {
+        query: MY_FEED_QUERY,
+      },
+    })
+      .then((response) => 
+        resolve(response.data.data.me.feed)
+      )
+      .catch((error) => {
+        if (error.response) {
+          if(error.response.status === 401) return rejected("unauthorized")
+        }
+        return rejected(error);
+      })
+  );
+}
 
 export interface MeResponse {
   inquiries: Connection<Inquiry>
