@@ -1,5 +1,5 @@
 defmodule ReadtomeWeb.Resolvers.User do
-  alias Readtome.{Accounts, Helper, Creators}
+  alias Readtome.{Accounts, Helper, Creators, Connector}
 
   def me(_parent, _args, %{context: %{current_user: user}}) do
     {:ok, user}
@@ -59,6 +59,14 @@ defmodule ReadtomeWeb.Resolvers.User do
     case Accounts.add_user_profile_photo(user, args.photo) do
       {:ok, user} -> {:ok, user}
       _ -> {:error, "Couldn't upload"}
+    end
+  end
+
+  def follow(_, %{follower_id: follower_id}, %{context: %{current_user: user}}) do
+    case Connector.follow(%{follower_id: user.id, user_id: follower_id}) do
+      {:ok, follow} -> {:ok, follow}
+      {:error, %Ecto.Changeset{} = changeset} -> {:error, Helper.convert_changeset_errors(changeset)}
+      _ -> {:error, "Could not follow"}
     end
   end
 end

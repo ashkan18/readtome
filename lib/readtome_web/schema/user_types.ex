@@ -6,12 +6,14 @@ defmodule ReadtomeWeb.Schema.UserTypes do
 
   connection(node_type: :inquiry)
   connection(node_type: :user_interest)
+  connection(node_type: :follow)
 
   @desc "A reader"
   object :reader do
     field(:id, :id)
     field(:name, :string)
     field(:email, :string)
+    field(:username, :string)
     field(:photos, :json)
 
     connection field(:inquiries, node_type: :inquiry) do
@@ -38,6 +40,30 @@ defmodule ReadtomeWeb.Schema.UserTypes do
           user
           |> Accounts.user_interests(args)
           |> Absinthe.Relay.Connection.from_list(args)
+      end)
+    end
+
+    connection field(:follows, node_type: :follow) do
+      resolve(fn
+        pagination_args, %{source: user} ->
+          user = Helper.populate(user, [:follows])
+          Absinthe.Relay.Connection.from_list(user.follows, pagination_args)
+      end)
+    end
+
+    connection field(:followers, node_type: :follow) do
+      resolve(fn
+        pagination_args, %{source: user} ->
+          user = Helper.populate(user, [:followers])
+          Absinthe.Relay.Connection.from_list(user.followers, pagination_args)
+      end)
+    end
+
+    connection field(:feed, node_type: :user_interest) do
+      resolve(fn
+        pagination_args, %{source: user} ->
+          my_feed = Connector.my_feed(user)
+          Absinthe.Relay.Connection.from_list(my_feed, pagination_args)
       end)
     end
   end

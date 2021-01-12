@@ -130,12 +130,20 @@ defmodule ReadtomeWeb.Schema do
       resolve(&Resolvers.User.add_interest/3)
     end
 
+    @desc "Update your profile"
     field :update_profile, :reader do
       arg(:name, :string)
       arg(:email, :string)
       arg(:photo, :upload)
 
       resolve(&Resolvers.User.update_profile/3)
+    end
+
+    @desc "Follow someone interesting"
+    field :follow, :follow do
+      arg(:follower_id, non_null(:id))
+
+      resolve(&Resolvers.User.follow/3)
     end
   end
 end
