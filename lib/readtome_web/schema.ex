@@ -4,9 +4,9 @@ defmodule ReadtomeWeb.Schema do
 
   import_types(ReadtomeWeb.Schema.JSON)
   import_types(ReadtomeWeb.Schema.EnumTypes)
-  import_types(ReadtomeWeb.Schema.ThingTypes)
+  import_types(ReadtomeWeb.Schema.InterestTypes)
   import_types(ReadtomeWeb.Schema.LocationType)
-  import_types(ReadtomeWeb.Schema.CreatorTypes)
+  import_types(ReadtomeWeb.Schema.ConnectorTypes)
   import_types(ReadtomeWeb.Schema.BookTypes)
   import_types(ReadtomeWeb.Schema.UserTypes)
   import_types(Absinthe.Type.Custom)
@@ -126,6 +126,7 @@ defmodule ReadtomeWeb.Schema do
       arg(:creator_ids, list_of(:id))
       arg(:creator_names, list_of(:string))
       arg(:thumbnail, :string)
+      arg(:looking_for, :boolean)
 
       resolve(&Resolvers.User.add_interest/3)
     end
