@@ -3,7 +3,6 @@ import { Popup, Icon, Menu, Divider } from "semantic-ui-react";
 import Reader from "../models/reader";
 import styled from "styled-components";
 import { Profile } from "./profile";
-import { BookSubmission } from "./book_submit";
 import { AddSomethingForm } from "./add_something_form";
 
 interface Props {
@@ -32,27 +31,6 @@ export const Header = (props: Props) => {
               <Popup
                 trigger={
                   <Icon.Group size="large" style={{ cursor: "pointer" }}>
-                    <Icon name="book" />
-                    <Icon corner name="add" />
-                  </Icon.Group>
-                }
-                header={
-                  <>
-                    <h2>Add New Book</h2>
-                    <Divider />
-                  </>
-                }
-                content={
-                  <BookSubmission currentLocation={props.currentLocation} />
-                }
-                position="top center"
-                on="click"
-              />
-            </Menu.Item>
-            <Menu.Item>
-              <Popup
-                trigger={
-                  <Icon.Group size="large" style={{ cursor: "pointer" }}>
                     <Icon name="heart" />
                     <Icon corner name="add" />
                   </Icon.Group>
@@ -63,7 +41,9 @@ export const Header = (props: Props) => {
                     <Divider />
                   </>
                 }
-                content={<AddSomethingForm />}
+                content={
+                  <AddSomethingForm currentLocation={props.currentLocation} />
+                }
                 position="top center"
                 on="click"
               />
