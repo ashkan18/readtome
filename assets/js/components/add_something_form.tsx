@@ -5,7 +5,7 @@ import { UnfurledLink } from "../models/user_interest";
 import { getToken } from "../services/auth_service";
 import { findByISBN } from "../services/book_service";
 import { addInterest, unfurlLink } from "../services/interest_service";
-import { isUrl } from "../util";
+import { isISBN, isUrl } from "../util";
 import { AddInterestForm } from "./add_interest_form";
 import { BookComponent } from "./book_detail";
 import { BookSubmissionForm } from "./book_submission_form";
@@ -95,11 +95,10 @@ export const AddSomethingForm = (props: Props) => {
       dispatch({ type: "UNFURLING", sourceType: "link" });
       unfurlLink(getToken(), state.source)
         .then((data) => {
-          console.log("---->", data);
           dispatch({ type: "UNFURLED", unfurledLink: data });
         })
         .catch((error) => dispatch({ type: "UNFURL_FAILED" }));
-    } else {
+    } else if (isISBN(state.source)) {
       // assume it's isbn
       dispatch({ type: "UNFURLING", sourceType: "isbn" });
       findByISBN(getToken(), state.source)

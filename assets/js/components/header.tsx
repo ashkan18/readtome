@@ -37,7 +37,7 @@ export const Header = (props: Props) => {
                 }
                 header={
                   <>
-                    <h2>Add Something</h2>
+                    <h3>Add Something</h3>
                     <Divider />
                   </>
                 }
