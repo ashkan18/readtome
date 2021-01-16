@@ -47,7 +47,6 @@ export const Main = () => {
 
   return (
     <MainLayout>
-      <Header me={me} currentLocation={currentLocation} />
       <Switch>
         <Route path="/inquiries">
           <Inquiries />
@@ -65,7 +64,7 @@ export const Main = () => {
           <ProfilePage />
         </Route>
         <Route path="/">
-          <Home geoLocation={geoLocation} location={currentLocation} />
+          <Home geoLocation={geoLocation} location={currentLocation} me={me} />
         </Route>
       </Switch>
     </MainLayout>

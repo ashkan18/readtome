@@ -6,6 +6,9 @@ import BookInstance from "../models/book_instance";
 import { GeolocateControl } from "mapbox-gl";
 import { BookInstanceDetail } from "./book_instance_detail";
 import { svg } from "./icon";
+import { Input } from "semantic-ui-react";
+import { Header } from "./header";
+import Reader from "../models/reader";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -35,6 +38,7 @@ interface Props {
   onStyleLoad?: (map: any) => any;
   geoLocation: GeolocateControl;
   switchPage?: (any) => void;
+  me?: Reader;
 }
 
 interface State {
@@ -137,6 +141,14 @@ export const MapComponent = (props: Props) => {
       zoom={[state.zoom]}
       movingMethod={"easeTo"}
     >
+      <Header me={props.me} currentLocation={props.center} />
+
+      <Input
+        placeholder="Search By Title, Author..."
+        icon="search"
+        style={{ marginLeft: "10px" }}
+      />
+
       <Layer type="symbol" id="marker" layout={layoutLayer} images={images}>
         {props.bookInstances?.map((bi, index) => (
           <Feature

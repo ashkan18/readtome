@@ -9,10 +9,12 @@ import { Input } from "semantic-ui-react";
 import { fetchBooks } from "../services/book_instance_service";
 import { Coordinate } from "../models/coordinate";
 import { GeolocateControl } from "mapbox-gl";
+import Reader from "../models/reader";
 
 interface Props {
   location: Coordinate | null;
   geoLocation: GeolocateControl;
+  me: Reader;
   switchPage?: (any) => void;
 }
 
@@ -63,19 +65,12 @@ export const Home = (props: Props) => {
   } else {
     return (
       <>
-        <Input
-          placeholder="Search By Title, Author..."
-          fluid
-          icon="search"
-          loading={searching}
-          onChange={(_event, { value }) => setSearchTerm(value)}
-        />
-
         <MapComponent
           center={props.location}
           bookInstances={bookInstances}
           geoLocation={props.geoLocation}
           switchPage={props.switchPage}
+          me={props.me}
         />
       </>
     );
