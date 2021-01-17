@@ -1,8 +1,11 @@
-import BookInstance from "./book_instance";
 import { Connection } from "./connection";
 import { Creator } from "./creator";
 import Reader from "./reader";
 
+interface serverCoordinate {
+  readonly lat: number;
+  readonly lng: number;
+}
 export interface UserInterest {
   id: string;
   title: string;
@@ -11,12 +14,13 @@ export interface UserInterest {
   user: Reader;
   thumbnail: string;
   insertedAt: string;
+  location: serverCoordinate;
   creators: Connection<Creator>;
 }
 
-export interface UnfurledLink {
+export interface FetchedSource {
   title: string
   type: string
-  authorName: string
-  thumbnail: string
+  creatorNames: string
+  image: string
 }

@@ -7,7 +7,6 @@ defmodule ReadtomeWeb.Schema do
   import_types(ReadtomeWeb.Schema.InterestTypes)
   import_types(ReadtomeWeb.Schema.LocationType)
   import_types(ReadtomeWeb.Schema.ConnectorTypes)
-  import_types(ReadtomeWeb.Schema.BookTypes)
   import_types(ReadtomeWeb.Schema.UserTypes)
   import_types(Absinthe.Type.Custom)
   import_types(Absinthe.Plug.Types)
@@ -19,7 +18,6 @@ defmodule ReadtomeWeb.Schema do
       Dataloader.new()
       |> Dataloader.add_source(Creator, Readtome.Creators.data())
       |> Dataloader.add_source(User, Readtome.Accounts.data())
-      |> Dataloader.add_source(Book, Readtome.Books.data())
 
     Map.put(ctx, :loader, loader)
   end
@@ -29,18 +27,12 @@ defmodule ReadtomeWeb.Schema do
   end
 
   query do
-    @desc "Find Book Instance by location"
-    field :book_instances, list_of(:book_instance) do
+    @desc "Find User Interests by location"
+    field :user_interests, list_of(:user_interest) do
       arg(:lat, non_null(:float))
       arg(:lng, non_null(:float))
       arg(:term, :string)
-      arg(:offerings, list_of(:string))
-      resolve(&Resolvers.Book.find_book_instances/3)
-    end
-
-    field :book, :book do
-      arg(:isbn, :string)
-      resolve(&Resolvers.Book.find_by_isbn/3)
+      resolve(&Resolvers.Interests.list_users_interests/3)
     end
 
     field :me, :me do
@@ -59,47 +51,19 @@ defmodule ReadtomeWeb.Schema do
       resolve(&Resolvers.Creator.find_by_id/3)
     end
 
-    field :unfurl, :unfurled_link do
+    field :unfurl, :fetched_source do
       arg(:url, non_null(:string))
 
       resolve(&Resolvers.Creator.unfurl/3)
     end
+
+    field :find_by_isbn, :fetched_source do
+      arg(:isbn, :string)
+      resolve(&Resolvers.Things.find_by_isbn/3)
+    end
   end
 
   mutation do
-    @desc "Create a book offering"
-    field :post_book, type: :book_instance do
-      arg(:book_id, non_null(:id))
-      arg(:lat, non_null(:float))
-      arg(:lng, non_null(:float))
-      arg(:offerings, list_of(:offering))
-      arg(:medium, non_null(:medium))
-
-      resolve(&Resolvers.BookInstance.post_book/3)
-    end
-
-    @desc "Inquiry for a book"
-    field :show_interest, type: :inquiry do
-      arg(:book_instance_id, non_null(:id))
-      arg(:offering, non_null(:offering))
-
-      resolve(&Resolvers.BookInstance.inquiry/3)
-    end
-
-    @desc "Accept an inquiry"
-    field :accept_inquiry, type: :inquiry do
-      arg(:inquiry_id, non_null(:id))
-
-      resolve(&Resolvers.Connector.accept/3)
-    end
-
-    @desc "Reject an inquiry"
-    field :reject_inquiry, type: :inquiry do
-      arg(:inquiry_id, non_null(:id))
-
-      resolve(&Resolvers.Connector.reject/3)
-    end
-
     @desc "Signup"
     field :signup, type: :auth do
       arg(:name, non_null(:string))
@@ -127,8 +91,10 @@ defmodule ReadtomeWeb.Schema do
       arg(:creator_names, list_of(:string))
       arg(:thumbnail, :string)
       arg(:looking_for, :boolean)
+      arg(:lat, :float)
+      arg(:lng, :float)
 
-      resolve(&Resolvers.User.add_interest/3)
+      resolve(&Resolvers.Interests.add_interest/3)
     end
 
     @desc "Update your profile"

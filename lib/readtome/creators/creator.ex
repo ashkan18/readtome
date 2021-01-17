@@ -6,7 +6,6 @@ defmodule Readtome.Creators.Creator do
     field(:bio, :string)
     field(:name, :string)
 
-    many_to_many(:books, Readtome.Books.Book, join_through: Readtome.Books.BookCreator)
     many_to_many(:user_interests, Readtome.Accounts.UserInterest, join_through: Readtome.Creators.UserInterestCreator)
     timestamps()
   end
@@ -16,5 +15,6 @@ defmodule Readtome.Creators.Creator do
     creator
     |> cast(attrs, [:name, :bio])
     |> validate_required([:name])
+    |> unique_constraint(:name)
   end
 end
