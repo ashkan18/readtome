@@ -11,9 +11,11 @@ query UserInterests($lat: Float, $lng: Float, $term: String ) {
     type
     ref
     insertedAt
+    thumbnail
     user {
       id
       name
+      username
     }
     creators(first:10) {
       edges {

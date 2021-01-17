@@ -14,6 +14,7 @@ import { DateTime } from "luxon";
 import { myFeed } from "../services/user_service";
 import { UserInterest } from "../models/user_interest";
 import { Connection } from "../models/connection";
+import { InterestIcon } from "../components/interest_icon";
 
 const stateReducer = (state, action) => {
   switch (action.type) {
@@ -81,39 +82,12 @@ export const MyFeed = () => {
     }
   };
 
-  const renderIcon = (type: string) => {
-    switch (type) {
-      case "LISTENED":
-        return (
-          <Feed.Label>
-            <Icon name="headphones" />
-          </Feed.Label>
-        );
-      case "WATCHED":
-        return (
-          <Feed.Label>
-            <Icon name="tv" />
-          </Feed.Label>
-        );
-      case "SAW":
-        return (
-          <Feed.Label>
-            <Icon name="pallet" />
-          </Feed.Label>
-        );
-      case "READ":
-        return (
-          <Feed.Label>
-            <Icon name="newspaper" />
-          </Feed.Label>
-        );
-    }
-  };
-
   const renderInterest = (interest: UserInterest) => {
     return (
       <Feed.Event>
-        {renderIcon(interest.type)}
+        <Feed.Label>
+          <InterestIcon type={interest.type} />
+        </Feed.Label>
         <Feed.Content>
           <Feed.Summary>
             {renderType(interest.type)}
