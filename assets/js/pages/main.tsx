@@ -6,7 +6,6 @@ import { Coordinate } from "../models/coordinate";
 import Reader from "../models/reader";
 import { getMe } from "../services/user_service";
 import { Home } from "../components/home";
-import { Inquiries } from "./inquiries";
 import { Redirect, Route, Switch } from "react-router";
 import { User } from "./user";
 import { CreatorPage } from "./creator_page";
@@ -49,9 +48,6 @@ export const Main = () => {
     <MainLayout>
       <Header me={me} currentLocation={currentLocation} />
       <Switch>
-        <Route path="/inquiries">
-          <Inquiries />
-        </Route>
         <Route path="/feed">
           <MyFeed />
         </Route>

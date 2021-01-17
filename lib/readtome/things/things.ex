@@ -20,15 +20,16 @@ defmodule Readtome.Things do
   end
 
   defp unfurl_oembed(data) do
-    {:ok, %{author_name: cleanup_author_name(data["author_name"]), thumbnail: data["thumbnail_url"], type: map_types(data["type"]), title: data["title"]}}
+    {:ok, %{creator_names: [cleanup_author_name(data["author_name"])], image: data["thumbnail_url"], type: map_types(data["type"]), title: data["title"]}}
   end
 
   defp unfurl_twitter(data) do
-    {:ok, %{thumbnail: data["twitter:image"], type: map_types(data["twitter:creator"] || data["twitter:site"]), title: data["twitter:title"]}}
+    {:ok, %{image: data["twitter:image"], type: map_types(data["twitter:creator"] || data["twitter:site"]), title: data["twitter:title"]}}
   end
 
   defp map_types("MusicRecording"), do: :listened
   defp map_types("@Criterion"), do: :watched
+  defp map_types("@criterionchannl"), do: :watched
   defp map_types("@goodreads"), do: :read
   defp map_types("Product"), do: :read
   defp map_types("Movie"), do: :watched
@@ -37,11 +38,11 @@ defmodule Readtome.Things do
   defp map_types(something), do: something
 
   defp unfurl_json_ld([data = %{"@type" => "Movie"} | _]) do
-    {:ok, %{type: :watched, title: data["name"], thumbnail: data["image"], author_name: fetch_json_ld_person(data["director"])}}
+    {:ok, %{type: :watched, title: data["name"], image: data["image"], creator_names: [fetch_json_ld_person(data["director"])]}}
   end
 
   defp unfurl_json_ld([data | _]) do
-    {:ok, %{type: map_types(data["@type"]), title: data["name"], thumbnail: data["image"], author_name: fetch_json_ld_person(data["author"])}}
+    {:ok, %{type: map_types(data["@type"]), title: data["name"], image: data["image"], creator_names: [fetch_json_ld_person(data["author"])]}}
   end
 
   defp fetch_json_ld_person(authors) when is_list(authors) do
@@ -62,5 +63,30 @@ defmodule Readtome.Things do
     name
     |> String.trim()
     |> String.trim_leading("By ")
+  end
+
+  def find_by_isbn(isbn) do
+    case google_books(isbn) do
+      {:found, book} -> {:ok, book}
+      _ -> {:not_found}
+    end
+  end
+
+  defp google_books(isbn) do
+    case Readtome.GoogleBook.get_book(isbn) do
+      {:ok, book} ->
+        {:found,
+         %{
+           type: :read,
+           title: book["volumeInfo"]["title"],
+           creator_names: book["volumeInfo"]["authors"],
+           tags: book["volumeInfo"]["categories"],
+           image: book["volumeInfo"]["imageLinks"]["large"] || book["volumeInfo"]["imageLinks"]["thumbnail"],
+           description: book["volumeInfo"]["description"]
+         }}
+
+      _ ->
+        {:not_found}
+    end
   end
 end

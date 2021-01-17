@@ -48,9 +48,6 @@ export const Header = (props: Props) => {
                 on="click"
               />
             </Menu.Item>
-            <Menu.Item as="a" href={"/inquiries"}>
-              <Icon name="mail" size="large" />
-            </Menu.Item>
             <Menu.Item>
               <Profile me={props.me} />
             </Menu.Item>

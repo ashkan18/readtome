@@ -4,7 +4,6 @@ defmodule ReadtomeWeb.Schema.UserTypes do
   use Absinthe.Relay.Schema.Notation, :modern
   import Absinthe.Resolution.Helpers, only: [dataloader: 3]
 
-  connection(node_type: :inquiry)
   connection(node_type: :user_interest)
   connection(node_type: :follow)
 
@@ -64,22 +63,6 @@ defmodule ReadtomeWeb.Schema.UserTypes do
     field(:email, :string)
     field(:username, :string)
     field(:photos, :json)
-
-    connection field(:inquiries, node_type: :inquiry) do
-      resolve(fn
-        pagination_args, %{source: user} ->
-          inquiries = Connector.list_inquiries(user.id)
-          Absinthe.Relay.Connection.from_list(inquiries, pagination_args)
-      end)
-    end
-
-    connection field(:requests, node_type: :inquiry) do
-      resolve(fn
-        pagination_args, %{source: user} ->
-          requests = Connector.list_requests(user.id)
-          Absinthe.Relay.Connection.from_list(requests, pagination_args)
-      end)
-    end
 
     connection field(:interests, node_type: :user_interest) do
       arg(:interest_types, list_of(:interest_type))

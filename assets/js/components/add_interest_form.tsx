@@ -1,15 +1,11 @@
 import React from "react";
 import { Button, Form, FormGroup, Image } from "semantic-ui-react";
-import Book from "../models/book";
-import { UnfurledLink } from "../models/user_interest";
+import { FetchedSource } from "../models/user_interest";
 import { getToken } from "../services/auth_service";
-import { findByISBN } from "../services/book_service";
-import { addInterest, unfurlLink } from "../services/interest_service";
-import { isUrl } from "../util";
+import { addInterest } from "../services/interest_service";
 
 interface Action {
-  unfurledLink?: UnfurledLink;
-  book?: Book;
+  fetchedSource?: FetchedSource;
   value?: string;
   error?: string;
   type: string;
@@ -21,14 +17,15 @@ interface State {
   lookingFor: boolean;
   creatorNames?: string;
   type?: string;
-  thumbnail?: string;
+  image?: string;
   loading: boolean;
   submitted: boolean;
 }
 
 interface Props {
-  unfurledLink: UnfurledLink;
+  fetchedSource: FetchedSource;
   link: string;
+  currentLocation: any;
 }
 
 const stateReducer = (state: State, action: Action) => {
@@ -65,16 +62,16 @@ const stateReducer = (state: State, action: Action) => {
 };
 
 export const AddInterestForm = (props: Props) => {
-  const { unfurledLink } = props;
+  const { fetchedSource } = props;
   const initialState = {
     loading: false,
     submitted: false,
     lookingFor: false,
     fetched: false,
-    title: unfurledLink.title,
-    type: unfurledLink.type,
-    creatorNames: unfurledLink.authorName,
-    thumbnail: unfurledLink.thumbnail,
+    title: fetchedSource.title,
+    type: fetchedSource.type,
+    creatorNames: fetchedSource.creatorNames,
+    image: fetchedSource.image,
   };
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
     stateReducer,
@@ -90,9 +87,13 @@ export const AddInterestForm = (props: Props) => {
       props.link,
       state.type,
       state.creatorNames.split(","),
-      state.thumbnail,
-      state.lookingFor
-    ).then(() => dispatch({ type: "SUBMITTED" }));
+      state.image,
+      state.lookingFor,
+      props.currentLocation?.lat,
+      props.currentLocation?.lng,
+      props.fetchedSource.externalId,
+      props.fetchedSource.metadata
+    ).then((_) => dispatch({ type: "SUBMITTED" }));
   };
 
   return (
@@ -100,7 +101,7 @@ export const AddInterestForm = (props: Props) => {
       {!state.submitted && (
         <Form>
           <Form.Group>
-            {state.thumbnail && <Image size="tiny" src={state.thumbnail} />}
+            {state.image && <Image size="tiny" src={state.image} />}
           </Form.Group>
           <Form.Group inline>
             <Form.Field

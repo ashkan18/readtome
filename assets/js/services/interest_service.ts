@@ -1,5 +1,58 @@
 const { default: axios } = require("axios");
-import { UnfurledLink, UserInterest } from "../models/user_interest";
+import { FetchedSource, UserInterest } from "../models/user_interest";
+
+
+const USER_INTERESTS_QUERY = `
+query UserInterests($lat: Float, $lng: Float, $term: String ) {
+  userInterests(lat: $lat, lng: $lng, term: $term) {
+    id
+    location
+    title
+    type
+    ref
+    insertedAt
+    user {
+      id
+      name
+    }
+    creators(first:10) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+`;
+
+
+export const fetchUserInterest = (
+  token: string,
+  term: string | null,
+  lat: number,
+  lng: number,
+): Promise<Array<UserInterest>> => {
+  return new Promise((resolve, rejected) =>
+    axios({
+      url: "/api/graph",
+      method: "post",
+      headers: { Authorization: `Bearer ${token}` },
+      data: {
+        query: USER_INTERESTS_QUERY,
+        variables: { term, lat, lng },
+      },
+    })
+      .then((response) => {
+        return resolve(response.data.data.userInterests);
+      })
+      .catch((error) => {
+        return rejected(error);
+      })
+  );
+};
+
 
 export const addInterest = (
   token: string | null,
@@ -8,7 +61,11 @@ export const addInterest = (
   type: string,
   creatorNames: Array<string>,
   thumbnail: string,
-  lookingFor: boolean
+  lookingFor: boolean,
+  lat: number,
+  lng: number,
+  externalId: string,
+  _metadata: any
 ): Promise<UserInterest> => {
   return new Promise((resolve, rejected) =>
     axios({
@@ -16,8 +73,8 @@ export const addInterest = (
       method: "post",
       data: {
         query: `
-            mutation AddInterest($title: String, $ref: String, $creatorNames: [String], $type: InterestType!, $thumbnail: String, $lookingFor: Boolean) {
-              addInterest(title: $title, ref: $ref, creatorNames: $creatorNames, type: $type, thumbnail: $thumbnail, lookingFor: $lookingFor) {
+            mutation AddInterest($title: String, $ref: String, $creatorNames: [String], $type: InterestType!, $thumbnail: String, $lookingFor: Boolean, $lat: Float, $lng: Float, $externalId: String ) {
+              addInterest(title: $title, ref: $ref, creatorNames: $creatorNames, type: $type, thumbnail: $thumbnail, lookingFor: $lookingFor, lat: $lat, lng: $lng, externalId: $externalId) {
                 id
                 title
                 creators(first: 10) {
@@ -31,7 +88,7 @@ export const addInterest = (
               }
             }
           `,
-        variables: { title, ref, creatorNames, type, thumbnail },
+        variables: { title, ref, creatorNames, type, thumbnail, lookingFor, lat, lng, externalId },
       },
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -48,7 +105,7 @@ export const addInterest = (
 export const unfurlLink = (
   token: string | null,
   url: string
-): Promise<UnfurledLink> => {
+): Promise<FetchedSource> => {
   return new Promise((resolve, rejected) =>
     axios({
       url: "/api/graph",
@@ -59,8 +116,8 @@ export const unfurlLink = (
               unfurl(url: $url) {
                 title
                 type
-                authorName
-                thumbnail
+                creatorNames
+                image
               }
             }
           `,

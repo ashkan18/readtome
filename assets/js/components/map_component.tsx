@@ -2,10 +2,10 @@ import * as React from "react";
 import ReactMapboxGl, { Feature, Layer, Popup } from "react-mapbox-gl";
 
 import { Coordinate } from "../models/coordinate";
-import BookInstance from "../models/book_instance";
 import { GeolocateControl } from "mapbox-gl";
-import { BookInstanceDetail } from "./book_instance_detail";
 import { svg } from "./icon";
+import { UserInterest } from "../models/user_interest";
+import { UserInterestMarker } from "./user_interest_marker";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -30,7 +30,7 @@ image.src = "data:image/svg+xml;charset=utf-8;base64," + btoa(svg);
 const images: any = ["londonCycle", image];
 
 interface Props {
-  bookInstances: Array<BookInstance>;
+  userInterests: Array<UserInterest>;
   center: Coordinate;
   onStyleLoad?: (map: any) => any;
   geoLocation: GeolocateControl;
@@ -38,7 +38,7 @@ interface Props {
 }
 
 interface State {
-  bookInstance?: BookInstance;
+  userInterest?: UserInterest;
   zoom: number;
   centerLat?: number;
   centerLng?: number;
@@ -46,28 +46,28 @@ interface State {
 
 interface Action {
   type: string;
-  item?: BookInstance;
+  item?: UserInterest;
   coordinate?: { lat: number; lng: number };
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "INSTANCE_SELECTED":
-      const bookInstance = action.item;
+      const userInterest = action.item;
       return {
         ...state,
-        bookInstance: bookInstance,
+        userInterest: userInterest,
         zoom: 15,
-        centerLat: bookInstance.location.lat,
-        centerLng: bookInstance.location.lng,
+        centerLat: userInterest.location.lat,
+        centerLng: userInterest.location.lng,
       };
     case "RESET_SELECT":
-      if (state.bookInstance !== undefined)
-        return { ...state, bookInstance: undefined };
+      if (state.userInterest !== undefined)
+        return { ...state, userInterest: undefined };
       else return state;
     case "GOT_SEARCH_RESULTS":
-      if (state.bookInstance !== undefined)
-        return { ...state, bookInstance: undefined };
+      if (state.userInterest !== undefined)
+        return { ...state, userInterest: undefined };
       else return state;
     case "GOT_CURRENT_LOCATION":
       if (action.coordinate !== null) {
@@ -87,7 +87,7 @@ const reducer = (state, action) => {
 
 export const MapComponent = (props: Props) => {
   const initialState = {
-    bookInstance: undefined,
+    userInterests: props.userInterests,
     zoom: 13,
     // centerLat: 40.690008,
     // centerLng: -73.9857765,
@@ -105,8 +105,8 @@ export const MapComponent = (props: Props) => {
     map.getCanvas().style.cursor = cursor;
   };
 
-  const onMarkerClick = (bookInstance: BookInstance) => {
-    dispatch({ type: "INSTANCE_SELECTED", item: bookInstance });
+  const onMarkerClick = (userInterest: UserInterest) => {
+    dispatch({ type: "INSTANCE_SELECTED", item: userInterest });
   };
 
   const onStyleLoad = (map: any) => {
@@ -124,7 +124,7 @@ export const MapComponent = (props: Props) => {
 
   React.useEffect(() => {
     dispatch({ type: "GOT_SEARCH_RESULTS" });
-  }, [props.bookInstances]);
+  }, [props.userInterests]);
 
   return (
     <Map
@@ -138,7 +138,7 @@ export const MapComponent = (props: Props) => {
       movingMethod={"easeTo"}
     >
       <Layer type="symbol" id="marker" layout={layoutLayer} images={images}>
-        {props.bookInstances?.map((bi, index) => (
+        {props.userInterests?.map((bi, index) => (
           <Feature
             key={bi.id}
             onMouseEnter={onToggleHover.bind(this, "pointer")}
@@ -149,19 +149,16 @@ export const MapComponent = (props: Props) => {
         ))}
       </Layer>
 
-      {state.bookInstance && (
+      {state.userInterest && (
         <Popup
           coordinates={[
-            state.bookInstance.location.lng,
-            state.bookInstance.location.lat,
+            state.userInterest.location.lng,
+            state.userInterest.location.lat,
           ]}
           anchor="bottom"
           offset={[0, -15]}
         >
-          <BookInstanceDetail
-            bookInstance={state.bookInstance}
-            switchPage={props.switchPage}
-          />
+          <UserInterestMarker userInterest={state.userInterest} />
         </Popup>
       )}
     </Map>

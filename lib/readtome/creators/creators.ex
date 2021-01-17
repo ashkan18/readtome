@@ -58,9 +58,12 @@ defmodule Readtome.Creators do
   end
 
   def add_by_name(name) do
-    case Repo.get_by(Creator, name: name) do
-      nil -> with {:ok, creator} <- create_creator(%{name: name}), do: creator
-      creator -> creator
+    with nil <- Repo.get_by(Creator, name: name),
+         {:ok, creator} <- create_creator(%{name: name}) do
+      creator
+    else
+      creator when is_struct(creator, Creator) -> creator
+      _ -> nil
     end
   end
 

@@ -1,7 +1,6 @@
 const { default: axios } = require("axios");
 import { getToken } from "./auth_service";
 import Reader from "../models/reader";
-import Inquiry from "../models/inquiry";
 import {UserInterest} from "../models/user_interest";
 import { Connection } from "../models/connection";
 
@@ -47,54 +46,9 @@ query Me {
   }
 }`;
 
-const MY_INQUIRIES = `
+const MY_FEED = `
 query Me {
   me {
-    inquiries(first: 10) {
-      edges {
-        node {
-          id
-          offering
-          user {
-            name
-          }
-          bookInstance {
-            reader {
-              id
-              name
-            }
-            book {
-              title
-              mediumCoverUrl
-            }
-          }
-        }
-      }
-    }
-
-    requests(first: 10) {
-      edges {
-        node {
-          id
-          offering
-          user {
-            id
-            name
-          }
-          bookInstance {
-            reader {
-              id
-              name
-            }
-            book {
-              title
-              mediumCoverUrl
-            }
-          }
-        }
-      }
-    }
-
     interests(first: 10) {
       edges {
         node {
@@ -222,8 +176,6 @@ export const myFeed = (): Promise<Connection<UserInterest>> => {
 }
 
 export interface MeResponse {
-  inquiries: Connection<Inquiry>
-  requests: Connection<Inquiry>
   interests: Connection<UserInterest>
 }
 
@@ -234,7 +186,7 @@ export const myActivity = (): Promise<MeResponse> => {
       method: "post",
       headers: { Authorization: `Bearer ${getToken()}` },
       data: {
-        query: MY_INQUIRIES,
+        query: MY_FEED,
       },
     })
       .then((response) => {

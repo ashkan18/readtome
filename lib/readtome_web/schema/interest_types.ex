@@ -4,6 +4,8 @@ defmodule ReadtomeWeb.Schema.InterestTypes do
   use Absinthe.Relay.Schema.Notation, :modern
   import Absinthe.Resolution.Helpers, only: [dataloader: 3]
 
+  connection(node_type: :creator)
+
   @desc "An Creator"
   object :creator do
     field(:id, :id)
@@ -19,12 +21,14 @@ defmodule ReadtomeWeb.Schema.InterestTypes do
     end
   end
 
-  @desc "An Unfurled link"
-  object :unfurled_link do
+  @desc "An Externally Fetched source"
+  object :fetched_source do
     field(:type, :interest_type)
     field(:title, :string)
-    field(:thumbnail, :string)
-    field(:author_name, :string)
+    field(:image, :string)
+    field(:creator_names, list_of(:string))
+    field(:tags, list_of(:string))
+    field(:description, :string)
   end
 
   @desc "A UserInterest"
@@ -36,6 +40,8 @@ defmodule ReadtomeWeb.Schema.InterestTypes do
     field(:thumbnail, :string)
     field(:inserted_at, :naive_datetime)
     field(:looking_for, :boolean)
+    field(:location, :location)
+    field(:external_id, :string)
 
     field(:user, :reader, resolve: dataloader(User, :user, []))
 

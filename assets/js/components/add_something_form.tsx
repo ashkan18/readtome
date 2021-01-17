@@ -1,18 +1,14 @@
 import React from "react";
-import { Button, Form, FormGroup, Image } from "semantic-ui-react";
-import Book from "../models/book";
-import { UnfurledLink } from "../models/user_interest";
+import { Form } from "semantic-ui-react";
+import { FetchedSource } from "../models/user_interest";
 import { getToken } from "../services/auth_service";
 import { findByISBN } from "../services/book_service";
-import { addInterest, unfurlLink } from "../services/interest_service";
+import { unfurlLink } from "../services/interest_service";
 import { isISBN, isUrl } from "../util";
 import { AddInterestForm } from "./add_interest_form";
-import { BookComponent } from "./book_detail";
-import { BookSubmissionForm } from "./book_submission_form";
 
 interface Action {
-  unfurledLink?: UnfurledLink;
-  book?: Book;
+  fetchedSource?: FetchedSource;
   value?: string;
   error?: string;
   type: string;
@@ -20,14 +16,14 @@ interface Action {
 }
 
 interface State {
-  unfurledLink?: UnfurledLink;
+  fetchedSource?: FetchedSource;
   source?: string;
   sourceType?: string;
+  sourceMetadata?: any;
   unfurling: boolean;
   loading: boolean;
   fetched: boolean;
   submitted: boolean;
-  book?: Book;
 }
 
 const stateReducer = (state: State, action: Action) => {
@@ -44,20 +40,18 @@ const stateReducer = (state: State, action: Action) => {
         sourceType: action.sourceType,
       };
     case "UNFURLED":
-      const { unfurledLink } = action;
       return {
         ...state,
         unfurling: false,
         fetched: true,
-        unfurledLink: unfurledLink,
+        fetchedSource: action.fetchedSource,
       };
     case "FOUND_BOOK":
-      const { book } = action;
       return {
         ...state,
         unfurling: false,
         fetched: true,
-        book: book,
+        fetchedSource: action.fetchedSource,
       };
     case "UNFURL_FAILED":
       return {
@@ -95,47 +89,43 @@ export const AddSomethingForm = (props: Props) => {
       dispatch({ type: "UNFURLING", sourceType: "link" });
       unfurlLink(getToken(), state.source)
         .then((data) => {
-          dispatch({ type: "UNFURLED", unfurledLink: data });
+          dispatch({ type: "UNFURLED", fetchedSource: data });
         })
         .catch((error) => dispatch({ type: "UNFURL_FAILED" }));
     } else if (isISBN(state.source)) {
       // assume it's isbn
       dispatch({ type: "UNFURLING", sourceType: "isbn" });
       findByISBN(getToken(), state.source)
-        .then((book) => dispatch({ type: "FOUND_BOOK", book }))
+        .then((fetchedISBN) =>
+          dispatch({ type: "FOUND_BOOK", fetchedSource: fetchedISBN })
+        )
         .catch((error) => dispatch({ type: "UNFURL_FAILED" }));
     }
   };
 
   return (
-    <Form>
-      <Form.Field>
-        <Form.Input
-          type="text"
-          placeholder="Link or ISBN"
-          disabled={state.unfurling || state.loading}
-          onChange={(event) =>
-            dispatch({ type: "LINK_CHANGED", value: event.target.value })
-          }
-          onBlur={(_event) => fetchLink()}
-          loading={state.unfurling === true}
-        />
-      </Form.Field>
-      {state.fetched && state.sourceType == "link" && (
-        <AddInterestForm
-          unfurledLink={state.unfurledLink}
-          link={state.source}
-        />
-      )}
-      {state.fetched && state.sourceType == "isbn" && state.book && (
-        <>
-          <BookComponent book={state.book} />
-          <BookSubmissionForm
-            book={state.book}
-            currentLocation={props.currentLocation}
+    <>
+      <Form>
+        <Form.Field>
+          <Form.Input
+            type="text"
+            placeholder="Link or ISBN"
+            disabled={state.unfurling || state.loading}
+            onChange={(event) =>
+              dispatch({ type: "LINK_CHANGED", value: event.target.value })
+            }
+            onBlur={(_event) => fetchLink()}
+            loading={state.unfurling === true}
           />
-        </>
+        </Form.Field>
+      </Form>
+      {state.fetched && (
+        <AddInterestForm
+          fetchedSource={state.fetchedSource}
+          link={state.source}
+          currentLocation={props.currentLocation}
+        />
       )}
-    </Form>
+    </>
   );
 };

@@ -3,12 +3,12 @@ import * as React from "react";
 import { MapComponent } from "./map_component";
 import { Redirect } from "react-router";
 import { getToken } from "../services/auth_service";
-import BookInstance from "../models/book_instance";
 import { useDebounce } from "../hooks/debounce";
 import { Input } from "semantic-ui-react";
-import { fetchBooks } from "../services/book_instance_service";
 import { Coordinate } from "../models/coordinate";
 import { GeolocateControl } from "mapbox-gl";
+import { UserInterest } from "../models/user_interest";
+import { fetchUserInterest } from "../services/interest_service";
 
 interface Props {
   location: Coordinate | null;
@@ -17,12 +17,11 @@ interface Props {
 }
 
 export const Home = (props: Props) => {
-  const [bookInstances, setBookInstances] = React.useState<BookInstance[]>([]);
+  const [userInterests, setUserInterests] = React.useState<UserInterest[]>([]);
   const [searching, setSearching] = React.useState(false);
   const [error, setError] = React.useState<any>();
   const [needsLogin, setNeedsLogin] = React.useState(false);
 
-  const [offerings, setOfferings] = React.useState<Array<string> | null>(null);
   const [searchTerm, setSearchTerm] = React.useState<string>();
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
@@ -33,9 +32,9 @@ export const Home = (props: Props) => {
     const token = getToken();
     if (token && location?.lat) {
       setSearching(true);
-      fetchBooks(token, term, location.lat, location.lng, offerings)
-        .then((bookInstances) => setBookInstances(bookInstances))
-        .catch((_error) => setNeedsLogin(true));
+      fetchUserInterest(token, term, location.lat, location.lng)
+        .then((userInterests) => setUserInterests(userInterests))
+        .catch((_error) => setNeedsLogin(false));
     }
   };
 
@@ -48,13 +47,13 @@ export const Home = (props: Props) => {
       if (debouncedSearchTerm) {
         search(debouncedSearchTerm);
       } else {
-        setBookInstances([]);
+        setUserInterests([]);
       }
     },
     [debouncedSearchTerm] // Only call effect if debounced search term changes
   );
 
-  React.useEffect(() => setSearching(false), [bookInstances]);
+  React.useEffect(() => setSearching(false), [userInterests]);
 
   if (needsLogin) {
     return <Redirect to="/login" />;
@@ -73,7 +72,7 @@ export const Home = (props: Props) => {
 
         <MapComponent
           center={props.location}
-          bookInstances={bookInstances}
+          userInterests={userInterests}
           geoLocation={props.geoLocation}
           switchPage={props.switchPage}
         />
