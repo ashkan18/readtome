@@ -93,7 +93,7 @@ export const AddInterestForm = (props: Props) => {
       props.currentLocation?.lng,
       props.fetchedSource.externalId,
       props.fetchedSource.metadata
-    );
+    ).then((_) => dispatch({ type: "SUBMITTED" }));
   };
 
   return (
