@@ -79,7 +79,7 @@ defmodule Readtome.Things do
          %{
            type: :read,
            title: book["volumeInfo"]["title"],
-           creator_names: book["volumeInfo"]["creators"],
+           creator_names: book["volumeInfo"]["authors"],
            tags: book["volumeInfo"]["categories"],
            image: book["volumeInfo"]["imageLinks"]["large"] || book["volumeInfo"]["imageLinks"]["thumbnail"],
            description: book["volumeInfo"]["description"]

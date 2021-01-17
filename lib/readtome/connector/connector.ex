@@ -51,7 +51,7 @@ defmodule Readtome.Connector do
 
   def near(query, _), do: query
 
-  def by_term(query, %{term: term}) do
+  def by_term(query, %{term: term}) when not is_nil(term) do
     from(ui in query,
       join: user in assoc(ui, :user),
       join: creator in assoc(ui, :creators),

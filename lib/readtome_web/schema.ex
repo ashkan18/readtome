@@ -93,6 +93,7 @@ defmodule ReadtomeWeb.Schema do
       arg(:looking_for, :boolean)
       arg(:lat, :float)
       arg(:lng, :float)
+      arg(:external_id, :string)
 
       resolve(&Resolvers.Interests.add_interest/3)
     end

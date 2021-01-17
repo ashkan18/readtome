@@ -5,6 +5,7 @@ import { Coordinate } from "../models/coordinate";
 import { GeolocateControl } from "mapbox-gl";
 import { svg } from "./icon";
 import { UserInterest } from "../models/user_interest";
+import { UserInterestMarker } from "./user_interest_marker";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -86,7 +87,7 @@ const reducer = (state, action) => {
 
 export const MapComponent = (props: Props) => {
   const initialState = {
-    userInterests: undefined,
+    userInterests: props.userInterests,
     zoom: 13,
     // centerLat: 40.690008,
     // centerLng: -73.9857765,
@@ -157,10 +158,7 @@ export const MapComponent = (props: Props) => {
           anchor="bottom"
           offset={[0, -15]}
         >
-          {/* <BookInstanceDetail
-            userInterest={state.userInterest}
-            switchPage={props.switchPage}
-          /> */}
+          <UserInterestMarker userInterest={state.userInterest} />
         </Popup>
       )}
     </Map>

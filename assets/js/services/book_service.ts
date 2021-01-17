@@ -10,21 +10,14 @@ export const findByISBN = (
       method: "post",
       data: {
         query: `
-            query bookInstances($isbn: String) {
-              book(isbn: $isbn) {
-                id
+            query FindByIsbn($isbn: String) {
+              findByIsbn(isbn: $isbn) {
+                image
                 title
-                creators(first: 10) {
-                  edges {
-                    node {
-                      name
-                      id
-                      bio
-                    }
-                  }
-                }
+                creatorNames
                 tags
-                smallCoverUrl
+                type
+                description
               }
             }
           `,
@@ -33,7 +26,19 @@ export const findByISBN = (
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => {
-        return resolve(response.data.data.book);
+        const result = response.data.data.findByIsbn
+        return resolve(
+          {
+            image: result.image,
+            title: result.title,
+            creatorNames: result.creatorNames,
+            type: result.type,
+            externalId: isbn,
+            metadata: {
+              tags: result.tags,
+              description: result.description
+            }
+          });
       })
       .catch((error) => {
         return rejected(error);

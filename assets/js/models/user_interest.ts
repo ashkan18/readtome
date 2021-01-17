@@ -23,4 +23,8 @@ export interface FetchedSource {
   type: string
   creatorNames: string
   image: string
+  tags: Array<string>
+  description: string,
+  externalId: string,
+  metadata: any
 }

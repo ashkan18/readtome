@@ -19,6 +19,7 @@ interface State {
   fetchedSource?: FetchedSource;
   source?: string;
   sourceType?: string;
+  sourceMetadata?: any;
   unfurling: boolean;
   loading: boolean;
   fetched: boolean;

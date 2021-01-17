@@ -2,9 +2,7 @@ import React from "react";
 import { Button, Form, FormGroup, Image } from "semantic-ui-react";
 import { FetchedSource } from "../models/user_interest";
 import { getToken } from "../services/auth_service";
-import { findByISBN } from "../services/book_service";
-import { addInterest, unfurlLink } from "../services/interest_service";
-import { isUrl } from "../util";
+import { addInterest } from "../services/interest_service";
 
 interface Action {
   fetchedSource?: FetchedSource;
@@ -19,7 +17,7 @@ interface State {
   lookingFor: boolean;
   creatorNames?: string;
   type?: string;
-  thumbnail?: string;
+  image?: string;
   loading: boolean;
   submitted: boolean;
 }
@@ -89,10 +87,12 @@ export const AddInterestForm = (props: Props) => {
       props.link,
       state.type,
       state.creatorNames.split(","),
-      state.thumbnail,
+      state.image,
       state.lookingFor,
-      props.currentLocation.lat,
-      props.currentLocation.lng
+      props.currentLocation?.lat,
+      props.currentLocation?.lng,
+      props.fetchedSource.externalId,
+      props.fetchedSource.metadata
     );
   };
 
@@ -101,7 +101,7 @@ export const AddInterestForm = (props: Props) => {
       {!state.submitted && (
         <Form>
           <Form.Group>
-            {state.thumbnail && <Image size="tiny" src={state.thumbnail} />}
+            {state.image && <Image size="tiny" src={state.image} />}
           </Form.Group>
           <Form.Group inline>
             <Form.Field
