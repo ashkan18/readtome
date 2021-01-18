@@ -1,11 +1,11 @@
 import * as React from "react";
-import ReactMapboxGl, { Feature, Layer, Popup } from "react-mapbox-gl";
+import ReactMapboxGl, { Feature, Layer, Marker, Popup } from "react-mapbox-gl";
 
 import { Coordinate } from "../models/coordinate";
-import { GeolocateControl } from "mapbox-gl";
 import { svg } from "./icon";
 import { UserInterest } from "../models/user_interest";
 import { UserInterestMarker } from "./user_interest_marker";
+import { Icon } from "semantic-ui-react";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -33,7 +33,6 @@ interface Props {
   userInterests: Array<UserInterest>;
   center: Coordinate;
   onStyleLoad?: (map: any) => any;
-  geoLocation: GeolocateControl;
   switchPage?: (any) => void;
 }
 
@@ -89,8 +88,6 @@ export const MapComponent = (props: Props) => {
   const initialState = {
     userInterests: props.userInterests,
     zoom: 13,
-    // centerLat: 40.690008,
-    // centerLng: -73.9857765,
   };
 
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
@@ -109,15 +106,6 @@ export const MapComponent = (props: Props) => {
     dispatch({ type: "INSTANCE_SELECTED", item: userInterest });
   };
 
-  const onStyleLoad = (map: any) => {
-    const { onStyleLoad } = props;
-    map.addControl(props.geoLocation);
-    setTimeout(() => {
-      props.geoLocation.trigger();
-    }, 500);
-    return onStyleLoad && onStyleLoad(map);
-  };
-
   React.useEffect(() => {
     dispatch({ type: "GOT_CURRENT_LOCATION", coordinate: props.center });
   }, [props.center]);
@@ -131,12 +119,14 @@ export const MapComponent = (props: Props) => {
       style="mapbox://styles/ashkan18/ckhzblkri2mr719n224l706o0"
       containerStyle={mapStyle}
       flyToOptions={flyToOptions}
-      onStyleLoad={onStyleLoad}
       onDrag={onDrag}
       center={state.centerLng && [state.centerLng, state.centerLat]}
       zoom={[state.zoom]}
       movingMethod={"easeTo"}
     >
+      <Marker coordinates={[props.center.lng, props.center.lat]}>
+        <Icon name="user circle outline" color="orange" size="big" />
+      </Marker>
       <Layer type="symbol" id="marker" layout={layoutLayer} images={images}>
         {props.userInterests?.map((bi, index) => (
           <Feature

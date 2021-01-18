@@ -1,8 +1,6 @@
-import { GeolocateControl } from "mapbox-gl";
 import React from "react";
 import { Header } from "../components/header";
 import MainLayout from "../components/main_layout";
-import { Coordinate } from "../models/coordinate";
 import Reader from "../models/reader";
 import { getMe } from "../services/user_service";
 import { Home } from "../components/home";
@@ -13,22 +11,15 @@ import { ProfilePage } from "./profile_page";
 import { MyFeed } from "./activity_feed";
 
 export const Main = () => {
-  const geoLocation = new GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: false,
-    },
-    trackUserLocation: false,
-  });
   const [me, setMe] = React.useState<Reader | null>(null);
   const [needsLogin, setNeedsLogin] = React.useState(false);
   const [currentLocation, setCurrentLocation] = React.useState<any | null>(
     null
   );
 
-  geoLocation.on("geolocate", (data) => {
-    const { latitude, longitude } = data.coords;
-    const coords: Coordinate = { lat: latitude, lng: longitude };
-    setCurrentLocation(coords);
+  navigator.geolocation.getCurrentPosition((position) => {
+    const { latitude, longitude } = position.coords;
+    setCurrentLocation({ lat: latitude, lng: longitude });
   });
 
   React.useEffect(() => {
@@ -61,7 +52,7 @@ export const Main = () => {
           <ProfilePage />
         </Route>
         <Route path="/">
-          <Home geoLocation={geoLocation} location={currentLocation} />
+          <Home location={currentLocation} />
         </Route>
       </Switch>
     </MainLayout>
