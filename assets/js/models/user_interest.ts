@@ -21,7 +21,7 @@ export interface UserInterest {
 export interface FetchedSource {
   title: string
   type: string
-  creatorNames: string
+  creatorNames: Array<string>
   image: string
   tags: Array<string>
   description: string,
