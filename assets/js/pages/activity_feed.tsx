@@ -1,12 +1,11 @@
 import * as React from "react";
 
-import { Redirect, useParams } from "react-router";
+import { Redirect } from "react-router";
 import {
   Dimmer,
   Divider,
   Feed,
   Header,
-  Icon,
   Loader,
   Image,
 } from "semantic-ui-react";

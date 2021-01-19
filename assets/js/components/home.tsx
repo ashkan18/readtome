@@ -4,15 +4,13 @@ import { MapComponent } from "./map_component";
 import { Redirect } from "react-router";
 import { getToken } from "../services/auth_service";
 import { useDebounce } from "../hooks/debounce";
-import { Input } from "semantic-ui-react";
+import { Dimmer, Input, Loader } from "semantic-ui-react";
 import { Coordinate } from "../models/coordinate";
-import { GeolocateControl } from "mapbox-gl";
 import { UserInterest } from "../models/user_interest";
 import { fetchUserInterest } from "../services/interest_service";
 
 interface Props {
-  location: Coordinate | null;
-  geoLocation: GeolocateControl;
+  location: Coordinate;
   switchPage?: (any) => void;
 }
 
@@ -69,13 +67,18 @@ export const Home = (props: Props) => {
           loading={searching}
           onChange={(_event, { value }) => setSearchTerm(value)}
         />
-
-        <MapComponent
-          center={props.location}
-          userInterests={userInterests}
-          geoLocation={props.geoLocation}
-          switchPage={props.switchPage}
-        />
+        {!props.location && (
+          <Dimmer active inverted>
+            <Loader inverted content="Getting your location..." />
+          </Dimmer>
+        )}
+        {props.location && (
+          <MapComponent
+            center={props.location}
+            userInterests={userInterests}
+            switchPage={props.switchPage}
+          />
+        )}
       </>
     );
   }
