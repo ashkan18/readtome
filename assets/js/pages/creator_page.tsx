@@ -6,13 +6,13 @@ import {
   Divider,
   Feed,
   Header,
-  Icon,
   Loader,
   Image,
 } from "semantic-ui-react";
 import { UserInterest } from "../models/user_interest";
 import { Creator } from "../models/creator";
 import { getCreator } from "../services/creator_service";
+import { interestTypeString } from "../util";
 
 const stateReducer = (state, action) => {
   switch (action.type) {
@@ -68,18 +68,6 @@ export const CreatorPage = () => {
     fetchData();
   }, []);
 
-  const renderType = (type: string) => {
-    switch (type) {
-      case "LISTENED":
-        return <b> listened to </b>;
-      case "WATCHED":
-        return <b> watched </b>;
-      case "SAW":
-        return <b> saw </b>;
-      case "READ":
-        return <b> read </b>;
-    }
-  };
   const renderInterest = (interest: UserInterest) => {
     return (
       <Feed.Event>
@@ -91,7 +79,7 @@ export const CreatorPage = () => {
         <Feed.Content>
           <Feed.Summary>
             <a href={`/users/${interest.user.id}`}>{interest.user.name}</a>
-            {renderType(interest.type)}
+            <b>{interestTypeString(interest.type)}</b>
             <Feed.User as="a" href={interest.ref}>
               <i>{interest.title}</i>
             </Feed.User>{" "}

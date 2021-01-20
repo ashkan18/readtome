@@ -6,7 +6,6 @@ import {
   Divider,
   Feed,
   Header,
-  Icon,
   Loader,
   Image,
   Button,
@@ -17,6 +16,8 @@ import Reader from "../models/reader";
 import { UserInterest } from "../models/user_interest";
 import { follow } from "../services/connector_service";
 import { getToken } from "../services/auth_service";
+import { InterestIcon } from "../components/interest_icon";
+import { interestTypeString } from "../util";
 
 const stateReducer = (state, action) => {
   switch (action.type) {
@@ -89,55 +90,15 @@ export const User = () => {
       );
   };
 
-  const renderType = (type: string) => {
-    switch (type) {
-      case "LISTENED":
-        return <b> listened to </b>;
-      case "WATCHED":
-        return <b> watched </b>;
-      case "SAW":
-        return <b> saw </b>;
-      case "READ":
-        return <b> read </b>;
-    }
-  };
-
-  const renderIcon = (type: string) => {
-    switch (type) {
-      case "LISTENED":
-        return (
-          <Feed.Label>
-            <Icon name="headphones" />
-          </Feed.Label>
-        );
-      case "WATCHED":
-        return (
-          <Feed.Label>
-            <Icon name="tv" />
-          </Feed.Label>
-        );
-      case "SAW":
-        return (
-          <Feed.Label>
-            <Icon name="pallet" />
-          </Feed.Label>
-        );
-      case "READ":
-        return (
-          <Feed.Label>
-            <Icon name="newspaper" />
-          </Feed.Label>
-        );
-    }
-  };
-
   const renderInterest = (interest: UserInterest) => {
     return (
       <Feed.Event>
-        {renderIcon(interest.type)}
+        <Feed.Label>
+          <InterestIcon type={interest.type} />
+        </Feed.Label>
         <Feed.Content>
           <Feed.Summary>
-            {renderType(interest.type)}
+            <b>{interestTypeString(interest.type)}</b>
             <Feed.User as="a" href={interest.ref}>
               <i>{interest.title}</i>
             </Feed.User>{" "}

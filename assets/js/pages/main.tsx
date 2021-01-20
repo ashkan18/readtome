@@ -8,7 +8,7 @@ import { Redirect, Route, Switch } from "react-router";
 import { User } from "./user";
 import { CreatorPage } from "./creator_page";
 import { ProfilePage } from "./profile_page";
-import { MyFeed } from "./activity_feed";
+import { MyFeed } from "./my_feed";
 
 export const Main = () => {
   const [me, setMe] = React.useState<Reader | null>(null);
