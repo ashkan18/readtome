@@ -70,7 +70,7 @@ export const AddInterestForm = (props: Props) => {
     fetched: false,
     title: fetchedSource.title,
     type: fetchedSource.type,
-    creatorNames: fetchedSource.creatorNames.join(","),
+    creatorNames: fetchedSource.creatorNames?.join(","),
     image: fetchedSource.image,
   };
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
