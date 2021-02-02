@@ -2,10 +2,14 @@ import * as React from "react";
 import ReactMapboxGl, { Feature, Layer, Marker, Popup } from "react-mapbox-gl";
 
 import { Coordinate } from "../models/coordinate";
-import { svg } from "./icon";
+import { svg } from "../components/icon";
 import { UserInterest } from "../models/user_interest";
-import { UserInterestMarker } from "./user_interest_marker";
-import { Icon } from "semantic-ui-react";
+import { UserInterestMarker } from "../components/user_interest_marker";
+import { Dimmer, Icon, Loader } from "semantic-ui-react";
+import Reader from "../models/reader";
+import { Header } from "../components/header";
+import { getToken } from "../services/auth_service";
+import { fetchUserInterest } from "../services/interest_service";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -30,14 +34,15 @@ image.src = "data:image/svg+xml;charset=utf-8;base64," + btoa(svg);
 const images: any = ["londonCycle", image];
 
 interface Props {
-  userInterests: Array<UserInterest>;
   center: Coordinate;
+  me: Reader | null;
   onStyleLoad?: (map: any) => any;
   switchPage?: (any) => void;
 }
 
 interface State {
-  userInterest?: UserInterest;
+  selectedUserInterest?: UserInterest;
+  userInterests: Array<UserInterest>;
   zoom: number;
   centerLat?: number;
   centerLng?: number;
@@ -46,28 +51,27 @@ interface State {
 interface Action {
   type: string;
   item?: UserInterest;
+  userInterests?: Array<UserInterest>;
   coordinate?: { lat: number; lng: number };
 }
 
-const reducer = (state, action) => {
+const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case "INSTANCE_SELECTED":
-      const userInterest = action.item;
+      const selectedUserInterest = action.item;
       return {
         ...state,
-        userInterest: userInterest,
+        userInterest: selectedUserInterest,
         zoom: 15,
-        centerLat: userInterest.location.lat,
-        centerLng: userInterest.location.lng,
+        centerLat: selectedUserInterest.location.lat,
+        centerLng: selectedUserInterest.location.lng,
       };
     case "RESET_SELECT":
-      if (state.userInterest !== undefined)
-        return { ...state, userInterest: undefined };
+      if (state.selectedUserInterest !== undefined)
+        return { ...state, selectedUserInterest: undefined };
       else return state;
-    case "GOT_SEARCH_RESULTS":
-      if (state.userInterest !== undefined)
-        return { ...state, userInterest: undefined };
-      else return state;
+    case "GOT_USER_INTERESTS":
+      return { ...state, userInterests: action.userInterests };
     case "GOT_CURRENT_LOCATION":
       if (action.coordinate !== null) {
         return {
@@ -84,9 +88,9 @@ const reducer = (state, action) => {
   }
 };
 
-export const MapComponent = (props: Props) => {
+export const MapPage = (props: Props) => {
   const initialState = {
-    userInterests: props.userInterests,
+    userInterests: [],
     zoom: 13,
   };
 
@@ -106,13 +110,30 @@ export const MapComponent = (props: Props) => {
     dispatch({ type: "INSTANCE_SELECTED", item: userInterest });
   };
 
+  const search = (term: string | null, location: Coordinate = props.center) => {
+    const token = getToken();
+    if (token && location?.lat) {
+      dispatch({ type: "FETCHING_USER_INTERESTS" });
+      fetchUserInterest(token, term, location.lat, location.lng)
+        .then((userInterests) =>
+          dispatch({ type: "GOT_USER_INTERESTS", userInterests })
+        )
+        .catch((_error) => dispatch({ type: "GETTING_USER_INTERESTS_FAILED" }));
+    }
+  };
+
   React.useEffect(() => {
+    setTimeout(() => search(null, props.center), 1000);
     dispatch({ type: "GOT_CURRENT_LOCATION", coordinate: props.center });
   }, [props.center]);
 
-  React.useEffect(() => {
-    dispatch({ type: "GOT_SEARCH_RESULTS" });
-  }, [props.userInterests]);
+  if (!props.center) {
+    return (
+      <Dimmer active inverted>
+        <Loader inverted content="Getting your location..." />
+      </Dimmer>
+    );
+  }
 
   return (
     <Map
@@ -124,11 +145,12 @@ export const MapComponent = (props: Props) => {
       zoom={[state.zoom]}
       movingMethod={"easeTo"}
     >
+      <Header me={props.me} currentLocation={props.center} />
       <Marker coordinates={[props.center.lng, props.center.lat]}>
         <Icon name="user circle outline" color="orange" size="big" />
       </Marker>
       <Layer type="symbol" id="marker" layout={layoutLayer} images={images}>
-        {props.userInterests?.map((bi, index) => (
+        {state.userInterests?.map((bi, index) => (
           <Feature
             key={bi.id}
             onMouseEnter={onToggleHover.bind(this, "pointer")}
@@ -139,16 +161,16 @@ export const MapComponent = (props: Props) => {
         ))}
       </Layer>
 
-      {state.userInterest && (
+      {state.selectedUserInterest && (
         <Popup
           coordinates={[
-            state.userInterest.location.lng,
-            state.userInterest.location.lat,
+            state.selectedUserInterest.location.lng,
+            state.selectedUserInterest.location.lat,
           ]}
           anchor="bottom"
           offset={[0, -15]}
         >
-          <UserInterestMarker userInterest={state.userInterest} />
+          <UserInterestMarker userInterest={state.selectedUserInterest} />
         </Popup>
       )}
     </Map>

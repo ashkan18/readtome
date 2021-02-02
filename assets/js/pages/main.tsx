@@ -3,12 +3,12 @@ import { Header } from "../components/header";
 import MainLayout from "../components/main_layout";
 import Reader from "../models/reader";
 import { getMe } from "../services/user_service";
-import { Home } from "../components/home";
 import { Redirect, Route, Switch } from "react-router";
 import { User } from "./user";
 import { CreatorPage } from "./creator_page";
 import { ProfilePage } from "./profile_page";
 import { MyFeed } from "./my_feed";
+import { MapPage } from "./map_page";
 
 export const Main = () => {
   const [me, setMe] = React.useState<Reader | null>(null);
@@ -37,22 +37,25 @@ export const Main = () => {
 
   return (
     <MainLayout>
-      <Header me={me} currentLocation={currentLocation} />
       <Switch>
         <Route path="/feed">
+          <Header me={me} currentLocation={currentLocation} />
           <MyFeed />
         </Route>
         <Route path="/users/:userId">
+          <Header me={me} currentLocation={currentLocation} />
           <User />
         </Route>
         <Route path="/creators/:creatorId">
+          <Header me={me} currentLocation={currentLocation} />
           <CreatorPage />
         </Route>
         <Route path="/profile">
+          <Header me={me} currentLocation={currentLocation} />
           <ProfilePage />
         </Route>
         <Route path="/">
-          <Home location={currentLocation} />
+          <MapPage me={me} center={currentLocation} />
         </Route>
       </Switch>
     </MainLayout>

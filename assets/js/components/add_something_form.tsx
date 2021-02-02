@@ -104,7 +104,7 @@ export const AddSomethingForm = (props: Props) => {
   };
 
   return (
-    <>
+    <div style={{ width: "400px" }}>
       <Form>
         <Form.Field>
           <Form.Input
@@ -126,6 +126,6 @@ export const AddSomethingForm = (props: Props) => {
           currentLocation={props.currentLocation}
         />
       )}
-    </>
+    </div>
   );
 };
