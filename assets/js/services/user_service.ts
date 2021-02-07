@@ -126,8 +126,8 @@ export const uploadPhoto = (token: string, photoFile: any): Promise<Reader> => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => resolve(response.data.data.updateProfile))
-      .catch((error) => rejected(error));
+      .then((response: any) => resolve(response.data.data.updateProfile))
+      .catch((error: any) => rejected(error));
   });
 };
 
@@ -141,10 +141,10 @@ export const getMe = (): Promise<Reader> => {
         query: ME_QUERY,
       },
     })
-      .then((response) => {
+      .then((response: any) => {
         return resolve(response.data.data.me);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         if (error.response) {
           if(error.response.status === 401) return rejected("unauthorized")
         }
@@ -163,10 +163,10 @@ export const myFeed = (): Promise<Connection<UserInterest>> => {
         query: MY_FEED_QUERY,
       },
     })
-      .then((response) => 
+      .then((response: any) =>
         resolve(response.data.data.me.feed)
       )
-      .catch((error) => {
+      .catch((error: any) => {
         if (error.response) {
           if(error.response.status === 401) return rejected("unauthorized")
         }
@@ -189,10 +189,10 @@ export const myActivity = (): Promise<MeResponse> => {
         query: MY_FEED,
       },
     })
-      .then((response) => {
+      .then((response: any) => {
         return resolve(response.data.data.me)
       })
-      .catch((error) => {
+      .catch((error: any) => {
         return rejected(error);
       })
   );
@@ -210,12 +210,12 @@ export const getReader = (userId: string): Promise<Reader> => {
         variables: {id: userId}
       },
     })
-      .then((response) => {
+      .then((response: any) => {
         return resolve(
           response.data.data.reader
         );
       })
-      .catch((error) => {
+      .catch((error: any) => {
         return rejected(error);
       })
   );

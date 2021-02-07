@@ -14,7 +14,20 @@ import { Creator } from "../models/creator";
 import { getCreator } from "../services/creator_service";
 import { interestTypeString } from "../util";
 
-const stateReducer = (state, action) => {
+
+interface State {
+  creator?: Creator;
+  loading: boolean;
+  error?: string;
+}
+
+interface Action {
+  data?: Creator;
+  error?: string;
+  type: string;
+}
+
+const stateReducer = (state: State, action: Action) : State => {
   switch (action.type) {
     case "START_LOADING":
       return {
@@ -32,24 +45,11 @@ const stateReducer = (state, action) => {
   }
 };
 
-interface State {
-  creator: Creator;
-  loading: boolean;
-  error?: string;
-}
-
-interface Action {
-  data?: Creator;
-  error?: string;
-  type: string;
-}
 
 export const CreatorPage = () => {
   const { creatorId } = useParams<{ creatorId: string }>();
   const initialState = {
-    creator: null,
     loading: true,
-    error: null,
   };
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
     stateReducer,

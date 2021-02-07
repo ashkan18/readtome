@@ -43,7 +43,7 @@ const reducer = (state: State, action: Action) => {
 }
 
 export const Login = () => {
-  const initialState: State  = {
+  const initialState: State = {
     loading: false,
     loggedIn: false
   }
@@ -55,35 +55,37 @@ export const Login = () => {
   );
 
   const attemptLogin = () => {
-    dispatch({type: "ATTEMPT_LOGIN"})
-    login(userName, password)
-      .then((token) => {
-        dispatch({type: "SUCCESSFUL_LOGIN"})
-      })
-      .catch((_error) => {
-        dispatch({type: "LOGIN_FAILED", data: "Username and Password don't match, please rety."})
-      });
+    if (userName !== null && password !== null) {
+      dispatch({ type: "ATTEMPT_LOGIN" })
+      login(userName, password)
+        .then((token) => {
+          dispatch({ type: "SUCCESSFUL_LOGIN" })
+        })
+        .catch((_error) => {
+          dispatch({ type: "LOGIN_FAILED", data: "Username and Password don't match, please rety." })
+        });
+    }
   }
 
-  if (state.loggedIn ) {
-    return(<Redirect to={"/"}/>)
+  if (state.loggedIn) {
+    return (<Redirect to={"/"} />)
   }
   return (
     <div style={{ width: "100%", height: "100%", display: "flex" }}>
       <Header me={null} />
-        <Form onSubmit={() => attemptLogin()}>
-          <Form.Group>
-            <Form.Field>
-              <input placeholder='Username' onChange={(event) => setUserName(event.target.value) } disabled={state.loading}/>
-            </Form.Field>
-            <Form.Field>
-              <input placeholder='Username' type="password" onChange={(event) => setPassword(event.target.value) } disabled={state.loading}/>
-            </Form.Field>
-            <Button basic color="orange" type='submit' loading={state.loading}>Login!</Button>
-          </Form.Group>
-          <div>
-            Don't have an account? click <Link to="/signup">here</Link>
-          </div>
-        </Form>
+      <Form onSubmit={() => attemptLogin()}>
+        <Form.Group>
+          <Form.Field>
+            <input placeholder='Username' onChange={(event) => setUserName(event.target.value)} disabled={state.loading} />
+          </Form.Field>
+          <Form.Field>
+            <input placeholder='Username' type="password" onChange={(event) => setPassword(event.target.value)} disabled={state.loading} />
+          </Form.Field>
+          <Button basic color="orange" type='submit' loading={state.loading}>Login!</Button>
+        </Form.Group>
+        <div>
+          Don't have an account? click <Link to="/signup">here</Link>
+        </div>
+      </Form>
     </div>)
 }

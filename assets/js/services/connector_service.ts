@@ -6,7 +6,7 @@ const FOLLOW_QUERY = `
 mutation Follow($userId: ID!) {
   follow(userId: $userId) {
     id
-  } 
+  }
 }`;
 
 

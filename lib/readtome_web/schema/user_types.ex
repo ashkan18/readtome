@@ -2,7 +2,6 @@ defmodule ReadtomeWeb.Schema.UserTypes do
   alias Readtome.{Connector, Helper, Accounts}
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
-  import Absinthe.Resolution.Helpers, only: [dataloader: 3]
 
   connection(node_type: :user_interest)
   connection(node_type: :follow)

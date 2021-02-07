@@ -2,7 +2,6 @@ import { Popup, Image, Menu } from "semantic-ui-react";
 import React, { useState } from "react";
 import Reader from "../models/reader";
 import { uploadPhoto } from "../services/user_service";
-import { Link } from "react-router-dom";
 
 interface Props {
   me: Reader;
@@ -18,7 +17,7 @@ export const Profile = (props: Props) => {
           <Image
             circular
             src={me.photos[0].thumb}
-            size="mini"
+            size="tiny"
             style={{ padding: 0 }}
           />
         ) : (

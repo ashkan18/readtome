@@ -133,7 +133,7 @@ export const MapPage = (props: Props) => {
   if (!props.center) {
     return (
       <Dimmer active inverted>
-        <Loader inverted content="Getting your location..." />
+        <Loader inverted content="🌎 Getting your location..." />
       </Dimmer>
     );
   }

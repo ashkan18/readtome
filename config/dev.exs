@@ -17,6 +17,8 @@ config :readtome, ReadtomeWeb.Endpoint,
       "--progress",
       "--color",
       "--watch",
+      "--mode",
+      "development",
       cd: Path.expand("../assets", __DIR__)
     ]
   ]
