@@ -99,16 +99,7 @@ export const ProfilePage = () => {
       });
       return;
     }
-    // signUp(name, username, email, password)
-    //   .then((token) => {
-    //     dispatch({ type: "SUCCESSFUL_SIGNUP", data: token });
-    //   })
-    //   .catch((error) => {
-    //     dispatch({
-    //       type: "SIGNUP_FAILED",
-    //       data: `Couldn't sign up. ${error}`,
-    //     });
-    //   });
+    // TODO: Actually update the profile
   };
 
   const uploadProfilePhoto = (file: any) => {

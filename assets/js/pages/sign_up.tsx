@@ -93,7 +93,7 @@ export const Signup = () => {
   };
 
   return (
-    <div>
+    <div style={{ width: "100%", height: "100%", display: "flex" }}>
       <Header me={null} />
       <Form
         onSubmit={() => attemptSignUp()}
