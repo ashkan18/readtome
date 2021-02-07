@@ -123,8 +123,11 @@ export const MapPage = (props: Props) => {
   };
 
   React.useEffect(() => {
-    setTimeout(() => search(null, props.center), 1000);
-    dispatch({ type: "GOT_CURRENT_LOCATION", coordinate: props.center });
+    if (props.center) {
+      console.log("thinging", props.center)
+      setTimeout(() => search(null, props.center), 1000);
+      dispatch({ type: "GOT_CURRENT_LOCATION", coordinate: props.center });
+    }
   }, [props.center]);
 
   if (!props.center) {

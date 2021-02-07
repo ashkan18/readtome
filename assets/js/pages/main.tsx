@@ -1,6 +1,5 @@
 import React from "react";
 import { Header } from "../components/header";
-import MainLayout from "../components/main_layout";
 import Reader from "../models/reader";
 import { getMe } from "../services/user_service";
 import { Redirect, Route, Switch } from "react-router";
@@ -17,11 +16,6 @@ export const Main = () => {
     null
   );
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    const { latitude, longitude } = position.coords;
-    setCurrentLocation({ lat: latitude, lng: longitude });
-  });
-
   React.useEffect(() => {
     const fetchData = () => {
       getMe()
@@ -31,13 +25,21 @@ export const Main = () => {
     fetchData();
   }, []);
 
+  React.useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log("inja", position.coords)
+      const { latitude, longitude } = position.coords;
+      setCurrentLocation({ lat: latitude, lng: longitude });
+    });
+  }, [])
+
   if (needsLogin) {
     return <Redirect to="/login" />;
   }
 
   return (
-    <MainLayout>
-      <Switch>
+    <div style={{ width: "100%", height: "100%", display: "flex" }}>
+      <Switch >
         <Route path="/feed">
           <Header me={me} currentLocation={currentLocation} />
           <MyFeed />
@@ -58,6 +60,6 @@ export const Main = () => {
           <MapPage me={me} center={currentLocation} />
         </Route>
       </Switch>
-    </MainLayout>
+    </div>
   );
 };

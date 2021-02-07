@@ -8,18 +8,9 @@ import {
   Grid,
   Input,
 } from "semantic-ui-react";
-import styled from "styled-components";
 import { getMe, uploadPhoto } from "../services/user_service";
 import Reader from "../models/reader";
 import { getToken } from "../services/auth_service";
-
-const SignUpForm = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-grow: 1;
-  padding-top: 50px;
-`;
 
 interface State {
   name?: string;
@@ -131,7 +122,6 @@ export const ProfilePage = () => {
     <Segment basic>
       <Grid columns={2} relaxed="very">
         <Grid.Column width="12">
-          <SignUpForm>
             <Form
               onSubmit={() => attemptUpdate()}
               error={state.error !== undefined}
@@ -203,7 +193,6 @@ export const ProfilePage = () => {
                 content={state.error}
               />
             </Form>
-          </SignUpForm>
         </Grid.Column>
         <Grid.Column width="2">
           <Image

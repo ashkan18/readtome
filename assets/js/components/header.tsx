@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Popup, Icon, Menu, Divider } from "semantic-ui-react";
 import Reader from "../models/reader";
-import styled from "styled-components";
 import { Profile } from "./profile";
 import { AddSomethingForm } from "./add_something_form";
 
@@ -10,13 +9,9 @@ interface Props {
   currentLocation?: any;
 }
 
-const HeaderDiv = styled.div`
-  border-bottom: 2px solid orange;
-`;
-
 export const Header = (props: Props) => {
   return (
-    <HeaderDiv>
+    <div style={{borderBottom: "2px solid orange"}}>
       <Menu stackable secondary>
         <Menu.Item size={"tiny"} as="a" href="/">
           <h2>
@@ -54,6 +49,6 @@ export const Header = (props: Props) => {
           </Menu.Menu>
         )}
       </Menu>
-    </HeaderDiv>
+    </div>
   );
 };

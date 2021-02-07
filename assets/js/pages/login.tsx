@@ -1,21 +1,10 @@
 import * as React from "react";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
-import { Input, Button, InputOnChangeData, Form, Dimmer, Loader } from "semantic-ui-react";
+import { Button, Form, } from "semantic-ui-react";
 import { login } from "../services/auth_service";
-import { FormEvent, SyntheticEvent } from "react";
 import { Header } from "../components/header";
-import styled from "styled-components";
-import MainLayout from "../components/main_layout";
 
-
-
-const LoginForm = styled.div`
-  align-items: center;
-  justify-content: center;
-  padding-top: 50px;
-  margin: auto;
-`;
 
 interface State {
   loading: boolean
@@ -80,9 +69,8 @@ export const Login = () => {
     return(<Redirect to={"/"}/>)
   }
   return (
-    <MainLayout>
+    <div>
       <Header me={null} />
-      <LoginForm>
         <Form onSubmit={() => attemptLogin()}>
           <Form.Group>
             <Form.Field>
@@ -97,6 +85,5 @@ export const Login = () => {
             Don't have an account? click <Link to="/signup">here</Link>
           </div>
         </Form>
-      </LoginForm>
-    </MainLayout>)
+    </div>)
 }
