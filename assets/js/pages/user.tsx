@@ -92,7 +92,7 @@ export const User = () => {
 
   const renderInterest = (interest: UserInterest) => {
     return (
-      <Feed.Event>
+      <Feed.Event key={`event_${interest.id}`}>
         <Feed.Label>
           <InterestIcon type={interest.type} />
         </Feed.Label>

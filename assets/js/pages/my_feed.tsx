@@ -8,6 +8,7 @@ import {
   Header,
   Loader,
   Image,
+  Container,
 } from "semantic-ui-react";
 import { DateTime } from "luxon";
 import { myFeed } from "../services/user_service";
@@ -83,7 +84,7 @@ export const MyFeed = () => {
 
   const renderInterest = (interest: UserInterest) => {
     return (
-      <Feed.Event>
+      <Feed.Event key={`event_${interest.id}`}>
         <Feed.Label>
           <InterestIcon type={interest.type} />
         </Feed.Label>
@@ -96,7 +97,7 @@ export const MyFeed = () => {
             by{" "}
             {interest.creators.edges
               .map<React.ReactNode>((i_edge) => (
-                <a href={`/creators/${i_edge.node.id}`}> {i_edge.node.name} </a>
+                <a href={`/creators/${i_edge.node.id}`} key={`creator_link_${i_edge.node.id}`}> {i_edge.node.name} </a>
               ))
               .reduce((prev, curr) => [prev, ", ", curr])}
             <Feed.Date>
@@ -124,7 +125,7 @@ export const MyFeed = () => {
     return <Redirect to="/login" />;
   } else if (state.feed) {
     return (
-      <>
+      <Container >
         {state.loading && (
           <Dimmer active inverted>
             <Loader inverted content="Loading" />
@@ -139,7 +140,7 @@ export const MyFeed = () => {
             </Feed>
           </>
         )}
-      </>
+      </Container>
     );
   } else {
     return (

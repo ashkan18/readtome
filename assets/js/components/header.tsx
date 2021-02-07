@@ -11,7 +11,7 @@ interface Props {
 
 export const Header = (props: Props) => {
   return (
-    <div style={{borderBottom: "2px solid orange"}}>
+    <div style={{borderBottom: "2px solid orange", width: "100%"}}>
       <Menu stackable secondary>
         <Menu.Item size={"tiny"} as="a" href="/">
           <h2>
