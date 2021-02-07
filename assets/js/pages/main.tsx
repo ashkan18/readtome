@@ -27,7 +27,6 @@ export const Main = () => {
 
   React.useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log("inja", position.coords)
       const { latitude, longitude } = position.coords;
       setCurrentLocation({ lat: latitude, lng: longitude });
     });
