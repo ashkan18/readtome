@@ -8,7 +8,6 @@ import { CreatorPage } from "./creator_page";
 import { ProfilePage } from "./profile_page";
 import { MyFeed } from "./my_feed";
 import { MapPage } from "./map_page";
-import { Container, Segment } from "semantic-ui-react";
 
 export const Main = () => {
   const [me, setMe] = React.useState<Reader | null>(null);

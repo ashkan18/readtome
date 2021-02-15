@@ -124,8 +124,8 @@ export const MapPage = (props: Props) => {
 
   React.useEffect(() => {
     if (props.center) {
-      setTimeout(() => search(null, props.center), 1200);
       dispatch({ type: "GOT_CURRENT_LOCATION", coordinate: props.center });
+      setTimeout(() => search(null, props.center), 2200);
     }
   }, [props.center]);
 
