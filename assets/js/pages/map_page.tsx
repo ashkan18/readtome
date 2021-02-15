@@ -72,7 +72,7 @@ const reducer = (state: State, action: Action) => {
       };
     case "RESET_SELECT":
       if (state.selectedUserInterest !== undefined)
-        return { ...state, selectedUserInterest: undefined };
+        return { ...state, selectedUserInterest: undefined, zoom: 13 };
       else return state;
     case "GOT_USER_INTERESTS":
       return { ...state, userInterests: action.userInterests, loading: false };
