@@ -66,7 +66,6 @@ const reducer = (state: State, action: Action) => {
       return {
         ...state,
         selectedUserInterest: selectedUserInterest,
-        zoom: 15,
         centerLat: selectedUserInterest.location.lat,
         centerLng: selectedUserInterest.location.lng,
       };
