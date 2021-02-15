@@ -5,11 +5,12 @@ import { Coordinate } from "../models/coordinate";
 import { svg } from "../components/icon";
 import { UserInterest } from "../models/user_interest";
 import { UserInterestMarker } from "../components/user_interest_marker";
-import { Dimmer, Icon, Loader } from "semantic-ui-react";
+import { Dimmer, Icon, Input, Loader } from "semantic-ui-react";
 import Reader from "../models/reader";
 import { Header } from "../components/header";
 import { getToken } from "../services/auth_service";
 import { fetchUserInterest } from "../services/interest_service";
+import { useDebounce } from "../hooks/debounce";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -46,6 +47,8 @@ interface State {
   zoom: number;
   centerLat?: number;
   centerLng?: number;
+  searchTerm?: string
+  loading: boolean
 }
 
 interface Action {
@@ -53,6 +56,7 @@ interface Action {
   item?: UserInterest;
   userInterests?: Array<UserInterest>;
   coordinate?: { lat: number; lng: number };
+  term?: string
 }
 
 const reducer = (state: State, action: Action) => {
@@ -71,7 +75,11 @@ const reducer = (state: State, action: Action) => {
         return { ...state, selectedUserInterest: undefined };
       else return state;
     case "GOT_USER_INTERESTS":
-      return { ...state, userInterests: action.userInterests };
+      return { ...state, userInterests: action.userInterests, loading: false };
+    case "SEARCH_TERM":
+      return { ...state, searchTerm: action.term }
+    case "FETCHING_USER_INTERESTS":
+      return { ...state, loading: true, selectedUserInterest: undefined, zoom: 13}
     case "GOT_CURRENT_LOCATION":
       if (action.coordinate !== null) {
         return {
@@ -92,12 +100,29 @@ export const MapPage = (props: Props) => {
   const initialState = {
     userInterests: [],
     zoom: 13,
+    loading: false
   };
 
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
     reducer,
     initialState
   );
+
+
+  const debouncedSearchTerm = useDebounce(state.searchTerm, 500);
+
+
+  React.useEffect(
+    () => {
+      if (debouncedSearchTerm) {
+        search(debouncedSearchTerm === '' ? null : debouncedSearchTerm, props.center);
+      } else {
+        search(null, props.center);
+      }
+    },
+    [debouncedSearchTerm] // Only call effect if debounced search term changes
+  );
+
 
   const onDrag = () => {
     dispatch({ type: "RESET_SELECT" });
@@ -147,7 +172,14 @@ export const MapPage = (props: Props) => {
       zoom={[state.zoom]}
       movingMethod={"easeTo"}
     >
-      <Header me={props.me} currentLocation={props.center} />
+      <Header me={props.me} currentLocation={props.center}/>
+      <Input
+        icon={{ name: 'search', circular: true, link: true }}
+        onChange={(event) => dispatch({ type: "SEARCH_TERM", term: event.target.value} )}
+        loading={state.loading}
+        placeholder='Title, Name, User...'
+        style={{margin: '5px'}}
+      />
       <Marker coordinates={[props.center.lng, props.center.lat]}>
         <Icon name="user circle outline" color="orange" size="big" />
       </Marker>

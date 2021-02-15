@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Popup, Icon, Menu, Divider } from "semantic-ui-react";
+import { Popup, Icon, Menu, Divider, Input } from "semantic-ui-react";
 import Reader from "../models/reader";
 import { Profile } from "./profile";
 import { AddSomethingForm } from "./add_something_form";

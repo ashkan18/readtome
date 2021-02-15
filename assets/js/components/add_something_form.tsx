@@ -6,6 +6,7 @@ import { findByISBN } from "../services/book_service";
 import { unfurlLink } from "../services/interest_service";
 import { isISBN, isUrl } from "../util";
 import { AddInterestForm } from "./add_interest_form";
+import { useDebounce } from "../hooks/debounce";
 
 interface Action {
   fetchedSource?: FetchedSource;
@@ -79,9 +80,22 @@ export const AddSomethingForm = (props: Props) => {
     lookingFor: false,
     fetched: false,
   };
+
+
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
     stateReducer,
     initialState
+    );
+
+  const debouncedFetchLink = useDebounce(state.source, 500);
+
+  React.useEffect(
+    () => {
+      if (debouncedFetchLink) {
+        fetchLink();
+      }
+    },
+    [debouncedFetchLink] // Only call effect if debounced search term changes
   );
 
   const fetchLink = () => {
@@ -114,7 +128,6 @@ export const AddSomethingForm = (props: Props) => {
             onChange={(event) =>
               dispatch({ type: "LINK_CHANGED", value: event.target.value })
             }
-            onBlur={(_event) => fetchLink()}
             loading={state.unfurling === true}
           />
         </Form.Field>
