@@ -37,11 +37,9 @@ defmodule ReadtomeWeb.Resolvers.Interests do
   end
 
   def list_users_interests(_, args, %{context: %{current_user: user}}) do
-    result =
-      args
+    args
       |> Map.put(:filter_user_ids, [user.id])
       |> Connector.list_user_interests()
-
-    {:ok, result}
+      |> Absinthe.Relay.Connection.from_list(args)
   end
 end

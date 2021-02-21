@@ -28,7 +28,7 @@ defmodule ReadtomeWeb.Schema do
 
   query do
     @desc "Find User Interests by location"
-    field :user_interests, list_of(:user_interest) do
+    connection field(:user_interests, node_type: :user_interest) do
       arg(:lat, non_null(:float))
       arg(:lng, non_null(:float))
       arg(:term, :string)

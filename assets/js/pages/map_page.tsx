@@ -5,12 +5,14 @@ import { Coordinate } from "../models/coordinate";
 import { svg } from "../components/icon";
 import { UserInterest } from "../models/user_interest";
 import { UserInterestMarker } from "../components/user_interest_marker";
-import { Dimmer, Icon, Input, Loader } from "semantic-ui-react";
+import { Dimmer, Feed, Icon, Input, Loader, Segment } from "semantic-ui-react";
 import Reader from "../models/reader";
 import { Header } from "../components/header";
 import { getToken } from "../services/auth_service";
 import { fetchUserInterest } from "../services/interest_service";
 import { useDebounce } from "../hooks/debounce";
+import { FeedComponent } from "../components/feed";
+import { Connection } from "../models/connection";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -43,7 +45,7 @@ interface Props {
 
 interface State {
   selectedUserInterest?: UserInterest;
-  userInterests: Array<UserInterest>;
+  userInterests?: Connection<UserInterest>;
   zoom: number;
   centerLat?: number;
   centerLng?: number;
@@ -54,7 +56,7 @@ interface State {
 interface Action {
   type: string;
   item?: UserInterest;
-  userInterests?: Array<UserInterest>;
+  userInterests?: Connection<UserInterest>;
   coordinate?: { lat: number; lng: number };
   term?: string
 }
@@ -71,14 +73,14 @@ const reducer = (state: State, action: Action) => {
       };
     case "RESET_SELECT":
       if (state.selectedUserInterest !== undefined)
-        return { ...state, selectedUserInterest: undefined};
+        return { ...state, selectedUserInterest: undefined };
       else return state;
     case "GOT_USER_INTERESTS":
       return { ...state, userInterests: action.userInterests, loading: false };
     case "SEARCH_TERM":
       return { ...state, searchTerm: action.term }
     case "FETCHING_USER_INTERESTS":
-      return { ...state, loading: true, selectedUserInterest: undefined, zoom: 13}
+      return { ...state, loading: true, selectedUserInterest: undefined, zoom: 13 }
     case "GOT_CURRENT_LOCATION":
       if (action.coordinate !== null) {
         return {
@@ -97,7 +99,6 @@ const reducer = (state: State, action: Action) => {
 
 export const MapPage = (props: Props) => {
   const initialState = {
-    userInterests: [],
     zoom: 13,
     loading: false
   };
@@ -171,29 +172,33 @@ export const MapPage = (props: Props) => {
       zoom={[state.zoom]}
       movingMethod={"easeTo"}
     >
-      <Header me={props.me} currentLocation={props.center}/>
+      <Header me={props.me} currentLocation={props.center} />
       <Input
         icon={{ name: 'search', circular: true, link: true }}
-        onChange={(event) => dispatch({ type: "SEARCH_TERM", term: event.target.value} )}
+        onChange={(event) => dispatch({ type: "SEARCH_TERM", term: event.target.value })}
         loading={state.loading}
         placeholder='Title, Name, User...'
-        style={{margin: '5px'}}
+        style={{ margin: '1px' }}
       />
+      {state.userInterests &&
+        <Segment style={{ width: "340px", backgroundColor: "#eee", opacity: 0.6 }}>
+          <FeedComponent userInterests={state.userInterests} />
+        </Segment>}
+
       <Marker coordinates={[props.center.lng, props.center.lat]}>
         <Icon name="user circle outline" color="orange" size="big" />
       </Marker>
       <Layer type="symbol" id="marker" layout={layoutLayer} images={images}>
-        {state.userInterests?.map((bi, index) => (
+        {state.userInterests?.edges.map((bi, index) => (
           <Feature
-            key={bi.id}
+            key={bi.node.id}
             onMouseEnter={onToggleHover.bind(this, "pointer")}
             onMouseLeave={onToggleHover.bind(this, "")}
-            onClick={() => onMarkerClick(bi)}
-            coordinates={[bi.location.lng, bi.location.lat]}
+            onClick={() => onMarkerClick(bi.node)}
+            coordinates={[bi.node.location.lng, bi.node.location.lat]}
           />
         ))}
       </Layer>
-
       {state.selectedUserInterest && (
         <Popup
           coordinates={[

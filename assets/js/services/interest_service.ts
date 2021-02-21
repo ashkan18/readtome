@@ -1,27 +1,32 @@
 const { default: axios } = require("axios");
+import { Connection } from "../models/connection";
 import { FetchedSource, UserInterest } from "../models/user_interest";
 
 
 const USER_INTERESTS_QUERY = `
 query UserInterests($lat: Float, $lng: Float, $term: String ) {
-  userInterests(lat: $lat, lng: $lng, term: $term) {
-    id
-    location
-    title
-    type
-    ref
-    insertedAt
-    thumbnail
-    user {
-      id
-      name
-      username
-    }
-    creators(first:10) {
-      edges {
-        node {
+  userInterests(lat: $lat, lng: $lng, term: $term, first: 100) {
+    edges{
+      node {
+        id
+        location
+        title
+        type
+        ref
+        insertedAt
+        thumbnail
+        user {
           id
           name
+          username
+        }
+        creators(first:10) {
+          edges {
+            node {
+              id
+              name
+            }
+          }
         }
       }
     }
@@ -35,7 +40,7 @@ export const fetchUserInterest = (
   term: string | null,
   lat: number,
   lng: number,
-): Promise<Array<UserInterest>> => {
+): Promise<Connection<UserInterest>> => {
   return new Promise((resolve, rejected) =>
     axios({
       url: "/api/graph",

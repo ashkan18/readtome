@@ -15,6 +15,7 @@ import { myFeed } from "../services/user_service";
 import { UserInterest } from "../models/user_interest";
 import { Connection } from "../models/connection";
 import { InterestIcon } from "../components/interest_icon";
+import { FeedComponent } from "../components/feed";
 
 const stateReducer = (state, action) => {
   switch (action.type) {
@@ -69,78 +70,15 @@ export const MyFeed = () => {
     fetchData();
   }, []);
 
-  const renderType = (type: string) => {
-    switch (type) {
-      case "LISTENED":
-        return <b> listened to </b>;
-      case "WATCHED":
-        return <b> watched </b>;
-      case "SAW":
-        return <b> saw </b>;
-      case "READ":
-        return <b> read </b>;
-    }
-  };
-
-  const renderInterest = (interest: UserInterest) => {
-    return (
-      <Feed.Event key={`event_${interest.id}`}>
-        <Feed.Label>
-          <InterestIcon type={interest.type} />
-        </Feed.Label>
-        <Feed.Content>
-          <Feed.Summary>
-            {renderType(interest.type)}
-            <Feed.User as="a" href={interest.ref}>
-              <i>{interest.title}</i>
-            </Feed.User>{" "}
-            by{" "}
-            {interest.creators.edges
-              .map<React.ReactNode>((i_edge) => (
-                <a href={`/creators/${i_edge.node.id}`} key={`creator_link_${i_edge.node.id}`}> {i_edge.node.name} </a>
-              ))
-              .reduce((prev, curr) => [prev, ", ", curr])}
-            <Feed.Date>
-              {DateTime.fromISO(interest.insertedAt, {
-                zone: "utc",
-              }).toRelative()}
-            </Feed.Date>
-          </Feed.Summary>
-
-          {interest.thumbnail && (
-            <Feed.Extra images>
-              <Image
-                src={interest.thumbnail}
-                size="mini"
-                style={{ width: "100px" }}
-              />
-            </Feed.Extra>
-          )}
-        </Feed.Content>
-      </Feed.Event>
-    );
-  };
-
   if (state.error) {
     return <Redirect to="/login" />;
   } else if (state.feed) {
     return (
-      <Container >
-        {state.loading && (
-          <Dimmer active inverted>
-            <Loader inverted content="Loading" />
-          </Dimmer>
-        )}
-        {state.feed && (
-          <>
-            <Header as="h1">What's up?</Header>
-            <Divider />
-            <Feed>
-              {state.feed.edges.map((i_edge) => renderInterest(i_edge.node))}
-            </Feed>
-          </>
-        )}
-      </Container>
+      <>
+        <Header as="h1">What's up?</Header>
+        <Divider />
+        <FeedComponent userInterests={state.feed} loading={state.loading} />
+      </>
     );
   } else {
     return (
