@@ -5,7 +5,7 @@ import { Coordinate } from "../models/coordinate";
 import { svg } from "../components/icon";
 import { UserInterest } from "../models/user_interest";
 import { UserInterestMarker } from "../components/user_interest_marker";
-import { Dimmer, Feed, Icon, Input, Loader, Segment } from "semantic-ui-react";
+import { Container, Dimmer, Feed, Icon, Input, Loader, Segment } from "semantic-ui-react";
 import Reader from "../models/reader";
 import { Header } from "../components/header";
 import { getToken } from "../services/auth_service";
@@ -181,7 +181,7 @@ export const MapPage = (props: Props) => {
         style={{ margin: '1px' }}
       />
       {state.userInterests &&
-        <Segment style={{ width: "340px", backgroundColor: "#eee", opacity: 0.6 }}>
+        <Segment style={{ width: "340px", backgroundColor: "#e5e5e5", opacity: 0.9 }}>
           <FeedComponent userInterests={state.userInterests} />
         </Segment>}
 

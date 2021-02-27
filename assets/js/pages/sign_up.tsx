@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Button, Form, Message } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import { Button, Container, Form, Message } from "semantic-ui-react";
 import { Header } from "../components/header";
 import { signUp } from "../services/auth_service";
 
@@ -93,88 +94,93 @@ export const Signup = () => {
   };
 
   return (
-    <div style={{ width: "100%", height: "100%", display: "flex" }}>
+    <>
       <Header me={null} />
-      <Form
-        onSubmit={() => attemptSignUp()}
-        error={state.error !== undefined}
-      >
-        <Form.Group width={2}>
-          <Form.Field>
-            <Form.Input
-              type="text"
-              label="Name"
-              placeholder="Name"
-              onChange={(event) => setName(event.target.value)}
-              disabled={state.loading}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Form.Input
-              type="text"
-              label="Username"
-              placeholder="Username"
-              onChange={(event) => setUsername(event.target.value)}
-              disabled={state.loading}
-            />
-          </Form.Field>
-        </Form.Group>
-        <Form.Group width={2}>
-          <Form.Field>
-            <Form.Input
-              label="Email"
-              type="email"
-              placeholder="Email"
-              onChange={(event) => setEmail(event.target.value)}
-              disabled={state.loading}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Form.Input
-              type="email"
-              label="Confrim Email"
-              placeholder="Confirm Email"
-              onChange={(event) => setEmailConfirmation(event.target.value)}
-              disabled={state.loading}
-            />
-          </Form.Field>
-        </Form.Group>
-        <Form.Group width={2}>
-          <Form.Field>
-            <Form.Input
-              type="password"
-              label="Password"
-              placeholder="Password"
-              onChange={(event) => setPassword(event.target.value)}
-              disabled={state.loading}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Form.Input
-              type="password"
-              label="Confirm Password"
-              placeholder="Confirm Password"
-              onChange={(event) =>
-                setPasswordConfirmation(event.target.value)
-              }
-              disabled={state.loading}
-            />
-          </Form.Field>
-        </Form.Group>
-        <Form.Group width={2}>
-          <Form.Field>
-            <Button
-              basic
-              type="submit"
-              color="orange"
-              loading={state.loading}
-            >
-              Signup
+      <Container text style={{ marginTop: '20px' }}>
+        <Form
+          onSubmit={() => attemptSignUp()}
+          error={state.error !== undefined}
+        >
+          <Form.Group width={2}>
+            <Form.Field>
+              <Form.Input
+                type="text"
+                label="Name"
+                placeholder="Name"
+                onChange={(event) => setName(event.target.value)}
+                disabled={state.loading}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Form.Input
+                type="text"
+                label="Username"
+                placeholder="Username"
+                onChange={(event) => setUsername(event.target.value)}
+                disabled={state.loading}
+              />
+            </Form.Field>
+          </Form.Group>
+          <Form.Group width={2}>
+            <Form.Field>
+              <Form.Input
+                label="Email"
+                type="email"
+                placeholder="Email"
+                onChange={(event) => setEmail(event.target.value)}
+                disabled={state.loading}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Form.Input
+                type="email"
+                label="Confrim Email"
+                placeholder="Confirm Email"
+                onChange={(event) => setEmailConfirmation(event.target.value)}
+                disabled={state.loading}
+              />
+            </Form.Field>
+          </Form.Group>
+          <Form.Group width={2}>
+            <Form.Field>
+              <Form.Input
+                type="password"
+                label="Password"
+                placeholder="Password"
+                onChange={(event) => setPassword(event.target.value)}
+                disabled={state.loading}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Form.Input
+                type="password"
+                label="Confirm Password"
+                placeholder="Confirm Password"
+                onChange={(event) =>
+                  setPasswordConfirmation(event.target.value)
+                }
+                disabled={state.loading}
+              />
+            </Form.Field>
+          </Form.Group>
+          <Form.Group width={2}>
+            <Form.Field>
+              <Button
+                basic
+                type="submit"
+                color="orange"
+                loading={state.loading}
+              >
+                Signup
               </Button>
-          </Form.Field>
-        </Form.Group>
-        <Message error header="Could not sign up." content={state.error} />
-      </Form>
-    </div>
+            </Form.Field>
+          </Form.Group>
+          <Message error header="Could not sign up." content={state.error} />
+        </Form>
+        <div>
+          Already have an account? <Link to="/login">login</Link>
+        </div>
+      </Container>
+    </>
   );
 };

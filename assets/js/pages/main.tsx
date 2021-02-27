@@ -8,6 +8,7 @@ import { CreatorPage } from "./creator_page";
 import { ProfilePage } from "./profile_page";
 import { MyFeed } from "./my_feed";
 import { MapPage } from "./map_page";
+import { Container } from "semantic-ui-react";
 
 export const Main = () => {
   const [me, setMe] = React.useState<Reader | null>(null);
@@ -40,24 +41,28 @@ export const Main = () => {
     <div style={{ width: "100%", height: "100%", display: "flex" }}>
       <Switch >
         <Route path="/feed">
-          <div style={{display: "flex", flexDirection: "row"}}>
+          <Container>
             <Header me={me} currentLocation={currentLocation} />
             <MyFeed />
-          </div>
+          </Container>
         </Route>
         <Route path="/users/:userId">
-          <div style={{display: "flex", flexDirection: "column", width: "100%"}}>
-          <Header me={me} currentLocation={currentLocation} />
-          <User />
-          </div>
+          <Container>
+            <Header me={me} currentLocation={currentLocation} />
+            <User />
+          </Container>
         </Route>
         <Route path="/creators/:creatorId">
-          <Header me={me} currentLocation={currentLocation} />
-          <CreatorPage />
+          <Container>
+            <Header me={me} currentLocation={currentLocation} />
+            <CreatorPage />
+          </Container>
         </Route>
         <Route path="/profile">
-          <Header me={me} currentLocation={currentLocation} />
-          <ProfilePage />
+          <Container>
+            <Header me={me} currentLocation={currentLocation} />
+            <ProfilePage />
+          </Container>
         </Route>
         <Route path="/">
           <MapPage me={me} center={currentLocation} />

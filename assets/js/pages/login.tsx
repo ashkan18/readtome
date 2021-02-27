@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
-import { Button, Form, } from "semantic-ui-react";
+import { Button, Container, Form, } from "semantic-ui-react";
 import { login } from "../services/auth_service";
 import { Header } from "../components/header";
 
@@ -71,21 +71,23 @@ export const Login = () => {
     return (<Redirect to={"/"} />)
   }
   return (
-    <div style={{ width: "100%", height: "100%", display: "flex" }}>
+    <>
       <Header me={null} />
-      <Form onSubmit={() => attemptLogin()}>
-        <Form.Group>
-          <Form.Field>
-            <input placeholder='Username' onChange={(event) => setUserName(event.target.value)} disabled={state.loading} />
-          </Form.Field>
-          <Form.Field>
-            <input placeholder='Username' type="password" onChange={(event) => setPassword(event.target.value)} disabled={state.loading} />
-          </Form.Field>
-          <Button basic color="orange" type='submit' loading={state.loading}>Login!</Button>
-        </Form.Group>
-        <div>
-          Don't have an account? click <Link to="/signup">here</Link>
-        </div>
-      </Form>
-    </div>)
+      <Container text style={{ marginTop: '20px' }}>
+        <Form onSubmit={() => attemptLogin()}>
+          <Form.Group>
+            <Form.Field>
+              <input placeholder='Username' onChange={(event) => setUserName(event.target.value)} disabled={state.loading} />
+            </Form.Field>
+            <Form.Field>
+              <input placeholder='Username' type="password" onChange={(event) => setPassword(event.target.value)} disabled={state.loading} />
+            </Form.Field>
+            <Button basic color="orange" type='submit' loading={state.loading}>Login!</Button>
+          </Form.Group>
+          <div>
+            Don't have an account? click <Link to="/signup">here</Link>
+          </div>
+        </Form>
+      </Container>
+    </>)
 }

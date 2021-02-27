@@ -55,7 +55,7 @@ defmodule Readtome.Connector do
     from(ui in query,
       join: user in assoc(ui, :user),
       join: creator in assoc(ui, :creators),
-      where: fragment("LOWER(?) % LOWER(?) OR LOWER(?) = LOWER(?) OR LOWER(?) % LOWER(?)", ui.title, ^term, user.name, ^term, creator.name, ^term),
+      where: fragment("LOWER(?) % LOWER(?) OR LOWER(?) % LOWER(?) OR LOWER(?) % LOWER(?)", ui.title, ^term, user.username, ^term, creator.name, ^term),
       order_by: fragment("similarity(LOWER(?), LOWER(?)) DESC", ui.title, ^term)
     )
   end

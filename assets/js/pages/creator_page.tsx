@@ -8,6 +8,7 @@ import {
   Header,
   Loader,
   Image,
+  Container,
 } from "semantic-ui-react";
 import { UserInterest } from "../models/user_interest";
 import { Creator } from "../models/creator";
@@ -27,7 +28,7 @@ interface Action {
   type: string;
 }
 
-const stateReducer = (state: State, action: Action) : State => {
+const stateReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "START_LOADING":
       return {
@@ -110,7 +111,7 @@ export const CreatorPage = () => {
           </Dimmer>
         )}
         {state.creator && (
-          <>
+          <Container style={{ marginTop: "20px" }}>
             <Header as="h1">
               {state.creator.name}'s things (
               {state.creator.userInterests.edges.length})
@@ -121,7 +122,7 @@ export const CreatorPage = () => {
                 renderInterest(i_edge.node)
               )}
             </Feed>
-          </>
+          </Container>
         )}
       </>
     );

@@ -9,6 +9,7 @@ import {
   Loader,
   Image,
   Button,
+  Container,
 } from "semantic-ui-react";
 import { DateTime } from "luxon";
 import { getReader } from "../services/user_service";
@@ -140,7 +141,7 @@ export const User = () => {
           </Dimmer>
         )}
         {state.user.interests && (
-          <>
+          <Container style={{ marginTop: "20px" }}>
             <Header as="h1">
               {state.user.name}'s things ({state.user.interests.edges.length})
               {!state.user.amIFollowing && !state.following && (
@@ -156,7 +157,7 @@ export const User = () => {
                 renderInterest(i_edge.node)
               )}
             </Feed>
-          </>
+          </Container>
         )}
       </>
     );
