@@ -80,7 +80,7 @@ export const Login = () => {
               <input placeholder='Username' onChange={(event) => setUserName(event.target.value)} disabled={state.loading} />
             </Form.Field>
             <Form.Field>
-              <input placeholder='Username' type="password" onChange={(event) => setPassword(event.target.value)} disabled={state.loading} />
+              <input placeholder='Password' type="password" onChange={(event) => setPassword(event.target.value)} disabled={state.loading} />
             </Form.Field>
             <Button basic color="orange" type='submit' loading={state.loading}>Login!</Button>
           </Form.Group>

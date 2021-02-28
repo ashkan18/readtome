@@ -18,7 +18,7 @@ export const FeedComponent = (props: Props) => {
       </Dimmer>
     )}
     {props.userInterests && (
-      <Feed>
+      <Feed size="small">
         {props.userInterests.edges.map((i_edge) => <FeedItem userInterest={i_edge.node} />)}
       </Feed>
     )}

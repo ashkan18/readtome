@@ -11,7 +11,7 @@ interface Props {
 
 export const Header = (props: Props) => {
   return (
-    <div style={{borderBottom: "2px solid orange", width: "100%"}}>
+    <div style={{ borderBottom: "2px solid orange", width: "100%" }}>
       <Menu stackable secondary>
         <Menu.Item size={"tiny"} as="a" href="/">
           <h2>
@@ -22,15 +22,15 @@ export const Header = (props: Props) => {
         </Menu.Item>
         {props.me && (
           <Menu.Menu position={"right"}>
-            <Menu.Item icon position="left" style={{paddingRight: 30}}>
+            <Menu.Item icon position="left" style={{ paddingRight: 30 }}>
               <Popup
                 trigger={
-                  <Icon.Group size="huge" style={{ cursor: "pointer" }}>
-                    <Icon name="heart" color="orange"/>
-                    <Icon corner name="add" color="orange"/>
+                  <Icon.Group size="big" style={{ cursor: "pointer" }}>
+                    <Icon name="heart" style={{ color: "#337BB3" }} />
+                    <Icon corner name="add" color="orange" />
                   </Icon.Group>
                 }
-                style={{marginRight: 130}}
+                style={{ marginRight: 130 }}
                 header={
                   <>
                     <h3>Add Something</h3>
@@ -44,7 +44,7 @@ export const Header = (props: Props) => {
                 on="click"
               />
             </Menu.Item>
-            <Menu.Item position="right" style={{marginRight: 10}}>
+            <Menu.Item position="right" style={{ marginRight: 10 }}>
               <Profile me={props.me} />
             </Menu.Item>
           </Menu.Menu>

@@ -18,8 +18,8 @@ export const FeedItem = (props: Props) => {
       <Feed.Content>
         <Feed.Summary>
           <a href={`/users/${userInterest.user.id}`}>{userInterest.user.username}</a>
-          {' '}<b>{interestTypeString(userInterest.type)}</b> {' '}
-          <Feed.User as="a" href={userInterest.ref}>
+          {' '} {interestTypeString(userInterest.type)} {' '}
+          <Feed.User as="a" href={userInterest.ref} target="_blank">
             <i>{userInterest.title}</i>
           </Feed.User>{" "}
           by{" "}

@@ -173,17 +173,22 @@ export const MapPage = (props: Props) => {
       movingMethod={"easeTo"}
     >
       <Header me={props.me} currentLocation={props.center} />
-      <Input
-        icon={{ name: 'search', circular: true, link: true }}
-        onChange={(event) => dispatch({ type: "SEARCH_TERM", term: event.target.value })}
-        loading={state.loading}
-        placeholder='Title, Name, User...'
-        style={{ margin: '1px' }}
-      />
-      {state.userInterests &&
-        <Segment style={{ width: "340px", backgroundColor: "#e5e5e5", opacity: 0.9 }}>
-          <FeedComponent userInterests={state.userInterests} />
-        </Segment>}
+      <Segment.Group style={{ margin: "5px", width: "340px", backgroundColor: "#519EDB", height: "80%", opacity: "0.95" }}>
+        <Segment vertical textAlign="center">
+          <Input
+            icon={{ name: 'search', circular: true, link: true }}
+            onChange={(event) => dispatch({ type: "SEARCH_TERM", term: event.target.value })}
+            loading={state.loading}
+            placeholder='Search by Title, Creator, Username'
+            style={{ width: "80%" }}
+          />
+        </Segment>
+        {state.userInterests &&
+          <Segment vertical>
+            <FeedComponent userInterests={state.userInterests} />
+          </Segment>}
+
+      </Segment.Group>
 
       <Marker coordinates={[props.center.lng, props.center.lat]}>
         <Icon name="user circle outline" color="orange" size="big" />

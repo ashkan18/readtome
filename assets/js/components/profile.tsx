@@ -21,11 +21,11 @@ export const Profile = (props: Props) => {
             style={{ padding: 0 }}
           />
         ) : (
-          <Image
-            src="https://react.semantic-ui.com/images/avatar/small/elliot.jpg"
-            avatar
-          />
-        )
+            <Image
+              src="https://react.semantic-ui.com/images/avatar/small/elliot.jpg"
+              avatar
+            />
+          )
       }
       header={`Welcome ${me.name}`}
       content={
