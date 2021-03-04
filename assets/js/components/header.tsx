@@ -3,6 +3,7 @@ import { Popup, Icon, Menu, Divider, Input } from "semantic-ui-react";
 import Reader from "../models/reader";
 import { Profile } from "./profile";
 import { AddSomethingForm } from "./add_something_form";
+import { Logo } from "./logo";
 
 interface Props {
   me: Reader | null;
@@ -14,11 +15,7 @@ export const Header = (props: Props) => {
     <div style={{ borderBottom: "2px solid orange", width: "100%" }}>
       <Menu stackable secondary>
         <Menu.Item size={"tiny"} as="a" href="/">
-          <h2>
-            R<span style={{ fontSize: 10 }}>ead</span>T
-            <span style={{ fontSize: 11 }}>o</span>M
-            <span style={{ fontSize: 11 }}>e</span>
-          </h2>
+          <Logo/>
         </Menu.Item>
         {props.me && (
           <Menu.Menu position={"right"}>

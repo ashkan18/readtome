@@ -1,7 +1,6 @@
 import { Popup, Image, Menu } from "semantic-ui-react";
-import React, { useState } from "react";
+import React from "react";
 import Reader from "../models/reader";
-import { uploadPhoto } from "../services/user_service";
 
 interface Props {
   me: Reader;
@@ -15,10 +14,10 @@ export const Profile = (props: Props) => {
       trigger={
         me.photos.length > 0 ? (
           <Image
-            circular
+            avatar
             src={me.photos[0].thumb}
-            size="tiny"
             style={{ padding: 0 }}
+            size={"mini"}
           />
         ) : (
             <Image
