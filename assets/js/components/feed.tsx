@@ -19,7 +19,7 @@ export const FeedComponent = (props: Props) => {
     )}
     {props.userInterests && (
       <Feed size="small" style={{height: "580px", overflow: "scroll"}}>
-        {props.userInterests.edges.map((i_edge) => <FeedItem userInterest={i_edge.node} />)}
+        {props.userInterests.edges.map((i_edge) => <FeedItem userInterest={i_edge.node} key={i_edge.node.id}/>)}
       </Feed>
     )}
   </Container>)

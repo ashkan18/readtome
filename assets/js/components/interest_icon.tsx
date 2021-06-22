@@ -8,12 +8,12 @@ interface Props {
 export const InterestIcon = (props: Props) => {
   switch (props.type) {
     case "LISTENED":
-      return <Icon name="headphones" />;
+      return <Icon name="headphones" size={"tiny"}/>;
     case "WATCHED":
-      return <Icon name="tv" />;
+      return <Icon name="tv" size={"tiny"}/>;
     case "SAW":
-      return <Icon name="pallet" />;
+      return <Icon name="pallet" size={"tiny"}/>;
     case "READ":
-      return <Icon name="newspaper" />;
+      return <Icon name="newspaper" size={"tiny"}/>;
   }
 };

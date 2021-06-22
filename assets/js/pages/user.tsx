@@ -7,154 +7,55 @@ import {
   Feed,
   Header,
   Loader,
-  Image,
   Button,
   Container,
 } from "semantic-ui-react";
-import { DateTime } from "luxon";
 import { getReader } from "../services/user_service";
-import Reader from "../models/reader";
-import { UserInterest } from "../models/user_interest";
 import { follow } from "../services/connector_service";
 import { getToken } from "../services/auth_service";
-import { InterestIcon } from "../components/interest_icon";
-import { interestTypeString } from "../util";
+import { useMutation, useQuery } from "react-query";
+import { Interest } from "../components/interest";
 
-const stateReducer = (state, action) => {
-  switch (action.type) {
-    case "START_LOADING":
-      return {
-        ...state,
-        loading: true,
-      };
-    case "DATA_FETCHED":
-      return {
-        ...state,
-        user: action.data,
-        loading: false,
-      };
-    case "NOW_FOLLOWING":
-      return {
-        ...state,
-        loading: false,
-        following: true,
-      };
-    default:
-      return state;
-  }
-};
-
-interface State {
-  user: Reader;
-  loading: boolean;
-  following: boolean;
-  error?: string;
-}
-
-interface Action {
-  data?: Reader;
-  error?: string;
-  type: string;
-}
 
 export const User = () => {
   const { userId } = useParams<{ userId: string }>();
+
+  const {data: user, error, isLoading}  = useQuery(['myFeed', userId], () => getReader(userId))
+  const followUser = useMutation(() => follow(getToken(), userId))
+  
   const initialState = {
-    user: null,
-    loading: true,
     following: false,
     error: null,
   };
-  const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
-    stateReducer,
-    initialState
-  );
-
-  const fetchData = () => {
-    dispatch({ type: "START_LOADING" });
-    getReader(userId)
-      .then((reader) => dispatch({ type: "DATA_FETCHED", data: reader }))
-      .catch((error) => dispatch({ type: "ERROR", error: error }));
-  };
-
-  // load data on page initialized
-  React.useEffect(() => {
-    fetchData();
-  }, []);
-
-  const followUser = () => {
-    dispatch({ type: "START_LOADING" });
-    follow(getToken(), userId)
-      .then((_follow) => dispatch({ type: "NOW_FOLLOWING" }))
-      .catch((_error) =>
-        dispatch({ type: "ERROR", error: "Could not follow" })
-      );
-  };
-
-  const renderInterest = (interest: UserInterest) => {
-    return (
-      <Feed.Event key={`event_${interest.id}`}>
-        <Feed.Label>
-          <InterestIcon type={interest.type} />
-        </Feed.Label>
-        <Feed.Content>
-          <Feed.Summary>
-            <b>{interestTypeString(interest.type)}</b>
-            <Feed.User as="a" href={interest.ref}>
-              <i>{interest.title}</i>
-            </Feed.User>{" "}
-            by{" "}
-            {interest.creators.edges
-              .map<React.ReactNode>((i_edge) => (
-                <a href={`/creators/${i_edge.node.id}`}> {i_edge.node.name} </a>
-              ))
-              .reduce((prev, curr) => [prev, ", ", curr])}
-            <Feed.Date>
-              {DateTime.fromISO(interest.insertedAt, {
-                zone: "utc",
-              }).toRelative()}
-            </Feed.Date>
-          </Feed.Summary>
-
-          {interest.thumbnail && (
-            <Feed.Extra images>
-              <Image
-                src={interest.thumbnail}
-                size="mini"
-                style={{ width: "100px" }}
-              />
-            </Feed.Extra>
-          )}
-        </Feed.Content>
-      </Feed.Event>
-    );
-  };
-
-  if (state.error) {
+  
+  
+  if (error) {
     return <Redirect to="/login" />;
-  } else if (state.user) {
+  }
+
+  if (user) {
     return (
       <>
-        {state.loading && (
+        {isLoading && (
           <Dimmer active inverted>
             <Loader inverted content="Loading" />
           </Dimmer>
         )}
-        {state.user.interests && (
+        {user.interests && (
           <Container style={{ marginTop: "20px" }}>
             <Header as="h1">
-              {state.user.name}'s things ({state.user.interests.edges.length})
-              {!state.user.amIFollowing && !state.following && (
-                <Button basic color="orange" onClick={() => followUser()}>
+              {user.name}'s things ({user.interests.edges.length})
+              {!user.amIFollowing && !followUser.data && (
+                <Button basic color="orange" onClick={() => followUser.mutate()}>
                   Follow
                 </Button>
               )}
-              {(state.user.amIFollowing || state.following) && <>✅</>}
+              {(user.amIFollowing || followUser.data) && <>✅</>}
             </Header>
             <Divider />
             <Feed>
-              {state.user.interests.edges.map((i_edge) =>
-                renderInterest(i_edge.node)
+              {user.interests.edges.map((i_edge) =>
+                <Interest interest={i_edge.node} key={i_edge.node.id}/>
               )}
             </Feed>
           </Container>

@@ -184,7 +184,7 @@ export const MapPage = (props: Props) => {
           />
         </Segment>
         {state.userInterests &&
-            <FeedComponent userInterests={state.userInterests} />
+            <FeedComponent userInterests={state.userInterests}/>
           }
 
       </Segment.Group>

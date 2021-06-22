@@ -3,12 +3,25 @@ import { BrowserRouter } from "react-router-dom";
 import * as ReactDOM from "react-dom";
 import { AppRoutes } from "./app_routes";
 
+
+import { QueryClient, QueryClientProvider, QueryCache } from 'react-query'
+
+const queryCache = new QueryCache({
+  onError: error => {
+    console.log(error)
+  },
+})
+const queryClient = new QueryClient({queryCache})
+
+
 class App extends React.Component {
   render() {
     return (
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </QueryClientProvider>
     );
   }
 }
