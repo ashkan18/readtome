@@ -16,7 +16,7 @@ RUN mix do deps.get, deps.compile
 # Same with npm deps
 ADD assets/package.json assets/
 RUN cd assets && \
-    npm install
+    npm install --force
 
 ADD . .
 
