@@ -19,7 +19,7 @@ export const Interest = (props: Props) => {
       <Feed.Content>
         <Feed.Summary>
           <b>{interestTypeString(interest.type)} </b>
-          <Feed.User as="a" href={interest.ref}>
+          <Feed.User as="a" href={interest.ref} target="_blank">
             <i>{interest.title}</i>
           </Feed.User>{" "}
           by{" "}

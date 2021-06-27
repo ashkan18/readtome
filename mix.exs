@@ -54,12 +54,12 @@ defmodule Readtome.Mixfile do
       {:phoenix_html, "~> 2.14"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_pubsub, "~> 2.0"},
-      {:phoenix, "~> 1.5.6"},
+      {:phoenix, "~> 1.5.9"},
       {:plug_cowboy, "~> 2.4.1"},
       {:poison, ">= 3.1.0"},
       {:postgrex, ">= 0.0.0"},
       {:sweet_xml, "~> 0.6"},
-      {:tesla, "~> 1.3.0"}
+      {:tesla, "~> 1.3.0"},
     ]
   end
 
