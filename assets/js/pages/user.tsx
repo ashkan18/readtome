@@ -46,11 +46,13 @@ export const User = () => {
             <Header as="h1">
               {user.name}'s things ({user.interests.edges.length})
               {!user.amIFollowing && !followUser.data && (
-                <Button basic color="orange" onClick={() => followUser.mutate()}>
+                <Button basic color="orange" onClick={() => followUser.mutate()} floated="right">
                   Follow
                 </Button>
               )}
-              {(user.amIFollowing || followUser.data) && <>✅</>}
+              {(user.amIFollowing || followUser.data) && <> <Button basic color="grey" disabled floated="right">
+                  Following
+                </Button> </>}
             </Header>
             <Divider />
             <Feed>

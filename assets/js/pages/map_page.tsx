@@ -173,7 +173,7 @@ export const MapPage = (props: Props) => {
       movingMethod={"easeTo"}
     >
       <Header me={props.me} currentLocation={props.center} />
-      <Segment.Group style={{ margin: "2px", width: "340px", backgroundColor: "#78c0fa", opacity: "0.95" }}>
+      <Segment.Group style={{ margin: "0px", width: "340px", height: "500px", backgroundColor: "#fab778", opacity: "0.95" }}>
         <Segment vertical textAlign="center">
           <Input
             icon={{ name: 'search', circular: true, link: true }}
@@ -184,7 +184,7 @@ export const MapPage = (props: Props) => {
           />
         </Segment>
         {state.userInterests &&
-            <FeedComponent userInterests={state.userInterests}/>
+            <FeedComponent userInterests={state.userInterests} minimal={true}/>
           }
 
       </Segment.Group>

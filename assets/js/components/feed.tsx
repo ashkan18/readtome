@@ -6,21 +6,16 @@ import { FeedItem } from "./feed_item";
 
 interface Props {
   userInterests: Connection<UserInterest>,
-  loading?: boolean
+  minimal?: boolean
 }
 
 
 export const FeedComponent = (props: Props) => {
-  return (<Container style={{ backgroundColor: '#black' }}>
-    {props.loading && (
-      <Dimmer active inverted>
-        <Loader inverted content="Loading" />
-      </Dimmer>
-    )}
-    {props.userInterests && (
-      <Feed size="small" style={{height: "580px", overflow: "scroll"}}>
-        {props.userInterests.edges.map((i_edge) => <FeedItem userInterest={i_edge.node} key={i_edge.node.id}/>)}
+  if (props.userInterests) {
+    return (
+      <Feed size="small">
+        {props.userInterests.edges.map((i_edge) => <FeedItem userInterest={i_edge.node} key={i_edge.node.id} minimal={props.minimal}/>)}
       </Feed>
-    )}
-  </Container>)
+    )
+  } 
 }

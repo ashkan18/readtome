@@ -62,7 +62,7 @@ export const MyFeed = () => {
       <>
         <Header as="h1">What's up?</Header>
         <Divider />
-        <FeedComponent userInterests={data} loading={isLoading} />
+        <FeedComponent userInterests={data}/>
       </>
     );
   }
