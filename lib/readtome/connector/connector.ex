@@ -38,6 +38,7 @@ defmodule Readtome.Connector do
     |> near(args)
     |> filter_users(args)
     |> Repo.all()
+    |> Repo.preload([:creators])
   end
 
   def near(query, %{lat: lat, lng: lng}) do

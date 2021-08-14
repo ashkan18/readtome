@@ -48,7 +48,6 @@ defmodule ReadtomeWeb.Schema.InterestTypes do
     connection field(:creators, node_type: :creator) do
       resolve(fn
         pagination_args, %{source: user_interest} ->
-          user_interest = Helper.populate(user_interest, [:creators])
           Absinthe.Relay.Connection.from_list(user_interest.creators, pagination_args)
       end)
     end
