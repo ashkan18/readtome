@@ -245,6 +245,7 @@ defmodule Readtome.Accounts do
     |> filter_user_interests_by_type(args)
     |> sort_interests(args)
     |> Repo.all()
+    |> Repo.preload(:creators)
   end
 
   def filter_user_interests_by_type(query, %{interest_types: interest_types}) do

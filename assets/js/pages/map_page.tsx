@@ -5,7 +5,15 @@ import { Coordinate } from "../models/coordinate";
 import { svg } from "../components/icon";
 import { UserInterest } from "../models/user_interest";
 import { UserInterestMarker } from "../components/user_interest_marker";
-import { Container, Dimmer, Feed, Icon, Input, Loader, Segment } from "semantic-ui-react";
+import {
+  Container,
+  Dimmer,
+  Feed,
+  Icon,
+  Input,
+  Loader,
+  Segment,
+} from "semantic-ui-react";
 import Reader from "../models/reader";
 import { Header } from "../components/header";
 import { getToken } from "../services/auth_service";
@@ -49,8 +57,8 @@ interface State {
   zoom: number;
   centerLat?: number;
   centerLng?: number;
-  searchTerm?: string
-  loading: boolean
+  searchTerm?: string;
+  loading: boolean;
 }
 
 interface Action {
@@ -58,7 +66,7 @@ interface Action {
   item?: UserInterest;
   userInterests?: Connection<UserInterest>;
   coordinate?: { lat: number; lng: number };
-  term?: string
+  term?: string;
 }
 
 const reducer = (state: State, action: Action) => {
@@ -78,9 +86,14 @@ const reducer = (state: State, action: Action) => {
     case "GOT_USER_INTERESTS":
       return { ...state, userInterests: action.userInterests, loading: false };
     case "SEARCH_TERM":
-      return { ...state, searchTerm: action.term }
+      return { ...state, searchTerm: action.term };
     case "FETCHING_USER_INTERESTS":
-      return { ...state, loading: true, selectedUserInterest: undefined, zoom: 13 }
+      return {
+        ...state,
+        loading: true,
+        selectedUserInterest: undefined,
+        zoom: 13,
+      };
     case "GOT_CURRENT_LOCATION":
       if (action.coordinate !== null) {
         return {
@@ -100,7 +113,7 @@ const reducer = (state: State, action: Action) => {
 export const MapPage = (props: Props) => {
   const initialState = {
     zoom: 13,
-    loading: false
+    loading: false,
   };
 
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(
@@ -108,21 +121,21 @@ export const MapPage = (props: Props) => {
     initialState
   );
 
-
   const debouncedSearchTerm = useDebounce(state.searchTerm, 500);
-
 
   React.useEffect(
     () => {
       if (debouncedSearchTerm) {
-        search(debouncedSearchTerm === '' ? null : debouncedSearchTerm, props.center);
+        search(
+          debouncedSearchTerm === "" ? null : debouncedSearchTerm,
+          props.center
+        );
       } else {
         search(null, props.center);
       }
     },
     [debouncedSearchTerm] // Only call effect if debounced search term changes
   );
-
 
   const onDrag = () => {
     dispatch({ type: "RESET_SELECT" });
@@ -173,21 +186,32 @@ export const MapPage = (props: Props) => {
       movingMethod={"easeTo"}
     >
       <Header me={props.me} currentLocation={props.center} />
-      <Segment.Group style={{ margin: "0px", width: "340px", height: "500px", backgroundColor: "#fab778", opacity: "0.95" }}>
-        <Segment vertical textAlign="center">
-          <Input
-            icon={{ name: 'search', circular: true, link: true }}
-            onChange={(event) => dispatch({ type: "SEARCH_TERM", term: event.target.value })}
-            loading={state.loading}
-            placeholder='Search by Title, Creator, Username'
-            style={{ width: "80%" }}
-          />
-        </Segment>
-        {state.userInterests &&
-            <FeedComponent userInterests={state.userInterests} minimal={true}/>
-          }
+      <Input
+        icon={{ name: "search", circular: true, link: true }}
+        onChange={(event) =>
+          dispatch({ type: "SEARCH_TERM", term: event.target.value })
+        }
+        loading={state.loading}
+        placeholder="Search by Title, Creator, Username"
+        style={{width: "400px", marginLeft: "10px"}}
+        fluid
+      />
 
-      </Segment.Group>
+      {state.userInterests && (<Segment
+        vertical
+        textAlign="center"
+        style={{
+          width: "400px",
+          backgroundColor: "#fab778",
+          opacity: "0.95",
+          margin: "10px",
+          padding: "5px",
+        }}
+      >
+        
+          <FeedComponent userInterests={state.userInterests} minimal={true} />
+      </Segment>
+      )}
 
       <Marker coordinates={[props.center.lng, props.center.lat]}>
         <Icon name="user circle outline" color="orange" size="big" />
