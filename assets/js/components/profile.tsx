@@ -30,8 +30,8 @@ export const Profile = (props: Props) => {
       content={
         <>
           <Menu size="small" vertical>
-            <Menu.Item as="a" name="Edit" href="/profile" />
-            <Menu.Item as="a" name="feed" href={`/users/${me.id}`} />
+            <Menu.Item as="a" name="My Profile" href="/profile" />
+            <Menu.Item as="a" name="My feed" href={`/users/${me.id}`} />
           </Menu>
         </>
       }

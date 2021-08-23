@@ -1,5 +1,5 @@
 defmodule ReadtomeWeb.Resolvers.Interests do
-  alias Readtome.{Accounts, Helper, Creators, Connector}
+  alias Readtome.{Accounts, Helper, Creators, Connector, Repo}
 
   def add_interest(parent, args = %{creator_names: creator_names}, context) when not is_nil(creator_names) and is_list(creator_names) do
     creator_ids =
@@ -29,7 +29,7 @@ defmodule ReadtomeWeb.Resolvers.Interests do
   def add_interest(_parent, args, %{context: %{current_user: user}}) do
     with args <- Map.put(args, :user_id, user.id),
          {:ok, user_interest} <- Accounts.create_user_interest(args) do
-      {:ok, user_interest}
+      {:ok, Repo.preload(user_interest, [:creators])}
     else
       {:error, %Ecto.Changeset{} = changeset} -> {:error, Helper.convert_changeset_errors(changeset)}
       _ -> {:error, "Could add user interest"}
