@@ -153,7 +153,7 @@ export const ProfilePage = () => {
                 <Form.Field>
                   <Form.Input
                     type="email"
-                    label="Confrim Email"
+                    label="Confirm Email"
                     placeholder="Confirm Email"
                     value={state.emailConfirmation || state.me?.email}
                     onChange={(event) =>
