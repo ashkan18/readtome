@@ -134,7 +134,7 @@ export const Signup = () => {
             <Form.Field>
               <Form.Input
                 type="email"
-                label="Confrim Email"
+                label="Confirm Email"
                 placeholder="Confirm Email"
                 onChange={(event) => setEmailConfirmation(event.target.value)}
                 disabled={state.loading}
