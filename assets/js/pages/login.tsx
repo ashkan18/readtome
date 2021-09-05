@@ -58,7 +58,7 @@ export const Login = () => {
     if (userName !== null && password !== null) {
       dispatch({ type: "ATTEMPT_LOGIN" })
       login(userName, password)
-        .then((token) => {
+        .then((_token) => {
           dispatch({ type: "SUCCESSFUL_LOGIN" })
         })
         .catch((_error) => {

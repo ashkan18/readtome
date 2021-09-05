@@ -12,7 +12,6 @@ defmodule Readtome.Accounts.User do
     field(:birthdate, :date)
     field(:photos, {:array, :map})
 
-    has_many(:book_instances, Readtome.Books.BookInstance)
     has_many(:interests, Readtome.Accounts.UserInterest)
     has_many(:follows, Readtome.Connector.Follow, foreign_key: :follower_id)
     has_many(:followers, Readtome.Connector.Follow)

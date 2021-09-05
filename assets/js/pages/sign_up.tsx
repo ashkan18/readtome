@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Button, Container, Form, Message } from "semantic-ui-react";
 import { Header } from "../components/header";
 import { signUp } from "../services/auth_service";
@@ -92,6 +92,10 @@ export const Signup = () => {
         });
       });
   };
+
+  if (state.signedUp) {
+    return (<Redirect to={"/"} />)
+  }
 
   return (
     <>

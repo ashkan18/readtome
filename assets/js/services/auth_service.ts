@@ -10,14 +10,12 @@ const setToken = (idToken: string) => {
   localStorage.setItem("id_token", idToken);
 };
 
-
 const LOGIN_QUERY = `
 mutation Login($username: String!, $password: String!) {
   login(username: $username, password: $password) {
     token
   } 
 }`;
-
 
 export const login = (username: string, password: string): Promise<string> => {
   return new Promise((resolve, rejected) =>
@@ -28,9 +26,10 @@ export const login = (username: string, password: string): Promise<string> => {
         query: LOGIN_QUERY,
         variables: { username, password },
       },
-    }).then((response) => {
+    })
+      .then((response) => {
         if (response.data?.errors?.length > 0) {
-          return rejected(response.data.errors[0].message)
+          return rejected(response.data.errors[0].message);
         } else {
           setToken(response.data.data.login.token);
           return resolve(response.data.data.login.token);
@@ -38,9 +37,9 @@ export const login = (username: string, password: string): Promise<string> => {
       })
       .catch((error) => {
         return rejected(error);
-      }));
+      })
+  );
 };
-
 
 const SIGNUP_QUERY = `
 mutation Signup($name: String!, $email: String!, $username: String!, $password: String!) {
@@ -49,8 +48,12 @@ mutation Signup($name: String!, $email: String!, $username: String!, $password: 
   } 
 }`;
 
-
-export const signUp = (name: string, username: string, email: string, password: string): Promise<string> => {
+export const signUp = (
+  name: string,
+  username: string,
+  email: string,
+  password: string
+): Promise<string> => {
   return new Promise((resolve, rejected) =>
     axios({
       url: "/api/graph",
@@ -59,13 +62,16 @@ export const signUp = (name: string, username: string, email: string, password: 
         query: SIGNUP_QUERY,
         variables: { name, email, username, password },
       },
-    }).then((response) => {
+    })
+      .then((response) => {
         if (response.data.errors && response.data.errors.length > 0) {
-          return rejected(response.data.errors[0].message)
+          return rejected(response.data.errors[0].message);
         }
+        setToken(response.data.data.signup.token);
         return resolve(response.data.data.signup.token);
       })
       .catch((error) => {
         return rejected(error);
-      }));
-}
+      })
+  );
+};
