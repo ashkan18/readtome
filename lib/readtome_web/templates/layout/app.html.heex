@@ -8,13 +8,12 @@
     <meta name="author" content="">
 
     <title>Readtome!</title>
-    <!-- <link rel="stylesheet" type="text/css" href="<%= static_path(@conn, "/css/app.css") %>"> -->
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"/>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
   </head>
 
   <body>
     <div class="container" id="container" style="display: block; height: 100%;"></div>
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src={ static_path(@conn, "/assets/app.js") }></script>
   </body>
 </html>

@@ -6,9 +6,7 @@ import { svg } from "../components/icon";
 import { UserInterest } from "../models/user_interest";
 import { UserInterestMarker } from "../components/user_interest_marker";
 import {
-  Container,
   Dimmer,
-  Feed,
   Icon,
   Input,
   Loader,
@@ -21,6 +19,7 @@ import { fetchUserInterest } from "../services/interest_service";
 import { useDebounce } from "../hooks/debounce";
 import { FeedComponent } from "../components/feed";
 import { Connection } from "../models/connection";
+
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -220,8 +219,8 @@ export const MapPage = (props: Props) => {
         {state.userInterests?.edges.map((bi, index) => (
           <Feature
             key={bi.node.id}
-            onMouseEnter={onToggleHover.bind(this, "pointer")}
-            onMouseLeave={onToggleHover.bind(this, "")}
+            // onMouseEnter={onToggleHover("pointer")}
+            // onMouseLeave={onToggleHover("")}
             onClick={() => onMarkerClick(bi.node)}
             coordinates={[bi.node.location.lng, bi.node.location.lat]}
           />

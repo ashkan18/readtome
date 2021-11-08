@@ -12,15 +12,7 @@ config :readtome, ReadtomeWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--progress",
-      "--color",
-      "--watch",
-      "--mode",
-      "development",
-      cd: Path.expand("../assets", __DIR__)
-    ]
+    node: ["esbuild.js", "--watch", cd: Path.expand("../assets", __DIR__)]
   ]
 
 # ## SSL Support

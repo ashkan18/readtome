@@ -51,10 +51,14 @@ defmodule Readtome.Mixfile do
       {:httpoison, ">= 0.0.0"},
       {:jason, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
-      {:phoenix_html, "~> 2.14"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_pubsub, "~> 2.0"},
-      {:phoenix, "~> 1.5.9"},
+      {:phoenix, "~> 1.6.0"},
+      {:phoenix_html, "~> 3.0"},
+      {:phoenix_live_view, "~> 0.16.4"},
+      {:phoenix_live_dashboard, "~> 0.5"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 0.5"},
       {:plug_cowboy, "~> 2.4.1"},
       {:poison, ">= 3.1.0"},
       {:postgrex, ">= 0.0.0"},
@@ -73,7 +77,8 @@ defmodule Readtome.Mixfile do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"],
+      "assets.deploy": ["cmd npm --prefix assets run deploy", "phx.digest"]
     ]
   end
 end
